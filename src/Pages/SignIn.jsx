@@ -54,7 +54,7 @@ export default function SignIn() {
 
     async function fetchMoviesJSON() {
         const response = await fetch('https://randomuser.me/api'),
-        data = await response.json();
+            data = await response.json();
 
         navigate('/Overview', { state: data.results[0].picture.thumbnail });
     }
@@ -112,6 +112,7 @@ export default function SignIn() {
                             variant="outlined"
                             fullWidth={true}
                             size="small"
+                            required
                             value={values.username}
                             onChange={handleChange('username')}
                             sx={{
@@ -131,6 +132,7 @@ export default function SignIn() {
                             </InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-password"
+                                required
                                 type={values.showPassword ? 'text' : 'password'}
                                 value={values.password}
                                 onChange={handleChange('password')}
@@ -155,10 +157,7 @@ export default function SignIn() {
                                 label="Password"
                             />
                         </FormControl>
-                        <Button
-                            variant="contained"
-                            type="submit"
-                        >
+                        <Button variant="contained" type="submit">
                             Sign in
                         </Button>
                     </form>
