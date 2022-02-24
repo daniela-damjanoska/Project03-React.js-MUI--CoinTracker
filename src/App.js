@@ -34,12 +34,16 @@ function App() {
             light: {
                 main: grey[50],
             },
-            components: {
-                MuiIcon: {
-                    defaultProps: {
-                        baseClassName: 'material-icons-two-tone',
-                    },
-                },
+            info: {
+                main: '#18ffff',
+            },
+            action: {
+                active: deepPurple[400],
+                activeOpacity: 1,
+                hover: deepPurple[50],
+                hoverOpacity: 0.5,
+                focus: grey[50],
+                focusOpacity: 1,
             },
         },
     });

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Navigation from '../Components/Navigation';
+
 export default function Statistics() {
-    return <div>Statistics</div>;
+    return <Navigation active={2} />;
 }

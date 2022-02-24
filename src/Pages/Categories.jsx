@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Navigation from '../Components/Navigation';
+
 export default function Categories() {
-    return <div>Categories</div>;
+    return <Navigation active={1} />;
 }
