@@ -1,8 +1,13 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+
+import Menu from '../Components/Menu';
+import Navigation from '../Components/Navigation';
 
 export default function Overview() {
-    const { state } = useLocation();
-
-    return <div>Overview</div>;
+    return (
+        <>
+            <Menu title="Overview" />
+            <Navigation active={0} />
+        </>
+    );
 }

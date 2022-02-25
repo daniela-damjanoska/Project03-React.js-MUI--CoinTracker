@@ -17,13 +17,13 @@ import NotFound from './Pages/NotFound';
 import { Box } from '@mui/material';
 import { ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import { deepPurple, grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 
 function App() {
     const theme = createTheme({
         palette: {
             primary: {
-                main: deepPurple[800],
+                main: '#6200ee',
             },
             secondary: {
                 main: grey[600],
@@ -34,12 +34,8 @@ function App() {
             light: {
                 main: grey[50],
             },
-            components: {
-                MuiIcon: {
-                    defaultProps: {
-                        baseClassName: 'material-icons-two-tone',
-                    },
-                },
+            info: {
+                main: '#18ffff',
             },
         },
     });
