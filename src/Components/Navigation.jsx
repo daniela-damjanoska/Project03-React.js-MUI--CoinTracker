@@ -18,15 +18,13 @@ export default function Navigation({ active }) {
         <BottomNavigation
             showLabels
             value={value}
-            onChange={(event, newValue) => {
-                setValue(newValue);
-            }}
+            onChange={newValue => setValue(newValue)}
             sx={{
                 position: 'fixed',
                 bottom: 0,
                 left: 0,
                 right: 0,
-                bgcolor: 'primary.main',
+                backgroundColor: 'primary.main',
                 '& .Mui-selected': {
                     '& .MuiBottomNavigationAction-label': {
                         color: 'info.main',

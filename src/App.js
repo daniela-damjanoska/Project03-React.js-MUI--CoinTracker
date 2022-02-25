@@ -17,13 +17,13 @@ import NotFound from './Pages/NotFound';
 import { Box } from '@mui/material';
 import { ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import { deepPurple, grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 
 function App() {
     const theme = createTheme({
         palette: {
             primary: {
-                main: deepPurple[800],
+                main: '#6200ee',
             },
             secondary: {
                 main: grey[600],
@@ -36,14 +36,6 @@ function App() {
             },
             info: {
                 main: '#18ffff',
-            },
-            action: {
-                active: deepPurple[400],
-                activeOpacity: 1,
-                hover: deepPurple[50],
-                hoverOpacity: 0.5,
-                focus: grey[50],
-                focusOpacity: 1,
             },
         },
     });
