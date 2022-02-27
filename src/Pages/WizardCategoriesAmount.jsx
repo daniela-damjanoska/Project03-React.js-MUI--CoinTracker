@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Context } from '../Context/Context';
 
 import LogoAndTitle from '../Components/LogoAndTitle';
-import Icon from '../Components/Icon';
 
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
@@ -14,6 +13,7 @@ import TextField from '@mui/material/TextField';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
+import Icon from '@mui/material/Icon';
 
 export default function WizardCategoriesAmount() {
     const { categoriesArray, addFilteredArray } = useContext(Context);
@@ -84,7 +84,9 @@ export default function WizardCategoriesAmount() {
                             <ListItem key={id} disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <Icon name={icon} color="dark" />
+                                        <Icon sx={{ color: 'dark.main' }}>
+                                            {icon}
+                                        </Icon>
                                     </ListItemIcon>
                                     <ListItemText id={id} primary={name} />
                                     <TextField

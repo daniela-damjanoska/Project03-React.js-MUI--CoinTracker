@@ -20,7 +20,7 @@ export default function Navigation({ active }) {
             value={value}
             onChange={newValue => setValue(newValue)}
             sx={{
-                position: 'fixed',
+                position: 'absolute',
                 bottom: 0,
                 left: 0,
                 right: 0,
