@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Context } from '../Context/Context';
 
 import LogoAndTitle from '../Components/LogoAndTitle';
-import Icon from '../Components/Icon';
 
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
@@ -14,6 +13,7 @@ import Checkbox from '@mui/material/Checkbox';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
+import Icon from '@mui/material/Icon';
 
 export default function WizardCategories() {
     const { addFilteredArray } = useContext(Context);
@@ -25,11 +25,6 @@ export default function WizardCategories() {
 
     //set filtered array to be equal to filteredCategories array, every time when checked array is changed
     useEffect(() => setFiltered(filteredCategories), [checked]);
-
-    //save filtered array to local storage
-    useEffect(() => {
-        localStorage.setItem('categories', JSON.stringify(filtered));
-    }, [filtered]);
 
     //manipulate the checkboxes
     const handleToggle = value => () => {
@@ -51,7 +46,7 @@ export default function WizardCategories() {
             name: 'Food',
             type: 'expense',
             budget: 0,
-            icon: 'FastfoodRounded',
+            icon: 'fastfood',
             isEnabled: false,
         },
         {
@@ -59,7 +54,7 @@ export default function WizardCategories() {
             name: 'Transportation',
             type: 'expense',
             budget: 0,
-            icon: 'CommuteRounded',
+            icon: 'commute',
             isEnabled: false,
         },
         {
@@ -67,7 +62,7 @@ export default function WizardCategories() {
             name: 'Utilities',
             type: 'expense',
             budget: 0,
-            icon: 'DescriptionRounded',
+            icon: 'description',
             isEnabled: false,
         },
         {
@@ -75,7 +70,7 @@ export default function WizardCategories() {
             name: 'Healthcare',
             type: 'expense',
             budget: 0,
-            icon: 'HealthAndSafetyRounded',
+            icon: 'health_and_safety',
             isEnabled: false,
         },
         {
@@ -83,7 +78,7 @@ export default function WizardCategories() {
             name: 'Clothes',
             type: 'expense',
             budget: 0,
-            icon: 'CheckroomRounded',
+            icon: 'checkroom',
             isEnabled: false,
         },
         {
@@ -91,7 +86,7 @@ export default function WizardCategories() {
             name: 'Entertainment',
             type: 'expense',
             budget: 0,
-            icon: 'SportsBasketball',
+            icon: 'sports_handball',
             isEnabled: false,
         },
         {
@@ -99,7 +94,7 @@ export default function WizardCategories() {
             name: 'Traveling',
             type: 'expense',
             budget: 0,
-            icon: 'Flight',
+            icon: 'flight',
             isEnabled: false,
         },
     ];
@@ -144,7 +139,9 @@ export default function WizardCategories() {
                             >
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <Icon name={icon} color="dark" />
+                                        <Icon sx={{ color: 'dark.main' }}>
+                                            {icon}
+                                        </Icon>
                                     </ListItemIcon>
                                     <ListItemText id={id} primary={name} />
                                 </ListItemButton>

@@ -42,7 +42,7 @@ export default function SignIn() {
     async function fetchMoviesJSON() {
         const response = await fetch('https://randomuser.me/api'),
             data = await response.json();
-            
+
         navigate('/Overview');
         addAvatarUrl(data.results[0].picture.thumbnail);
     }

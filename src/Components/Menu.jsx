@@ -27,7 +27,7 @@ export default function Menu({ title }) {
                 paddingX: matches ? 7 : 2,
             }}
         >
-            <img src="./Images/logoMenu.png" alt="logo" style={{ width: 70 }} />
+            <img src="./Images/LogoMenu.png" alt="logo" style={{ width: 70 }} />
             <Typography marginRight={'auto'} marginLeft={3} variant="h5">
                 {title}
             </Typography>

@@ -21,8 +21,34 @@ export const Provider = ({ children }) => {
         }
     }, []);
 
+    useEffect(() => {
+        localStorage.setItem('categories', JSON.stringify(categoriesArray));
+    }, [categoriesArray]);
+
     const addFilteredArray = array => setCategoriesArray(array);
     const addAvatarUrl = url => setAvatarUrl(url);
+    const addCategory = category => {
+        setCategoriesArray([...categoriesArray, category]);
+    };
+
+    const updateCategory = (
+        categoryId,
+        type,
+        name,
+        icon,
+        budget,
+        isEnabled
+    ) => {
+        const categoryToUpdate = categoriesArray.find(
+            el => el.id == categoryId
+        );
+
+        categoryToUpdate.type = type;
+        categoryToUpdate.name = name;
+        categoryToUpdate.icon = icon;
+        categoryToUpdate.budget = budget;
+        categoryToUpdate.isEnabled = isEnabled;
+    };
 
     console.log(categoriesArray);
     console.log(avatarUrl);
@@ -30,6 +56,8 @@ export const Provider = ({ children }) => {
     const contextObject = {
         addFilteredArray,
         addAvatarUrl,
+        addCategory,
+        updateCategory,
         categoriesArray,
         avatarUrl,
     };
