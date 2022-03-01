@@ -126,8 +126,8 @@ export default function Categories() {
                 sx={{
                     width: '600px',
                     height: 'fit-content',
-                    mt: matches ? 0 : 11,
-                    mb: matches ? 0 : 11,
+                    mt: matches ? 13 : 11,
+                    mb: matches ? 13 : 11,
                 }}
             >
                 <Typography

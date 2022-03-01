@@ -15,7 +15,7 @@ export default function Menu({ title }) {
     return (
         <Box
             sx={{
-                position: 'absolute',
+                position: 'fixed',
                 top: 0,
                 left: 0,
                 right: 0,
