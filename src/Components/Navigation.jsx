@@ -8,11 +8,71 @@ import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
 
 export default function Navigation({ active }) {
     const [value, setValue] = useState(active);
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const navigate = useNavigate();
+
+    function ChildModal() {
+        const [open, setOpen] = useState(false);
+
+        const handleOpen = () => setOpen(true);
+        const handleClose = () => setOpen(false);
+
+        return (
+            <>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '150px',
+                        right: '70px',
+                    }}
+                >
+                    <Button
+                        onClick={handleOpen}
+                        variant="contained"
+                        sx={{
+                            display: 'block',
+                            ml: 'auto',
+                            mb: 4,
+                        }}
+                    >
+                        ADD EXPENSE
+                    </Button>
+                    <Button
+                        onClick={handleOpen}
+                        variant="contained"
+                        sx={{
+                            display: 'block',
+                            ml: 'auto',
+                        }}
+                    >
+                        ADD INCOME
+                    </Button>
+                </Box>
+
+                <Modal
+                    hideBackdrop
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="child-modal-title"
+                    aria-describedby="child-modal-description"
+                >
+                    <Box>
+                        <Button onClick={handleClose}>Close Child Modal</Button>
+                    </Box>
+                </Modal>
+            </>
+        );
+    }
 
     return (
         <BottomNavigation
@@ -68,9 +128,20 @@ export default function Navigation({ active }) {
                     marginRight: 4,
                     marginTop: '-28px',
                 }}
+                onClick={handleOpen}
             >
                 <AddIcon color="dark" />
             </Fab>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="parent-modal-title"
+                aria-describedby="parent-modal-description"
+            >
+                <Box>
+                    <ChildModal />
+                </Box>
+            </Modal>
         </BottomNavigation>
     );
 }
