@@ -40,7 +40,7 @@ export const Provider = ({ children }) => {
         isEnabled
     ) => {
         const categoryToUpdate = categoriesArray.find(
-            el => el.id == categoryId
+            el => el.id === categoryId
         );
 
         categoryToUpdate.type = type;
