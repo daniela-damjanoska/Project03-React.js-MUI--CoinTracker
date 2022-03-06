@@ -8,7 +8,6 @@ import WizardAmount from './Pages/WizardAmount';
 import WizardCategories from './Pages/WizardCategories';
 import WizardCategoriesAmount from './Pages/WizardCategoriesAmount';
 import Overview from './Pages/Overview';
-import NewEntryModal from './Pages/NewEntryModal';
 import Categories from './Pages/Categories';
 import Statistics from './Pages/Statistics';
 import Entries from './Pages/Entries';
@@ -75,10 +74,6 @@ function App() {
                                 element={<Overview />}
                             ></Route>
                             <Route
-                                path="/new-entry"
-                                element={<NewEntryModal />}
-                            ></Route>
-                            <Route
                                 path="/categories"
                                 element={<Categories />}
                             ></Route>
@@ -90,8 +85,6 @@ function App() {
                                 path="/entries"
                                 element={<Entries />}
                             ></Route>
-                            {/* <Route path="/entries/income" element={<Income />}></Route>
-                            <Route path="/entries/expense" element={<Expense />}></Route> */}
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </Router>

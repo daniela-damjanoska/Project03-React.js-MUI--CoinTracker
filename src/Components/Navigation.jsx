@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Context } from '../Context/Context';
+
+import EntryModal from '../Components/EntryModal';
 
 import BottomNavigation from '@mui/material/BottomNavigation';
 import Fab from '@mui/material/Fab';
@@ -11,68 +14,43 @@ import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function Navigation({ active }) {
     const [value, setValue] = useState(active);
-    const [open, setOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [openModalEntry, setOpenModalEntry] = useState(false);
+    const [addIncome, setAddIncome] = useState(false);
+    //for default type value
+    const [isExpense, setIsExpense] = useState(true);
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    // const { addEntry, updateEntry } = useContext(Context);
+
+    const matches = useMediaQuery('(min-width:601px)');
 
     const navigate = useNavigate();
 
-    function ChildModal() {
-        const [open, setOpen] = useState(false);
+    const handleOpenModal = () => setOpenModal(true);
 
-        const handleOpen = () => setOpen(true);
-        const handleClose = () => setOpen(false);
+    const handleCloseModal = () => setOpenModal(false);
 
-        return (
-            <>
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        bottom: '150px',
-                        right: '70px',
-                    }}
-                >
-                    <Button
-                        onClick={handleOpen}
-                        variant="contained"
-                        sx={{
-                            display: 'block',
-                            ml: 'auto',
-                            mb: 4,
-                        }}
-                    >
-                        ADD EXPENSE
-                    </Button>
-                    <Button
-                        onClick={handleOpen}
-                        variant="contained"
-                        sx={{
-                            display: 'block',
-                            ml: 'auto',
-                        }}
-                    >
-                        ADD INCOME
-                    </Button>
-                </Box>
+    const handleCloseModalEntry = () => {
+        setOpenModalEntry(false);
+        setAddIncome(false);
+    };
 
-                <Modal
-                    hideBackdrop
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="child-modal-title"
-                    aria-describedby="child-modal-description"
-                >
-                    <Box>
-                        <Button onClick={handleClose}>Close Child Modal</Button>
-                    </Box>
-                </Modal>
-            </>
-        );
-    }
+    //function for "expense" button
+    const handleOpenModalEntry = () => {
+        setAddIncome(true);
+        setOpenModal(false);
+    };
+
+    //function for "income" button
+    const handleIsExpense = () => {
+        handleOpenModalEntry();
+        //set default type value, if "expense" button is pressed to be 'expense', else 'income'
+        setIsExpense(false);
+    };
 
     return (
         <BottomNavigation
@@ -128,20 +106,54 @@ export default function Navigation({ active }) {
                     marginRight: 4,
                     marginTop: '-28px',
                 }}
-                onClick={handleOpen}
+                onClick={handleOpenModal}
             >
                 <AddIcon color="dark" />
             </Fab>
             <Modal
-                open={open}
-                onClose={handleClose}
+                open={openModal}
+                onClose={handleCloseModal}
                 aria-labelledby="parent-modal-title"
                 aria-describedby="parent-modal-description"
             >
-                <Box>
-                    <ChildModal />
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '120px',
+                        right: matches ? '30%' : '5%',
+                    }}
+                >
+                    <Button
+                        onClick={handleOpenModalEntry}
+                        variant="contained"
+                        sx={{
+                            display: 'block',
+                            ml: 'auto',
+                            mb: 4,
+                        }}
+                    >
+                        ADD EXPENSE
+                    </Button>
+                    <Button
+                        onClick={handleIsExpense}
+                        variant="contained"
+                        sx={{
+                            display: 'block',
+                            ml: 'auto',
+                        }}
+                    >
+                        ADD INCOME
+                    </Button>
                 </Box>
             </Modal>
+            {addIncome ? (
+                <EntryModal
+                    typeDefault={isExpense ? 'expense' : 'income'}
+                    closeModal={handleCloseModalEntry}
+                />
+            ) : (
+                ''
+            )}
         </BottomNavigation>
     );
 }
