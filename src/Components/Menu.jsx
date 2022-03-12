@@ -8,7 +8,9 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function Menu({ title }) {
-    const { avatarUrl } = useContext(Context);
+    // const { avatarUrl } = useContext(Context);
+
+    const avatarUrl = localStorage.getItem('avatar');
 
     const matches = useMediaQuery('(min-width:601px)');
 
