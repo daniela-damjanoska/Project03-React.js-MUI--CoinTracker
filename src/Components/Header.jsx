@@ -8,7 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-export default function Menu({ title }) {
+export default function Header({ title }) {
     const avatarUrl = localStorage.getItem('avatar'),
         matches = useMediaQuery('(min-width:601px)');
 

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../Context/Context';
 
-import Menu from '../Components/Menu';
+import Header from '../Components/Header';
 import Navigation from '../Components/Navigation';
 
 import Container from '@mui/material/Container';
@@ -120,7 +120,7 @@ export default function Categories() {
                 backgroundColor: matches ? 'transparent' : 'white',
             }}
         >
-            <Menu title="Categories" />
+            <Header title="Categories" />
             <Paper
                 elevation={6}
                 sx={{

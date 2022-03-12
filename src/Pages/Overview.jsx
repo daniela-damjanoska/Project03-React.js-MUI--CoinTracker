@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Menu from '../Components/Menu';
+import Header from '../Components/Header';
 import Navigation from '../Components/Navigation';
 
 export default function Overview() {
     return (
         <>
-            <Menu title="Overview" />
+            <Header title="Overview" />
             <Navigation active={0} />
         </>
     );
