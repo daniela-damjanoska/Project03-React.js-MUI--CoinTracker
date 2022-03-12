@@ -42,7 +42,7 @@ export default function WizardAmount() {
                     label="Amount"
                     type="number"
                     variant="filled"
-                    fullWidth={true}
+                    fullWidth
                     color="primary"
                     value={amount}
                     onChange={handleChange}
@@ -50,11 +50,11 @@ export default function WizardAmount() {
                 <Button
                     variant="contained"
                     type="submit"
-                    fullWidth={true}
+                    fullWidth
                     disabled={isValue ? false : true}
                     sx={{
                         display: 'block',
-                        marginTop: matches ? 9 : 40,
+                        mt: matches ? 9 : 40,
                     }}
                 >
                     ADD

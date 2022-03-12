@@ -60,22 +60,18 @@ export default function SignIn() {
                     id="login-username"
                     label="Username"
                     variant="outlined"
-                    fullWidth={true}
+                    fullWidth
                     size="small"
                     required
                     value={values.username}
                     onChange={handleChange('username')}
-                    sx={{
-                        marginBottom: 3,
-                    }}
+                    sx={{ mb: 3 }}
                 />
                 <FormControl
                     variant="outlined"
-                    fullWidth={true}
+                    fullWidth
                     size="small"
-                    sx={{
-                        marginBottom: 7,
-                    }}
+                    sx={{ mb: 7 }}
                 >
                     <InputLabel htmlFor="login-password">Password</InputLabel>
                     <OutlinedInput

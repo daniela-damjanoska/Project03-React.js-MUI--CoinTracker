@@ -109,10 +109,10 @@ export default function WizardCategoriesAmount() {
             </List>
             <Button
                 variant="contained"
-                fullWidth={true}
+                fullWidth
                 sx={{
                     display: 'block',
-                    marginTop: 5,
+                    mt: 5,
                 }}
                 onClick={handleSubmit}
             >

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Context } from '../Context/Context';
 
 import LogoAndTitle from '../Components/LogoAndTitle';
+import categories from '../Data/Categories';
 
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
@@ -39,65 +40,6 @@ export default function WizardCategories() {
 
         setChecked(checkedItems);
     };
-
-    const categories = [
-        {
-            id: 1,
-            name: 'Food',
-            type: 'expense',
-            budget: 0,
-            icon: 'fastfood',
-            isEnabled: false,
-        },
-        {
-            id: 2,
-            name: 'Transportation',
-            type: 'expense',
-            budget: 0,
-            icon: 'commute',
-            isEnabled: false,
-        },
-        {
-            id: 3,
-            name: 'Utilities',
-            type: 'expense',
-            budget: 0,
-            icon: 'description',
-            isEnabled: false,
-        },
-        {
-            id: 4,
-            name: 'Healthcare',
-            type: 'expense',
-            budget: 0,
-            icon: 'health_and_safety',
-            isEnabled: false,
-        },
-        {
-            id: 5,
-            name: 'Clothes',
-            type: 'expense',
-            budget: 0,
-            icon: 'checkroom',
-            isEnabled: false,
-        },
-        {
-            id: 6,
-            name: 'Entertainment',
-            type: 'expense',
-            budget: 0,
-            icon: 'sports_handball',
-            isEnabled: false,
-        },
-        {
-            id: 7,
-            name: 'Traveling',
-            type: 'expense',
-            budget: 0,
-            icon: 'flight',
-            isEnabled: false,
-        },
-    ];
 
     //filter the array according to the checkboxes that are checked
     const filteredCategories = categories.filter(category =>
@@ -153,11 +95,11 @@ export default function WizardCategories() {
             </List>
             <Button
                 variant="contained"
-                fullWidth={true}
+                fullWidth
                 disabled={checked.length === 0 ? true : false}
                 sx={{
                     display: 'block',
-                    marginTop: 5,
+                    mt: 5,
                 }}
                 onClick={() => {
                     addFilteredArray(filtered);
