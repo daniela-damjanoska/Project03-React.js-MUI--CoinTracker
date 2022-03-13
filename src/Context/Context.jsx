@@ -24,32 +24,41 @@ export const Provider = ({ children }) => {
     const updateCategoriesArray = array => setCategories(array);
 
     const addCategory = category => {
-        setCategories([...categories, category]);
+        setCategories([
+            ...categories,
+            { ...category, id: new Date().valueOf() },
+        ]);
     };
 
-    const updateCategory = (
-        categoryId,
-        type,
-        name,
-        icon,
-        budget,
-        isEnabled
-    ) => {
-        const categoryToUpdate = categories.find(el => el.id === categoryId);
+    // const updateCategory = category => {
+    //     const categoryToUpdate = categories.find(el => el.id === category.id);
 
-        categoryToUpdate.type = type;
-        categoryToUpdate.name = name;
-        categoryToUpdate.icon = icon;
-        categoryToUpdate.budget = budget;
-        categoryToUpdate.isEnabled = isEnabled;
+    //     categoryToUpdate.type = category.type;
+    //     categoryToUpdate.name = category.name;
+    //     categoryToUpdate.icon = category.icon;
+    //     categoryToUpdate.budget = category.budget;
+    //     categoryToUpdate.isEnabled = category.isEnabled;
+    // };
+
+    const updateCategory = category => {
+        const updated = categories.map(el =>
+            el.id === category.id ? category : el
+        );
+
+        setCategories(updated);
     };
 
-    console.log(categories);
+    const deleteCategory = category => {
+        const updated = categories.filter(el => el.id !== category.id);
+
+        setCategories(updated);
+    };
 
     const contextObject = {
         updateCategoriesArray,
         addCategory,
         updateCategory,
+        deleteCategory,
         categories,
     };
 

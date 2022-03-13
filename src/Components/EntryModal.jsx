@@ -34,17 +34,11 @@ export default function EntryModal({ closeModal, typeDefault }) {
     );
     const [isEditing, setIsEditing] = useState(false);
 
-    const { categoriesArray } = useContext(Context);
+    const { categories } = useContext(Context);
 
     const matches = useMediaQuery('(min-width:601px)');
 
-    const handleModalClosing = () => {
-        setEntryType('');
-        setEntryName('');
-        setCategory('');
-        setEntryAmount('');
-        closeModal();
-    };
+    const handleModalClosing = () => closeModal();
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -78,8 +72,8 @@ export default function EntryModal({ closeModal, typeDefault }) {
         <Modal
             open={true}
             onClose={closeModal}
-            aria-labelledby="child-modal-title"
-            aria-describedby="child-modal-description"
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
         >
             <Box
                 sx={{
@@ -136,7 +130,7 @@ export default function EntryModal({ closeModal, typeDefault }) {
                             onChange={e => setCategory(e.target.value)}
                             MenuProps={MenuProps}
                         >
-                            {categoriesArray.map(({ name }, idx) => (
+                            {categories.map(({ name }, idx) => (
                                 <MenuItem value={name} key={idx}>
                                     {name}
                                 </MenuItem>
