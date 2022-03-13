@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../Context/Context';
 
@@ -16,41 +16,11 @@ import Button from '@mui/material/Button';
 import Icon from '@mui/material/Icon';
 
 export default function WizardCategoriesAmount() {
-    const { categoriesArray, addFilteredArray } = useContext(Context);
+    const { categories, updateCategoriesArray } = useContext(Context);
 
     const [inputValues, setInputValues] = useState({});
-    const [categories, setCategories] = useState([]);
 
     const navigate = useNavigate();
-
-    useEffect(
-        () => setCategories(matchedCategories.concat(unmatchedCategories)),
-        [inputValues]
-    );
-
-    //find the id of the inputs that have an amount bigger than 0, and then transform it to a number
-    const inputsIdArr = Object.keys(inputValues).map(el => parseInt(el));
-
-    //find the elements of the categoriesArray that have an id that is equal to the id of the inputs that have an amount bigger than 0
-    const matchedCategories = categoriesArray.filter(category =>
-        inputsIdArr.includes(category.id)
-    );
-
-    //find the elements of the categoriesArray that have an id that is not equal to the id of the inputs that have an amount bigger than 0, in order to concatenate with the matchedCategories array when it is updated
-    const unmatchedCategories = categoriesArray.filter(
-        category => !inputsIdArr.includes(category.id)
-    );
-
-    const inputsValuesArrays = Object.entries(inputValues);
-
-    //set the appropriate amount to the appropriate element of the matchedCategories array
-    matchedCategories.forEach(category => {
-        for (let i = 0; i < inputsValuesArrays.length; i++) {
-            if (+inputsValuesArrays[i][0] === category.id) {
-                category.budget = +inputsValuesArrays[i][1];
-            }
-        }
-    });
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -59,10 +29,16 @@ export default function WizardCategoriesAmount() {
             ...prevValues,
             [name]: value,
         }));
+
+        categories.map(category => {
+            return category.id === +name
+                ? (category.budget = +value)
+                : category;
+        });
     };
 
     const handleSubmit = () => {
-        addFilteredArray(categories);
+        updateCategoriesArray(categories);
         localStorage.setItem('categories', JSON.stringify(categories));
         navigate('/overview');
     };
@@ -78,7 +54,7 @@ export default function WizardCategoriesAmount() {
                 Set how much money you want to spend on each Category monthly
             </Typography>
             <List dense>
-                {categoriesArray.map(({ id, icon, name }) => {
+                {categories.map(({ id, icon, name }) => {
                     return (
                         <>
                             <ListItem key={id} disablePadding>

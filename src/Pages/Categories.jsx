@@ -54,8 +54,7 @@ export default function Categories() {
     const [isEnabled, setIsEnabled] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
 
-    const { categoriesArray, addCategory, updateCategory } =
-        useContext(Context);
+    const { categories, addCategory, updateCategory } = useContext(Context);
 
     const matches = useMediaQuery('(min-width:601px)');
 
@@ -98,7 +97,7 @@ export default function Categories() {
 
     const handleEditing = id => {
         setIsEditing(true);
-        const categoryToEdit = categoriesArray.find(el => el.id === id);
+        const categoryToEdit = categories.find(el => el.id === id);
 
         setOpenModal(true);
         setCategoryId(categoryToEdit.id);
@@ -153,7 +152,7 @@ export default function Categories() {
                         </ListItemButton>
                     </ListItem>
                     <Divider variant="inset" component="li" />
-                    {categoriesArray.map(({ id, icon, name, budget, type }) => {
+                    {categories.map(({ id, icon, name, budget, type }) => {
                         return (
                             <>
                                 <ListItem

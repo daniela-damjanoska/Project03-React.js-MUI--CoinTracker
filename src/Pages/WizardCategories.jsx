@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../Context/Context';
 
 import LogoAndTitle from '../Components/LogoAndTitle';
-import categories from '../Data/Categories';
 
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
@@ -17,15 +16,11 @@ import Button from '@mui/material/Button';
 import Icon from '@mui/material/Icon';
 
 export default function WizardCategories() {
-    const { addFilteredArray } = useContext(Context);
+    const { categories, updateCategoriesArray } = useContext(Context);
 
     const [checked, setChecked] = useState([]);
-    const [filtered, setFiltered] = useState([]);
 
     const navigate = useNavigate();
-
-    //set filtered array to be equal to filteredCategories array, every time when checked array is changed
-    useEffect(() => setFiltered(filteredCategories), [checked]);
 
     //manipulate the checkboxes
     const handleToggle = value => () => {
@@ -42,12 +37,12 @@ export default function WizardCategories() {
     };
 
     //filter the array according to the checkboxes that are checked
-    const filteredCategories = categories.filter(category =>
+    const checkedCategories = categories.filter(category =>
         checked.includes(category.id)
     );
 
     //set IsEnabled to true to the elements when the checkboxes are checked
-    filteredCategories.forEach(filteredItem => (filteredItem.isEnabled = true));
+    checkedCategories.forEach(filteredItem => (filteredItem.isEnabled = true));
 
     return (
         <LogoAndTitle title="WELCOME">
@@ -102,7 +97,7 @@ export default function WizardCategories() {
                     mt: 5,
                 }}
                 onClick={() => {
-                    addFilteredArray(filtered);
+                    updateCategoriesArray(checkedCategories);
                     navigate('/wizard-categories-amount');
                 }}
             >

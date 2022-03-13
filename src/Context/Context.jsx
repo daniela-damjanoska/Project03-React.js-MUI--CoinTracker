@@ -1,34 +1,30 @@
 import { createContext, useState, useEffect } from 'react';
 
+import initialCategories from '../Data/Categories';
+
 export const Context = createContext({});
 
 export const Provider = ({ children }) => {
-    const [categoriesArray, setCategoriesArray] = useState([]);
-    const [avatarUrl, setAvatarUrl] = useState('');
+    const [categories, setCategories] = useState(initialCategories);
 
     useEffect(() => {
         const categoriesFromLS = localStorage.getItem('categories');
-        const avatarFromLS = localStorage.getItem('avatar');
 
-        console.log(avatarFromLS);
-
-        if (categoriesFromLS !== 'undefined') {
-            setCategoriesArray(JSON.parse(categoriesFromLS));
-        }
-
-        if (avatarFromLS) {
-            setAvatarUrl(avatarFromLS);
+        if (categoriesFromLS) {
+            setCategories(JSON.parse(categoriesFromLS));
+        } else {
+            setCategories(initialCategories);
         }
     }, []);
 
     useEffect(() => {
-        localStorage.setItem('categories', JSON.stringify(categoriesArray));
-    }, [categoriesArray]);
+        localStorage.setItem('categories', JSON.stringify(categories));
+    }, [categories]);
 
-    const addFilteredArray = array => setCategoriesArray(array);
-    const addAvatarUrl = url => setAvatarUrl(url);
+    const updateCategoriesArray = array => setCategories(array);
+
     const addCategory = category => {
-        setCategoriesArray([...categoriesArray, category]);
+        setCategories([...categories, category]);
     };
 
     const updateCategory = (
@@ -39,9 +35,7 @@ export const Provider = ({ children }) => {
         budget,
         isEnabled
     ) => {
-        const categoryToUpdate = categoriesArray.find(
-            el => el.id === categoryId
-        );
+        const categoryToUpdate = categories.find(el => el.id === categoryId);
 
         categoryToUpdate.type = type;
         categoryToUpdate.name = name;
@@ -50,16 +44,13 @@ export const Provider = ({ children }) => {
         categoryToUpdate.isEnabled = isEnabled;
     };
 
-    console.log(categoriesArray);
-    console.log(avatarUrl);
+    console.log(categories);
 
     const contextObject = {
-        addFilteredArray,
-        addAvatarUrl,
+        updateCategoriesArray,
         addCategory,
         updateCategory,
-        categoriesArray,
-        avatarUrl,
+        categories,
     };
 
     return (
