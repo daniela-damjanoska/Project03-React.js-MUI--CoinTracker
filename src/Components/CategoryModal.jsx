@@ -41,6 +41,19 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
     const [categoryBudget, setCategoryBudget] = useState('');
     const [isEnabled, setIsEnabled] = useState(true);
 
+    // const [categoryData, setCategoryData] = useState(
+    //     addOrEdit || {
+    //         // id: new Date().valueOf(),
+    //         name: "",
+    //         type: categoryData.type,
+    //         budget: categoryData.budget,
+    //         icon: categoryData.icon,
+    //         isEnabled: categoryData.isEnabled,
+    //     }
+    // );
+
+    console.log(addOrEdit);
+
     const isEditing = Boolean(addOrEdit);
 
     const matches = useMediaQuery('(min-width:601px)');
@@ -98,7 +111,7 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
                         <Select
                             labelId="category-type-select-label"
                             id="category-type-select"
-                            value={categoryType}
+                            value={isEditing ? addOrEdit.name : categoryType}
                             label="Category type"
                             onChange={e => setCategoryType(e.target.value)}
                         >

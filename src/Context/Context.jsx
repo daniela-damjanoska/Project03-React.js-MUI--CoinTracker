@@ -32,12 +32,21 @@ export const Provider = ({ children }) => {
 
     // const updateCategory = category => {
     //     const categoryToUpdate = categories.find(el => el.id === category.id);
-
     //     categoryToUpdate.type = category.type;
     //     categoryToUpdate.name = category.name;
     //     categoryToUpdate.icon = category.icon;
     //     categoryToUpdate.budget = category.budget;
     //     categoryToUpdate.isEnabled = category.isEnabled;
+
+    //     setCategories(categories);
+
+    //     // categoryToUpdate.type = category.type;
+    //     // categoryToUpdate.name = category.name;
+    //     // categoryToUpdate.icon = category.icon;
+    //     // categoryToUpdate.budget = category.budget;
+    //     // categoryToUpdate.isEnabled = category.isEnabled;
+
+    //     // setCategories(categories);
     // };
 
     const updateCategory = category => {
