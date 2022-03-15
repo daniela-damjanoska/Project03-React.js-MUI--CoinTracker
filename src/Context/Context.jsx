@@ -30,31 +30,15 @@ export const Provider = ({ children }) => {
         ]);
     };
 
-    // const updateCategory = category => {
-    //     const categoryToUpdate = categories.find(el => el.id === category.id);
-    //     categoryToUpdate.type = category.type;
-    //     categoryToUpdate.name = category.name;
-    //     categoryToUpdate.icon = category.icon;
-    //     categoryToUpdate.budget = category.budget;
-    //     categoryToUpdate.isEnabled = category.isEnabled;
-
-    //     setCategories(categories);
-
-    //     // categoryToUpdate.type = category.type;
-    //     // categoryToUpdate.name = category.name;
-    //     // categoryToUpdate.icon = category.icon;
-    //     // categoryToUpdate.budget = category.budget;
-    //     // categoryToUpdate.isEnabled = category.isEnabled;
-
-    //     // setCategories(categories);
-    // };
-
     const updateCategory = category => {
-        const updated = categories.map(el =>
-            el.id === category.id ? category : el
-        );
+        const categoryToUpdate = categories.find(el => el.id === category.id);
+        categoryToUpdate.type = category.type;
+        categoryToUpdate.name = category.name;
+        categoryToUpdate.icon = category.icon;
+        categoryToUpdate.budget = category.budget;
+        categoryToUpdate.isEnabled = category.isEnabled;
 
-        setCategories(updated);
+        localStorage.setItem('categories', JSON.stringify(categories));
     };
 
     const deleteCategory = category => {

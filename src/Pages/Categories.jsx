@@ -20,15 +20,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Icon from '@mui/material/Icon';
 
 export default function Categories() {
-    // const [categoryId, setCategoryId] = useState('');
-    // const [categoryType, setCategoryType] = useState('');
-    // const [categoryName, setCategoryName] = useState('');
-    // const [categoryIcon, setCategoryIcon] = useState('');
-    // const [categoryBudget, setCategoryBudget] = useState('');
-    // const [isEnabled, setIsEnabled] = useState(true);
-
     const [addEditCategory, setAddEditCategory] = useState(false);
-
     const [item, setItem] = useState();
 
     const { categories } = useContext(Context);

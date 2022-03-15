@@ -34,25 +34,16 @@ const MenuProps = {
 
 export default function CategoryModal({ closeModal, addOrEdit }) {
     const { addCategory, updateCategory } = useContext(Context);
-    const [categoryId, setCategoryId] = useState('');
-    const [categoryType, setCategoryType] = useState('');
-    const [categoryName, setCategoryName] = useState('');
-    const [categoryIcon, setCategoryIcon] = useState('');
-    const [categoryBudget, setCategoryBudget] = useState('');
-    const [isEnabled, setIsEnabled] = useState(true);
 
-    // const [categoryData, setCategoryData] = useState(
-    //     addOrEdit || {
-    //         // id: new Date().valueOf(),
-    //         name: "",
-    //         type: categoryData.type,
-    //         budget: categoryData.budget,
-    //         icon: categoryData.icon,
-    //         isEnabled: categoryData.isEnabled,
-    //     }
-    // );
-
-    console.log(addOrEdit);
+    const [categoryData, setCategoryData] = useState(
+        addOrEdit || {
+            name: '',
+            type: '',
+            budget: '',
+            icon: '',
+            isEnabled: true,
+        }
+    );
 
     const isEditing = Boolean(addOrEdit);
 
@@ -63,19 +54,7 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
     const handleSubmit = e => {
         e.preventDefault();
 
-        const newCategory = {
-            id: new Date().valueOf(),
-            name: categoryName,
-            type: categoryType,
-            budget: categoryBudget,
-            icon: categoryIcon,
-            isEnabled: isEnabled,
-        };
-
-        console.log(newCategory);
-        console.log(addOrEdit);
-
-        isEditing ? updateCategory(addOrEdit) : addCategory(newCategory);
+        isEditing ? updateCategory(categoryData) : addCategory(categoryData);
 
         handleModalClosing();
     };
@@ -111,9 +90,14 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
                         <Select
                             labelId="category-type-select-label"
                             id="category-type-select"
-                            value={isEditing ? addOrEdit.name : categoryType}
                             label="Category type"
-                            onChange={e => setCategoryType(e.target.value)}
+                            value={categoryData.type}
+                            onChange={e => {
+                                setCategoryData({
+                                    ...categoryData,
+                                    type: e.target.value,
+                                });
+                            }}
                         >
                             <MenuItem value={'income'}>Income</MenuItem>
                             <MenuItem value={'expense'}>Expense</MenuItem>
@@ -126,18 +110,28 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
                         fullWidth
                         required
                         size="small"
-                        value={categoryName}
-                        onChange={e => setCategoryName(e.target.value)}
+                        value={categoryData.name}
+                        onChange={e => {
+                            setCategoryData({
+                                ...categoryData,
+                                name: e.target.value,
+                            });
+                        }}
                     />
                     <FormControl fullWidth sx={{ mb: 4, mt: 4 }} size="small">
                         <InputLabel id="icon-select-label">Icon</InputLabel>
                         <Select
                             labelId="icon-select-label"
                             id="icon-select"
-                            value={categoryIcon}
                             label="Icon"
-                            onChange={e => setCategoryIcon(e.target.value)}
                             MenuProps={MenuProps}
+                            value={categoryData.icon}
+                            onChange={e => {
+                                setCategoryData({
+                                    ...categoryData,
+                                    icon: e.target.value,
+                                });
+                            }}
                         >
                             {icons.map((icon, idx) => (
                                 <MenuItem value={icon} key={idx}>
@@ -153,8 +147,13 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
                         fullWidth
                         size="small"
                         type="number"
-                        value={categoryBudget}
-                        onChange={e => setCategoryBudget(e.target.value)}
+                        value={categoryData.budget}
+                        onChange={e => {
+                            setCategoryData({
+                                ...categoryData,
+                                budget: e.target.value,
+                            });
+                        }}
                     />
                     <Box
                         sx={{
@@ -183,10 +182,15 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
                             Enabled
                         </Typography>
                         <Checkbox
-                            checked={isEnabled}
-                            onChange={e => setIsEnabled(e.target.checked)}
                             inputProps={{ 'aria-label': 'controlled' }}
                             color="default"
+                            checked={categoryData.isEnabled}
+                            onChange={e => {
+                                setCategoryData({
+                                    ...categoryData,
+                                    isEnabled: e.target.checked,
+                                });
+                            }}
                         />
                     </Box>
                     <Box
