@@ -36,6 +36,19 @@ export default function EntryModal({ closeModal, typeDefault }) {
 
     const { categories } = useContext(Context);
 
+    const filteredEnabledCategories = categories.filter(
+        category => category.isEnabled === true
+    );
+
+    const filteredIncomeOrExpenseCategories =
+        entryType === 'income'
+            ? filteredEnabledCategories.filter(
+                  category => category.type === 'income'
+              )
+            : filteredEnabledCategories.filter(
+                  category => category.type === 'expense'
+              );
+
     const matches = useMediaQuery('(min-width:601px)');
 
     const handleModalClosing = () => closeModal();
@@ -54,17 +67,6 @@ export default function EntryModal({ closeModal, typeDefault }) {
 
         console.log(newEntry);
 
-        // isEditing
-        //     ? updateCategory(
-        //           3,
-        //           categoryType,
-        //           categoryName,
-        //           categoryIcon,
-        //           categoryBudget,
-        //           isEnabled
-        //       )
-        //     : addCategory(newCategory);
-
         handleModalClosing();
     };
 
@@ -74,6 +76,11 @@ export default function EntryModal({ closeModal, typeDefault }) {
             onClose={closeModal}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
+            sx={{
+                '& .MuiBackdrop-root': {
+                    backgroundColor: '#ffffffbf',
+                },
+            }}
         >
             <Box
                 sx={{
@@ -130,11 +137,13 @@ export default function EntryModal({ closeModal, typeDefault }) {
                             onChange={e => setCategory(e.target.value)}
                             MenuProps={MenuProps}
                         >
-                            {categories.map(({ name }, idx) => (
-                                <MenuItem value={name} key={idx}>
-                                    {name}
-                                </MenuItem>
-                            ))}
+                            {filteredIncomeOrExpenseCategories.map(
+                                ({ name }, idx) => (
+                                    <MenuItem value={name} key={idx}>
+                                        {name}
+                                    </MenuItem>
+                                )
+                            )}
                         </Select>
                     </FormControl>
                     <TextField

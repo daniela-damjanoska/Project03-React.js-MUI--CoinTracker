@@ -71,7 +71,7 @@ export default function Categories() {
                     >
                         <ListItemButton>
                             <ListItemIcon>
-                                <AddIcon color="dark"></AddIcon>
+                                <AddIcon color="dark" />
                             </ListItemIcon>
                             <ListItemText primary="Add New Category" />
                         </ListItemButton>
@@ -91,7 +91,7 @@ export default function Categories() {
                                     sx={{
                                         color:
                                             category.type === 'expense'
-                                                ? '#af2126'
+                                                ? '#b983fb'
                                                 : '#3caca4',
                                     }}
                                 >
@@ -99,7 +99,7 @@ export default function Categories() {
                                         sx={{
                                             color:
                                                 category.type === 'expense'
-                                                    ? '#af2126'
+                                                    ? '#b983fb'
                                                     : '#3caca4',
                                         }}
                                     >

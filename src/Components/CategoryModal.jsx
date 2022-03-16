@@ -70,6 +70,11 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
             onClose={closeModal}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
+            sx={{
+                '& .MuiBackdrop-root': {
+                    backgroundColor: '#ffffffbf',
+                },
+            }}
         >
             <Box
                 sx={{

@@ -24,7 +24,7 @@ export default function Navigation({ active }) {
     //for default type value
     const [isExpense, setIsExpense] = useState(true);
 
-    // const { addEntry, updateEntry } = useContext(Context);
+    const { categories, addEntry, updateEntry } = useContext(Context);
 
     const matches = useMediaQuery('(min-width:601px)');
 
@@ -115,6 +115,11 @@ export default function Navigation({ active }) {
                 onClose={handleCloseModal}
                 aria-labelledby="parent-modal-title"
                 aria-describedby="parent-modal-description"
+                sx={{
+                    '& .MuiBackdrop-root': {
+                        backgroundColor: '#ffffffbf',
+                    },
+                }}
             >
                 <Box
                     sx={{
