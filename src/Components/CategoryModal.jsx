@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { Context } from '../Context/Context';
 
+import initialCategories from '../Data/Categories';
+
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -24,13 +26,17 @@ const icons = [
     'home',
 ];
 
-const ITEM_HEIGHT = 40;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: { maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP },
-    },
-};
+const iconsFromCategoriesArr = initialCategories.map(category => category.icon),
+    allIcons = [...icons, ...iconsFromCategoriesArr],
+    uniqueIcons = [...new Set(allIcons)],
+    //icons dropdown:
+    ITEM_HEIGHT = 40,
+    ITEM_PADDING_TOP = 8,
+    MenuProps = {
+        PaperProps: {
+            style: { maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP },
+        },
+    };
 
 export default function CategoryModal({ closeModal, addOrEdit }) {
     const { addCategory, updateCategory } = useContext(Context);
@@ -45,9 +51,8 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
         }
     );
 
-    const isEditing = Boolean(addOrEdit);
-
-    const matches = useMediaQuery('(min-width:601px)');
+    const isEditing = Boolean(addOrEdit),
+        matches = useMediaQuery('(min-width:601px)');
 
     const handleModalClosing = () => closeModal();
 
@@ -133,7 +138,7 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
                                 });
                             }}
                         >
-                            {icons.map((icon, idx) => (
+                            {uniqueIcons.map((icon, idx) => (
                                 <MenuItem value={icon} key={idx}>
                                     <Icon>{icon}</Icon>
                                 </MenuItem>
