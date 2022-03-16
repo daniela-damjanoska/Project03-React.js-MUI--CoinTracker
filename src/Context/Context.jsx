@@ -1,65 +1,58 @@
 import { createContext, useState, useEffect } from 'react';
 
+import initialCategories from '../Data/Categories';
+
 export const Context = createContext({});
 
 export const Provider = ({ children }) => {
-    const [categoriesArray, setCategoriesArray] = useState([]);
-    const [avatarUrl, setAvatarUrl] = useState('');
+    const [categories, setCategories] = useState(initialCategories);
 
     useEffect(() => {
         const categoriesFromLS = localStorage.getItem('categories');
-        const avatarFromLS = localStorage.getItem('avatar');
 
-        console.log(avatarFromLS);
-
-        if (categoriesFromLS !== 'undefined') {
-            setCategoriesArray(JSON.parse(categoriesFromLS));
-        }
-
-        if (avatarFromLS) {
-            setAvatarUrl(avatarFromLS);
+        if (categoriesFromLS) {
+            setCategories(JSON.parse(categoriesFromLS));
+        } else {
+            setCategories(initialCategories);
         }
     }, []);
 
     useEffect(() => {
-        localStorage.setItem('categories', JSON.stringify(categoriesArray));
-    }, [categoriesArray]);
+        localStorage.setItem('categories', JSON.stringify(categories));
+    }, [categories]);
 
-    const addFilteredArray = array => setCategoriesArray(array);
-    const addAvatarUrl = url => setAvatarUrl(url);
+    const updateCategoriesArray = array => setCategories(array);
+
     const addCategory = category => {
-        setCategoriesArray([...categoriesArray, category]);
+        setCategories([
+            ...categories,
+            { ...category, id: new Date().valueOf() },
+        ]);
     };
 
-    const updateCategory = (
-        categoryId,
-        type,
-        name,
-        icon,
-        budget,
-        isEnabled
-    ) => {
-        const categoryToUpdate = categoriesArray.find(
-            el => el.id === categoryId
-        );
+    const updateCategory = category => {
+        const categoryToUpdate = categories.find(el => el.id === category.id);
+        categoryToUpdate.type = category.type;
+        categoryToUpdate.name = category.name;
+        categoryToUpdate.icon = category.icon;
+        categoryToUpdate.budget = category.budget;
+        categoryToUpdate.isEnabled = category.isEnabled;
 
-        categoryToUpdate.type = type;
-        categoryToUpdate.name = name;
-        categoryToUpdate.icon = icon;
-        categoryToUpdate.budget = budget;
-        categoryToUpdate.isEnabled = isEnabled;
+        localStorage.setItem('categories', JSON.stringify(categories));
     };
 
-    console.log(categoriesArray);
-    console.log(avatarUrl);
+    const deleteCategory = category => {
+        const updated = categories.filter(el => el.id !== category.id);
+
+        setCategories(updated);
+    };
 
     const contextObject = {
-        addFilteredArray,
-        addAvatarUrl,
+        updateCategoriesArray,
         addCategory,
         updateCategory,
-        categoriesArray,
-        avatarUrl,
+        deleteCategory,
+        categories,
     };
 
     return (

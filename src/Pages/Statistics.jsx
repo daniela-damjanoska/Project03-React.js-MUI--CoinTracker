@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Menu from '../Components/Menu';
+import Header from '../Components/Header';
 import Navigation from '../Components/Navigation';
 
 export default function Statistics() {
     return (
         <>
-            <Menu title="Statistics" />
+            <Header title="Statistics" />
             <Navigation active={2} />
         </>
     );

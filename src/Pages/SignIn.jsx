@@ -1,6 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Context } from '../Context/Context';
 
 import LogoAndTitle from '../Components/LogoAndTitle';
 
@@ -16,8 +15,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 
 export default function SignIn() {
-    const { addAvatarUrl } = useContext(Context);
-
     const [values, setValues] = useState({
         username: '',
         password: '',
@@ -43,13 +40,12 @@ export default function SignIn() {
         const response = await fetch('https://randomuser.me/api'),
             data = await response.json();
 
+        localStorage.setItem('avatar', data.results[0].picture.thumbnail);
         navigate('/Overview');
-        addAvatarUrl(data.results[0].picture.thumbnail);
     }
 
     const handleSubmit = e => {
         e.preventDefault();
-
         fetchMoviesJSON();
     };
 

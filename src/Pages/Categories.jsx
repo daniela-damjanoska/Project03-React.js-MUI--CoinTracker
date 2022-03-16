@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../Context/Context';
 
-import Menu from '../Components/Menu';
+import Header from '../Components/Header';
 import Navigation from '../Components/Navigation';
+import CategoryModal from '../Components/CategoryModal';
 
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -13,103 +14,20 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Modal from '@mui/material/Modal';
 import Divider from '@mui/material/Divider';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AddIcon from '@mui/icons-material/Add';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
 import Icon from '@mui/material/Icon';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-
-const icons = [
-    'downhill_skiing',
-    'child_care',
-    'directions_car',
-    'vibration',
-    'pool',
-    'fitness_center',
-    'home',
-];
-
-const ITEM_HEIGHT = 40;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: { maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP },
-    },
-};
 
 export default function Categories() {
-    const [openModal, setOpenModal] = useState(false);
-    const [categoryId, setCategoryId] = useState('');
-    const [categoryType, setCategoryType] = useState('');
-    const [categoryName, setCategoryName] = useState('');
-    const [categoryIcon, setCategoryIcon] = useState('');
-    const [categoryBudget, setCategoryBudget] = useState('');
-    const [isEnabled, setIsEnabled] = useState(true);
-    const [isEditing, setIsEditing] = useState(false);
+    const [addEditCategory, setAddEditCategory] = useState(false);
+    const [item, setItem] = useState();
 
-    const { categoriesArray, addCategory, updateCategory } =
-        useContext(Context);
+    const { categories } = useContext(Context);
 
     const matches = useMediaQuery('(min-width:601px)');
 
-    const handleModalOpening = () => setOpenModal(true);
-
-    const handleModalClosing = () => {
-        setCategoryType('');
-        setCategoryName('');
-        setCategoryIcon('');
-        setCategoryBudget('');
-        setIsEnabled(true);
-        setOpenModal(false);
-    };
-
-    const handleSubmit = e => {
-        e.preventDefault();
-
-        const newCategory = {
-            id: new Date().valueOf(),
-            name: categoryName,
-            type: categoryType,
-            budget: categoryBudget,
-            icon: categoryIcon,
-            isEnabled: isEnabled,
-        };
-
-        isEditing
-            ? updateCategory(
-                  3,
-                  categoryType,
-                  categoryName,
-                  categoryIcon,
-                  categoryBudget,
-                  isEnabled
-              )
-            : addCategory(newCategory);
-
-        handleModalClosing();
-    };
-
-    const handleEditing = id => {
-        setIsEditing(true);
-        const categoryToEdit = categoriesArray.find(el => el.id === id);
-
-        setOpenModal(true);
-        setCategoryId(categoryToEdit.id);
-        setCategoryType(categoryToEdit.type);
-        setCategoryName(categoryToEdit.name);
-        setCategoryIcon(categoryToEdit.icon);
-        setCategoryBudget(categoryToEdit.budget);
-        setIsEnabled(categoryToEdit.isEnabled);
-
-        console.log(categoryToEdit.id);
-    };
+    const closeModalCategory = () => setAddEditCategory(false);
 
     return (
         <Container
@@ -120,7 +38,7 @@ export default function Categories() {
                 backgroundColor: matches ? 'transparent' : 'white',
             }}
         >
-            <Menu title="Categories" />
+            <Header title="Categories" />
             <Paper
                 elevation={6}
                 sx={{
@@ -144,7 +62,13 @@ export default function Categories() {
                     Categories
                 </Typography>
                 <List dense sx={{ pt: 2 }}>
-                    <ListItem disablePadding onClick={handleModalOpening}>
+                    <ListItem
+                        disablePadding
+                        onClick={() => {
+                            setItem(null);
+                            setAddEditCategory(true);
+                        }}
+                    >
                         <ListItemButton>
                             <ListItemIcon>
                                 <AddIcon color="dark"></AddIcon>
@@ -153,227 +77,94 @@ export default function Categories() {
                         </ListItemButton>
                     </ListItem>
                     <Divider variant="inset" component="li" />
-                    {categoriesArray.map(({ id, icon, name, budget, type }) => {
-                        return (
-                            <>
-                                <ListItem
-                                    key={id}
-                                    disablePadding
-                                    onClick={() => handleEditing(id)}
+                    {categories.map(category => (
+                        <>
+                            <ListItem
+                                key={category.id}
+                                disablePadding
+                                onClick={() => {
+                                    setItem(category);
+                                    setAddEditCategory(true);
+                                }}
+                            >
+                                <ListItemButton
+                                    sx={{
+                                        color:
+                                            category.type === 'expense'
+                                                ? '#af2126'
+                                                : '#3caca4',
+                                    }}
                                 >
-                                    <ListItemButton
+                                    <ListItemIcon
                                         sx={{
                                             color:
-                                                type === 'expense'
+                                                category.type === 'expense'
                                                     ? '#af2126'
                                                     : '#3caca4',
                                         }}
                                     >
-                                        <ListItemIcon
+                                        <Icon>{category.icon}</Icon>
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        id={category.id}
+                                        primary={category.name}
+                                    />
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column-reverse',
+                                            textAlign:
+                                                category.budget === 0
+                                                    ? 'center'
+                                                    : 'right',
+                                        }}
+                                    >
+                                        <ListItemText
                                             sx={{
-                                                color:
-                                                    type === 'expense'
-                                                        ? '#af2126'
-                                                        : '#3caca4',
+                                                color: 'secondary.main',
                                             }}
-                                        >
-                                            <Icon>{icon}</Icon>
-                                        </ListItemIcon>
-                                        <ListItemText id={id} primary={name} />
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                flexDirection: 'column-reverse',
-                                                textAlign:
-                                                    budget === 0
-                                                        ? 'center'
-                                                        : 'right',
+                                            primaryTypographyProps={{
+                                                fontSize: '8px',
+                                                width:
+                                                    category.budget === 0
+                                                        ? '40%'
+                                                        : '100%',
+                                                ml: 'auto',
                                             }}
-                                        >
-                                            <ListItemText
-                                                sx={{
-                                                    color: 'secondary.main',
-                                                }}
-                                                primaryTypographyProps={{
-                                                    fontSize: '8px',
-                                                    width:
-                                                        budget === 0
-                                                            ? '40%'
-                                                            : '100%',
-                                                    ml: 'auto',
-                                                }}
-                                                primary={
-                                                    budget === 0
-                                                        ? 'NO BUDGET LIMIT'
-                                                        : type === 'expense'
-                                                        ? 'BUDGET'
-                                                        : 'PLANNED'
-                                                }
-                                            />
-                                            <ListItemText
-                                                primaryTypographyProps={{
-                                                    fontSize: '22px',
-                                                }}
-                                                primary={
-                                                    budget !== 0 ? budget : ''
-                                                }
-                                            />
-                                        </Box>
-                                    </ListItemButton>
-                                </ListItem>
-                                <Divider variant="inset" component="li" />
-                            </>
-                        );
-                    })}
+                                            primary={
+                                                category.budget === 0
+                                                    ? 'NO BUDGET LIMIT'
+                                                    : category.type ===
+                                                      'expense'
+                                                    ? 'BUDGET'
+                                                    : 'PLANNED'
+                                            }
+                                        />
+                                        <ListItemText
+                                            primaryTypographyProps={{
+                                                fontSize: '22px',
+                                            }}
+                                            primary={
+                                                category.budget !== 0
+                                                    ? category.budget
+                                                    : ''
+                                            }
+                                        />
+                                    </Box>
+                                </ListItemButton>
+                            </ListItem>
+                            <Divider variant="inset" component="li" />
+                        </>
+                    ))}
                 </List>
-                <Modal
-                    open={openModal}
-                    onClose={handleModalClosing}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            top: matches ? '16%' : '12%',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            width: matches ? '550px' : '90%',
-                            backgroundColor: 'background.paper',
-                            borderRadius: '5px',
-                            boxShadow: 24,
-                            p: 3,
-                        }}
-                    >
-                        <Typography variant="h6" component="h2" sx={{ mb: 3 }}>
-                            {isEditing ? 'Update Category' : 'Add New Category'}
-                        </Typography>
-                        <form onSubmit={handleSubmit}>
-                            <FormControl
-                                fullWidth
-                                size="small"
-                                sx={{ mb: 4 }}
-                                required
-                            >
-                                <InputLabel id="category-type-select-label">
-                                    Category type
-                                </InputLabel>
-                                <Select
-                                    labelId="category-type-select-label"
-                                    id="category-type-select"
-                                    value={categoryType}
-                                    label="Category type"
-                                    onChange={e =>
-                                        setCategoryType(e.target.value)
-                                    }
-                                >
-                                    <MenuItem value={'income'}>Income</MenuItem>
-                                    <MenuItem value={'expense'}>
-                                        Expense
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                            <TextField
-                                id="category-name"
-                                label="Name"
-                                variant="outlined"
-                                fullWidth
-                                required
-                                size="small"
-                                value={categoryName}
-                                onChange={e => setCategoryName(e.target.value)}
-                            />
-                            <FormControl
-                                fullWidth
-                                sx={{ mb: 4, mt: 4 }}
-                                size="small"
-                            >
-                                <InputLabel id="icon-select-label">
-                                    Icon
-                                </InputLabel>
-                                <Select
-                                    labelId="icon-select-label"
-                                    id="icon-select"
-                                    value={categoryIcon}
-                                    label="Icon"
-                                    onChange={e =>
-                                        setCategoryIcon(e.target.value)
-                                    }
-                                    MenuProps={MenuProps}
-                                >
-                                    {icons.map((icon, idx) => (
-                                        <MenuItem value={icon} key={idx}>
-                                            <Icon>{icon}</Icon>
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <TextField
-                                id="category-budget"
-                                label="Budget"
-                                variant="outlined"
-                                fullWidth
-                                size="small"
-                                type="number"
-                                value={categoryBudget}
-                                onChange={e =>
-                                    setCategoryBudget(e.target.value)
-                                }
-                            />
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    border: 1,
-                                    borderRadius: '3px',
-                                    mt: 4,
-                                    borderColor: '#c4c4c4',
-                                    height: '42.3px',
-                                    pl: '14px',
-                                    mb: 7,
-                                    '&:hover': {
-                                        borderColor: 'black',
-                                    },
-                                }}
-                            >
-                                <Typography
-                                    variant="body1"
-                                    component="p"
-                                    sx={{
-                                        color: '#666667',
-                                    }}
-                                >
-                                    Enabled
-                                </Typography>
-                                <Checkbox
-                                    checked={isEnabled}
-                                    onChange={e =>
-                                        setIsEnabled(e.target.checked)
-                                    }
-                                    inputProps={{ 'aria-label': 'controlled' }}
-                                    color="default"
-                                />
-                            </Box>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                }}
-                            >
-                                <Button
-                                    variant="text"
-                                    onClick={handleModalClosing}
-                                >
-                                    CANCEL
-                                </Button>
-                                <Button variant="contained" type="submit">
-                                    {isEditing ? 'UPDATE' : 'ADD'}
-                                </Button>
-                            </Box>
-                        </form>
-                    </Box>
-                </Modal>
+                {addEditCategory ? (
+                    <CategoryModal
+                        closeModal={closeModalCategory}
+                        addOrEdit={item}
+                    />
+                ) : (
+                    ''
+                )}
             </Paper>
             <Navigation active={1} />
         </Container>
