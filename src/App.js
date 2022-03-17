@@ -10,7 +10,6 @@ import WizardCategoriesAmount from './Pages/WizardCategoriesAmount';
 import Overview from './Pages/Overview';
 import Categories from './Pages/Categories';
 import Statistics from './Pages/Statistics';
-import Entries from './Pages/Entries';
 import NotFound from './Pages/NotFound';
 
 import { Box } from '@mui/material';
@@ -80,10 +79,6 @@ function App() {
                             <Route
                                 path="/statistics"
                                 element={<Statistics />}
-                            ></Route>
-                            <Route
-                                path="/entries"
-                                element={<Entries />}
                             ></Route>
                             <Route path="*" element={<NotFound />} />
                         </Routes>
