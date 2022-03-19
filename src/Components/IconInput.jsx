@@ -1,5 +1,9 @@
 import React from 'react';
 
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 const ITEM_HEIGHT = 40;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -8,14 +12,19 @@ const MenuProps = {
     },
 };
 
-export default function IconInput() {
+export default function IconInput({
+    children,
+    setCategoryData,
+    categoryData,
+    label,
+}) {
     return (
         <FormControl fullWidth sx={{ mb: 4, mt: 4 }} size="small">
             <InputLabel id="icon-select-label">Icon</InputLabel>
             <Select
-                labelId="icon-select-label"
-                id="icon-select"
-                label="Icon"
+                labelId="category-icon-select-label"
+                id="category-icon-select"
+                label={label}
                 MenuProps={MenuProps}
                 value={categoryData.icon}
                 onChange={e => {
@@ -25,11 +34,7 @@ export default function IconInput() {
                     });
                 }}
             >
-                {uniqueIcons.map((icon, idx) => (
-                    <MenuItem value={icon} key={idx}>
-                        <Icon>{icon}</Icon>
-                    </MenuItem>
-                ))}
+                {children}
             </Select>
         </FormControl>
     );

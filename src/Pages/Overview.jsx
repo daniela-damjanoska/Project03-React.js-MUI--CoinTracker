@@ -4,6 +4,9 @@ import { Context } from '../Context/Context';
 import Header from '../Components/Header';
 import Navigation from '../Components/Navigation';
 import CategoryModal from '../Components/CategoryModal';
+import IncomeCategories from '../Components/IncomeCategories';
+import ExpensesCategories from '../Components/ExpensesCategories';
+import IncomeAndExpenseEntries from '../Components/IncomeAndExpenseEntries';
 
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -18,9 +21,6 @@ import Divider from '@mui/material/Divider';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AddIcon from '@mui/icons-material/Add';
 import Icon from '@mui/material/Icon';
-import IncomeEntries from '../Components/IncomeEntries';
-import ExpensesEntries from '../Components/ExpensesEntries';
-import IncomeAndExpenseEntries from '../Components/IncomeAndExpenseEntries';
 
 export default function Overview() {
     const { categories } = useContext(Context);
@@ -38,8 +38,8 @@ export default function Overview() {
             }}
         >
             <Header title="Overview" />
-            <IncomeEntries />
-            <ExpensesEntries />
+            <IncomeCategories />
+            <ExpensesCategories />
             <IncomeAndExpenseEntries />
             <Navigation active={0} />
         </Container>

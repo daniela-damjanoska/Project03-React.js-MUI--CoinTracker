@@ -6,6 +6,8 @@ export const Context = createContext({});
 
 export const Provider = ({ children }) => {
     const [categories, setCategories] = useState(initialCategories);
+    const [entries, setEntries] = useState([]);
+    const [categoryIcon, setCategoryIcon] = useState('');
 
     useEffect(() => {
         const categoriesFromLS = localStorage.getItem('categories');
@@ -18,15 +20,41 @@ export const Provider = ({ children }) => {
     }, []);
 
     useEffect(() => {
+        const entriesFromLS = localStorage.getItem('entries');
+
+        if (entriesFromLS) {
+            setEntries(JSON.parse(entriesFromLS));
+        }
+    }, []);
+
+    useEffect(() => {
         localStorage.setItem('categories', JSON.stringify(categories));
     }, [categories]);
 
+    useEffect(() => {
+        localStorage.setItem('entries', JSON.stringify(entries));
+    }, [entries]);
+
     const updateCategoriesArray = array => setCategories(array);
+    const updateEntriesArray = array => setEntries(array);
+    const saveCategoryIcon = icon => setCategoryIcon(icon);
 
     const addCategory = category => {
         setCategories([
             ...categories,
             { ...category, id: new Date().valueOf() },
+        ]);
+    };
+
+    const addEntry = entry => {
+        setEntries([
+            {
+                ...entry,
+                categoryIcon,
+                id: new Date().valueOf(),
+                icon: categoryIcon,
+            },
+            ...entries,
         ]);
     };
 
@@ -41,18 +69,41 @@ export const Provider = ({ children }) => {
         localStorage.setItem('categories', JSON.stringify(categories));
     };
 
-    const deleteCategory = category => {
-        const updated = categories.filter(el => el.id !== category.id);
+    const updateEntry = entry => {
+        const entryToUpdate = entries.find(el => el.id === entry.id);
+        entryToUpdate.type = entry.type;
+        entryToUpdate.name = entry.name;
+        entryToUpdate.category = entry.category;
+        entryToUpdate.amount = entry.amount;
+        entryToUpdate.date = entry.date;
 
-        setCategories(updated);
+        localStorage.setItem('entries', JSON.stringify(entries));
+    };
+
+    // const deleteCategory = category => {
+    //     const updated = categories.filter(el => el.id !== category.id);
+
+    //     setCategories(updated);
+    // };
+
+    const deleteEntry = entry => {
+        const updated = entries.filter(el => el.id !== entry.id);
+
+        setEntries(updated);
     };
 
     const contextObject = {
         updateCategoriesArray,
+        updateEntriesArray,
         addCategory,
+        addEntry,
         updateCategory,
-        deleteCategory,
+        updateEntry,
+        // deleteCategory,
+        deleteEntry,
+        saveCategoryIcon,
         categories,
+        entries,
     };
 
     return (

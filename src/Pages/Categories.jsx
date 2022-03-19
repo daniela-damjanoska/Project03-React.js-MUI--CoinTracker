@@ -160,7 +160,7 @@ export default function Categories() {
                 {addEditCategory ? (
                     <CategoryModal
                         closeModal={closeModalCategory}
-                        addOrEdit={item}
+                        addOrEditCategory={item}
                     />
                 ) : (
                     ''

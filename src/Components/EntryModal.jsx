@@ -23,25 +23,33 @@ const MenuProps = {
     },
 };
 
-export default function EntryModal({ closeModal, typeDefault }) {
-    const [categoryId, setCategoryId] = useState('');
-    const [entryType, setEntryType] = useState(typeDefault);
-    const [entryName, setEntryName] = useState('');
-    const [category, setCategory] = useState('');
-    const [entryAmount, setEntryAmount] = useState('');
-    const [entryDate, setEntryDate] = useState(
-        format(new Date(), 'yyyy-MM-dd')
-    );
-    const [isEditing, setIsEditing] = useState(false);
+export default function EntryModal({
+    closeModal,
+    typeDefault,
+    addOrEditEntry,
+}) {
+    const { categories, addEntry, updateEntry, saveCategoryIcon } =
+        useContext(Context);
 
-    const { categories } = useContext(Context);
+    const [entryData, setEntryData] = useState(
+        addOrEditEntry || {
+            type: typeDefault,
+            name: '',
+            category: '',
+            amount: '',
+            date: format(new Date(), 'yyyy-MM-dd'),
+        }
+    );
+
+    const isEditing = Boolean(addOrEditEntry),
+        matches = useMediaQuery('(min-width:601px)');
 
     const filteredEnabledCategories = categories.filter(
         category => category.isEnabled === true
     );
 
     const filteredIncomeOrExpenseCategories =
-        entryType === 'income'
+        entryData.type === 'income'
             ? filteredEnabledCategories.filter(
                   category => category.type === 'income'
               )
@@ -49,23 +57,12 @@ export default function EntryModal({ closeModal, typeDefault }) {
                   category => category.type === 'expense'
               );
 
-    const matches = useMediaQuery('(min-width:601px)');
-
     const handleModalClosing = () => closeModal();
 
     const handleSubmit = e => {
         e.preventDefault();
 
-        const newEntry = {
-            id: new Date().valueOf(),
-            type: entryType,
-            name: entryName,
-            category: category,
-            amount: entryAmount,
-            date: entryDate,
-        };
-
-        console.log(newEntry);
+        isEditing ? updateEntry(entryData) : addEntry(entryData);
 
         handleModalClosing();
     };
@@ -103,8 +100,13 @@ export default function EntryModal({ closeModal, typeDefault }) {
                         <Select
                             labelId="entry-type-select-label"
                             id="entry-type-select"
-                            value={entryType}
-                            onChange={e => setEntryType(e.target.value)}
+                            value={entryData.type}
+                            onChange={e => {
+                                setEntryData({
+                                    ...entryData,
+                                    type: e.target.value,
+                                });
+                            }}
                         >
                             <MenuItem value={'income'}>Income</MenuItem>
                             <MenuItem value={'expense'}>Expense</MenuItem>
@@ -117,8 +119,13 @@ export default function EntryModal({ closeModal, typeDefault }) {
                         fullWidth
                         required
                         size="small"
-                        value={entryName}
-                        onChange={e => setEntryName(e.target.value)}
+                        value={entryData.name}
+                        onChange={e => {
+                            setEntryData({
+                                ...entryData,
+                                name: e.target.value,
+                            });
+                        }}
                     />
                     <FormControl
                         fullWidth
@@ -132,14 +139,23 @@ export default function EntryModal({ closeModal, typeDefault }) {
                         <Select
                             labelId="category-select-label"
                             id="category-select"
-                            value={category}
+                            value={entryData.category}
                             label="Category"
-                            onChange={e => setCategory(e.target.value)}
+                            onChange={e => {
+                                setEntryData({
+                                    ...entryData,
+                                    category: e.target.value,
+                                });
+                            }}
                             MenuProps={MenuProps}
                         >
                             {filteredIncomeOrExpenseCategories.map(
-                                ({ name }, idx) => (
-                                    <MenuItem value={name} key={idx}>
+                                ({ name, id, icon }) => (
+                                    <MenuItem
+                                        value={name}
+                                        key={id}
+                                        onClick={() => saveCategoryIcon(icon)}
+                                    >
                                         {name}
                                     </MenuItem>
                                 )
@@ -154,18 +170,28 @@ export default function EntryModal({ closeModal, typeDefault }) {
                         required
                         size="small"
                         type="number"
-                        value={entryAmount}
-                        onChange={e => setEntryAmount(e.target.value)}
+                        value={entryData.amount}
+                        onChange={e => {
+                            setEntryData({
+                                ...entryData,
+                                amount: e.target.value,
+                            });
+                        }}
                     />
                     <Stack spacing={3}>
                         <TextField
                             id="entry-date"
                             type="date"
-                            defaultValue={entryDate}
+                            defaultValue={entryData.date}
                             fullWidth
                             sx={{ mt: 4 }}
                             size="small"
-                            onChange={e => setEntryDate(e.target.value)}
+                            onChange={e => {
+                                setEntryData({
+                                    ...entryData,
+                                    date: e.target.value,
+                                });
+                            }}
                         />
                     </Stack>
                     <Box
