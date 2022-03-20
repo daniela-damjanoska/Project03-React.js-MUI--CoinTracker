@@ -1,18 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../Context/Context';
 
-import Box from '@mui/material/Box';
+import IncomeAndExpenseWrapper from './IncomeAndExpenseWrapper';
+
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Icon from '@mui/material/Icon';
-import IncomeAndExpenseWrapper from './IncomeAndExpenseWrapper';
 
 export default function ExpenseCat() {
-    const { categories, entries } = useContext(Context);
+    const { categories } = useContext(Context);
 
     const filteredIncomeCategories = categories.filter(
         category => category.type === 'expense'
@@ -28,31 +27,31 @@ export default function ExpenseCat() {
         >
             {filteredIncomeCategories.map(category => (
                 <>
-                    <ListItem
-                        key={category.id}
-                        disablePadding
-                        // sx={{
-                        //     color: '#3caca4',
-                        // }}
-                    >
+                    <ListItem key={category.id} disablePadding>
                         <ListItemButton>
-                            <ListItemIcon
-                            // sx={{
-                            //     color: '#3caca4',
-                            // }}
-                            >
+                            <ListItemIcon>
                                 <Icon>{category.icon}</Icon>
                             </ListItemIcon>
                             <ListItemText
-                                id={category.id}
                                 primary={category.name}
+                                primaryTypographyProps={{
+                                    color: 'dark.main',
+                                }}
                             />
                             <ListItemText
+                                primary={
+                                    category.budget === 0 ||
+                                    category.budget === ''
+                                        ? 'no limit'
+                                        : category.budget
+                                }
                                 primaryTypographyProps={{
-                                    fontSize: '22px',
-                                }}
-                                primary={category.budget}
-                                sx={{
+                                    fontSize:
+                                        category.budget === 0 ||
+                                        category.budget === ''
+                                            ? '13px'
+                                            : '22px',
+                                    color: 'dark.main',
                                     textAlign: 'right',
                                 }}
                             />

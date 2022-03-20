@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../Context/Context';
 
 import IncomeAndExpenseWrapper from './IncomeAndExpenseWrapper';
@@ -11,7 +11,7 @@ import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 
 export default function IncomeCategories() {
-    const { categories, entries } = useContext(Context);
+    const { categories } = useContext(Context);
 
     const filteredIncomeCategories = categories.filter(
         category => category.type === 'income'
@@ -27,31 +27,31 @@ export default function IncomeCategories() {
         >
             {filteredIncomeCategories.map(category => (
                 <>
-                    <ListItem
-                        key={category.id}
-                        disablePadding
-                        // sx={{
-                        //     color: '#3caca4',
-                        // }}
-                    >
+                    <ListItem key={category.id} disablePadding>
                         <ListItemButton>
-                            <ListItemIcon
-                            // sx={{
-                            //     color: '#3caca4',
-                            // }}
-                            >
+                            <ListItemIcon>
                                 <Icon>{category.icon}</Icon>
                             </ListItemIcon>
                             <ListItemText
-                                id={category.id}
                                 primary={category.name}
+                                primaryTypographyProps={{
+                                    color: 'dark.main',
+                                }}
                             />
                             <ListItemText
+                                primary={
+                                    category.budget === 0 ||
+                                    category.budget === ''
+                                        ? 'no limit'
+                                        : category.budget
+                                }
                                 primaryTypographyProps={{
-                                    fontSize: '22px',
-                                }}
-                                primary={category.budget}
-                                sx={{
+                                    fontSize:
+                                        category.budget === 0 ||
+                                        category.budget === ''
+                                            ? '13px'
+                                            : '22px',
+                                    color: 'dark.main',
                                     textAlign: 'right',
                                 }}
                             />

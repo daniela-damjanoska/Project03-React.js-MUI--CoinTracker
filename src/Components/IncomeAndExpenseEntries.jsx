@@ -13,7 +13,7 @@ import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 
 export default function IncomeAndExpenseEntries() {
-    const { categories, entries } = useContext(Context);
+    const { entries } = useContext(Context);
 
     const [editEntry, setEditEntry] = useState(false);
     const [item, setItem] = useState();
@@ -50,28 +50,31 @@ export default function IncomeAndExpenseEntries() {
                             >
                                 <ListItemText
                                     primary={`${entry.category} (${entry.name})`}
+                                    primaryTypographyProps={{
+                                        color: 'dark.main',
+                                        mb: -1,
+                                    }}
                                 />
                                 <ListItemText
-                                    primaryTypographyProps={{
-                                        fontSize: '22px',
-                                    }}
                                     primary={entry.date}
+                                    primaryTypographyProps={{
+                                        color: 'lightGrey.main',
+                                        mt: 0,
+                                    }}
                                 />
                             </Box>
                             <ListItemText
-                                primaryTypographyProps={{
-                                    fontSize: '22px',
-                                }}
                                 primary={
                                     entry.type === 'income'
                                         ? `+${entry.amount}`
                                         : `-${entry.amount}`
                                 }
-                                sx={{
+                                primaryTypographyProps={{
+                                    fontSize: '22px',
                                     textAlign: 'right',
                                     color:
                                         entry.type === 'income'
-                                            ? '#3caca4'
+                                            ? 'info.main'
                                             : 'red',
                                 }}
                             />

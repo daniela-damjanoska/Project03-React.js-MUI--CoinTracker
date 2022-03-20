@@ -27,13 +27,19 @@ function App() {
                 main: grey[600],
             },
             dark: {
-                main: grey[900],
+                main: grey[700],
+            },
+            lightGrey: {
+                main: grey[400],
             },
             light: {
                 main: grey[50],
             },
             info: {
                 main: '#18ffff',
+            },
+            violet: {
+                main: '#b983fb',
             },
         },
     });

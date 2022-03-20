@@ -35,6 +35,7 @@ export default function IncomeAndExpenseWrapper({
                     paddingX: 2,
                     borderTopRightRadius: '3px',
                     borderTopLeftRadius: '3px',
+                    color: 'lightGrey.main',
                 }}
             >
                 {title}
