@@ -98,7 +98,7 @@ export default function Categories() {
                                     sx={{
                                         color:
                                             category.type === 'expense'
-                                                ? 'violet.main'
+                                                ? 'danger.main'
                                                 : 'info.main',
                                     }}
                                 >
@@ -106,7 +106,7 @@ export default function Categories() {
                                         sx={{
                                             color:
                                                 category.type === 'expense'
-                                                    ? 'violet.main'
+                                                    ? 'danger.main'
                                                     : 'info.main',
                                         }}
                                     >

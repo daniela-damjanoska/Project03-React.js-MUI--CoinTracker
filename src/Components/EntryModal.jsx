@@ -28,8 +28,14 @@ export default function EntryModal({
     typeDefault,
     addOrEditEntry,
 }) {
-    const { categories, addEntry, updateEntry, saveCategoryIcon } =
-        useContext(Context);
+    const {
+        addEntry,
+        updateEntry,
+        saveCategoryId,
+        saveCategoryIcon,
+        filteredIncomeCategories,
+        filteredExpenseCategories,
+    } = useContext(Context);
 
     const [entryData, setEntryData] = useState(
         addOrEditEntry || {
@@ -44,18 +50,10 @@ export default function EntryModal({
     const isEditing = Boolean(addOrEditEntry),
         matches = useMediaQuery('(min-width:601px)');
 
-    const filteredEnabledCategories = categories.filter(
-        category => category.isEnabled === true
-    );
-
     const filteredIncomeOrExpenseCategories =
         entryData.type === 'income'
-            ? filteredEnabledCategories.filter(
-                  category => category.type === 'income'
-              )
-            : filteredEnabledCategories.filter(
-                  category => category.type === 'expense'
-              );
+            ? filteredIncomeCategories
+            : filteredExpenseCategories;
 
     const handleModalClosing = () => closeModal();
 
@@ -154,7 +152,10 @@ export default function EntryModal({
                                     <MenuItem
                                         value={name}
                                         key={id}
-                                        onClick={() => saveCategoryIcon(icon)}
+                                        onClick={() => {
+                                            saveCategoryIcon(icon);
+                                            saveCategoryId(id);
+                                        }}
                                     >
                                         {name}
                                     </MenuItem>
@@ -174,7 +175,7 @@ export default function EntryModal({
                         onChange={e => {
                             setEntryData({
                                 ...entryData,
-                                amount: e.target.value,
+                                amount: +e.target.value,
                             });
                         }}
                     />

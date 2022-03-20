@@ -15,7 +15,7 @@ import NotFound from './Pages/NotFound';
 import { Box } from '@mui/material';
 import { ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import { grey } from '@mui/material/colors';
+import { grey, red } from '@mui/material/colors';
 
 function App() {
     const theme = createTheme({
@@ -38,8 +38,8 @@ function App() {
             info: {
                 main: '#18ffff',
             },
-            violet: {
-                main: '#b983fb',
+            danger: {
+                main: red[800],
             },
         },
     });

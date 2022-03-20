@@ -75,7 +75,7 @@ export default function IncomeAndExpenseEntries() {
                                     color:
                                         entry.type === 'income'
                                             ? 'info.main'
-                                            : 'red',
+                                            : 'danger.main',
                                 }}
                             />
                         </ListItemButton>

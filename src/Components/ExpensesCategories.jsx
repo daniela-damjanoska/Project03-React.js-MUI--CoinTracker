@@ -10,12 +10,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 
-export default function ExpenseCat() {
-    const { categories } = useContext(Context);
-
-    const filteredIncomeCategories = categories.filter(
-        category => category.type === 'expense'
-    );
+export default function ExpensesCategories() {
+    const { filteredExpenseCategories } = useContext(Context);
 
     return (
         <IncomeAndExpenseWrapper
@@ -25,7 +21,7 @@ export default function ExpenseCat() {
             customLeftMarginPC={4}
             customLeftMarginMob={0}
         >
-            {filteredIncomeCategories.map(category => (
+            {filteredExpenseCategories.map(category => (
                 <>
                     <ListItem key={category.id} disablePadding>
                         <ListItemButton>

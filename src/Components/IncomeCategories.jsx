@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from '../Context/Context';
 
 import IncomeAndExpenseWrapper from './IncomeAndExpenseWrapper';
@@ -11,11 +11,7 @@ import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 
 export default function IncomeCategories() {
-    const { categories } = useContext(Context);
-
-    const filteredIncomeCategories = categories.filter(
-        category => category.type === 'income'
-    );
+    const { filteredIncomeCategories } = useContext(Context);
 
     return (
         <IncomeAndExpenseWrapper
@@ -55,6 +51,7 @@ export default function IncomeCategories() {
                                     textAlign: 'right',
                                 }}
                             />
+                            <ListItemText primary={category.entriesArr} />
                         </ListItemButton>
                     </ListItem>
                     <Divider variant="inset" component="li" />
