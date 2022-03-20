@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useCallback, useEffect } from 'react';
 import { Context } from '../Context/Context';
 
 import IncomeAndExpenseWrapper from './IncomeAndExpenseWrapper';
@@ -18,6 +18,23 @@ export default function IncomeAndExpenseEntries() {
     const [editEntry, setEditEntry] = useState(false);
     const [item, setItem] = useState();
 
+    const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
+    const [show, setShow] = useState(false); // hide menu
+
+    const handleContextMenu = useCallback(
+        event => {
+            event.preventDefault();
+            setAnchorPoint({ x: event.pageX, y: event.pageY });
+            setShow(true);
+        },
+        [setAnchorPoint]
+    );
+
+    const handleClick = useCallback(
+        () => (show ? setShow(false) : null),
+        [show]
+    );
+
     const closeEntryCategory = () => setEditEntry(false);
 
     return (
@@ -36,7 +53,9 @@ export default function IncomeAndExpenseEntries() {
                         onClick={() => {
                             setItem(entry);
                             setEditEntry(true);
+                            handleClick();
                         }}
+                        onContextMenu={handleContextMenu}
                     >
                         <ListItemButton>
                             <ListItemIcon>
@@ -91,6 +110,21 @@ export default function IncomeAndExpenseEntries() {
                     )}
                 </>
             ))}
+            {show ? (
+                <ul
+                    className="menu"
+                    style={{
+                        top: anchorPoint.y,
+                        left: anchorPoint.x,
+                    }}
+                >
+                    <li>Share to</li>
+                    <li>Cut</li>
+                    <li>Copy</li>
+                </ul>
+            ) : (
+                <> </>
+            )}
         </IncomeAndExpenseWrapper>
     );
 }

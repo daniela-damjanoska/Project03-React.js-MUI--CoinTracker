@@ -1,30 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { Context } from '../Context/Context';
+import React from 'react';
 
 import Header from '../Components/Header';
 import Navigation from '../Components/Navigation';
-import CategoryModal from '../Components/CategoryModal';
 import IncomeCategories from '../Components/IncomeCategories';
 import ExpensesCategories from '../Components/ExpensesCategories';
 import IncomeAndExpenseEntries from '../Components/IncomeAndExpenseEntries';
 
 import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import AddIcon from '@mui/icons-material/Add';
-import Icon from '@mui/material/Icon';
 
 export default function Overview() {
-    const { categories } = useContext(Context);
-
     const matches = useMediaQuery('(min-width:601px)');
 
     return (
