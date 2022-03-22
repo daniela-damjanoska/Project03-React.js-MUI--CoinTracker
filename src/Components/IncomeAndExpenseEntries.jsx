@@ -1,8 +1,9 @@
-import React, { useContext, useState, useCallback, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { Context } from '../Context/Context';
 
 import IncomeAndExpenseWrapper from './IncomeAndExpenseWrapper';
 import EntryModal from '../Components/EntryModal';
+import RightClickMenu from './RightClickMenu';
 
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
@@ -11,30 +12,31 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
+import MenuItem from '@mui/material/MenuItem';
 
 export default function IncomeAndExpenseEntries() {
-    const { entries } = useContext(Context);
+    const { entries, deleteEntry } = useContext(Context);
 
     const [editEntry, setEditEntry] = useState(false);
     const [item, setItem] = useState();
+    const [contextMenu, setContextMenu] = useState(null);
+    const [expenseOrIncome, setExpenseOrIncome] = useState('');
 
-    const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
-    const [show, setShow] = useState(false); // hide menu
+    console.log(item);
 
-    const handleContextMenu = useCallback(
-        event => {
-            event.preventDefault();
-            setAnchorPoint({ x: event.pageX, y: event.pageY });
-            setShow(true);
-        },
-        [setAnchorPoint]
-    );
+    const handleContextMenu = e => {
+        e.preventDefault();
+        setContextMenu(
+            contextMenu === null
+                ? {
+                      mouseX: e.clientX - 2,
+                      mouseY: e.clientY - 4,
+                  }
+                : null
+        );
+    };
 
-    const handleClick = useCallback(
-        () => (show ? setShow(false) : null),
-        [show]
-    );
-
+    const handleClose = () => setContextMenu(null);
     const closeEntryCategory = () => setEditEntry(false);
 
     return (
@@ -53,9 +55,12 @@ export default function IncomeAndExpenseEntries() {
                         onClick={() => {
                             setItem(entry);
                             setEditEntry(true);
-                            handleClick();
+                        }}
+                        onMouseDown={() => {
+                            setItem(entry);
                         }}
                         onContextMenu={handleContextMenu}
+                        style={{ cursor: 'context-menu' }}
                     >
                         <ListItemButton>
                             <ListItemIcon>
@@ -110,21 +115,33 @@ export default function IncomeAndExpenseEntries() {
                     )}
                 </>
             ))}
-            {show ? (
-                <ul
-                    className="menu"
-                    style={{
-                        top: anchorPoint.y,
-                        left: anchorPoint.x,
+            <RightClickMenu contextMenu={contextMenu} handleClose={handleClose}>
+                <MenuItem
+                    onClick={() => {
+                        setEditEntry(true);
+                        handleClose();
                     }}
                 >
-                    <li>Share to</li>
-                    <li>Cut</li>
-                    <li>Copy</li>
-                </ul>
-            ) : (
-                <> </>
-            )}
+                    Duplicate
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        setItem(null);
+                        setEditEntry(true);
+                        handleClose();
+                    }}
+                >
+                    Create New
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        handleClose();
+                        deleteEntry(item);
+                    }}
+                >
+                    Delete
+                </MenuItem>
+            </RightClickMenu>
         </IncomeAndExpenseWrapper>
     );
 }
