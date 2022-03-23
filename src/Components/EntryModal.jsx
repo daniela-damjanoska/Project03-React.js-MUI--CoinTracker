@@ -24,9 +24,10 @@ const MenuProps = {
 };
 
 export default function EntryModal({
+    buttonDesc,
     closeModal,
-    typeDefault,
     addOrEditEntry,
+    typeDefault,
 }) {
     const {
         addEntry,
@@ -47,8 +48,7 @@ export default function EntryModal({
         }
     );
 
-    const isEditing = Boolean(addOrEditEntry),
-        matches = useMediaQuery('(min-width:601px)');
+    const matches = useMediaQuery('(min-width:601px)');
 
     const filteredIncomeOrExpenseCategories =
         entryData.type === 'income'
@@ -60,7 +60,7 @@ export default function EntryModal({
     const handleSubmit = e => {
         e.preventDefault();
 
-        isEditing ? updateEntry(entryData) : addEntry(entryData);
+        buttonDesc === 'UPDATE' ? updateEntry(entryData) : addEntry(entryData);
 
         handleModalClosing();
     };
@@ -91,7 +91,7 @@ export default function EntryModal({
                 }}
             >
                 <Typography variant="h6" component="h2" sx={{ mb: 3 }}>
-                    {isEditing ? 'Update Entry' : 'Add New Entry'}
+                    {buttonDesc === 'UPDATE' ? 'Update Entry' : 'Add New Entry'}
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <FormControl fullWidth size="small" sx={{ mb: 4 }}>
@@ -206,7 +206,7 @@ export default function EntryModal({
                             CANCEL
                         </Button>
                         <Button variant="contained" type="submit">
-                            {isEditing ? 'UPDATE' : 'ADD'}
+                            {buttonDesc}
                         </Button>
                     </Box>
                 </form>

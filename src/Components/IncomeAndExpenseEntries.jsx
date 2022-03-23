@@ -17,12 +17,11 @@ import MenuItem from '@mui/material/MenuItem';
 export default function IncomeAndExpenseEntries() {
     const { entries, deleteEntry } = useContext(Context);
 
-    const [editEntry, setEditEntry] = useState(false);
     const [item, setItem] = useState();
     const [contextMenu, setContextMenu] = useState(null);
-    const [expenseOrIncome, setExpenseOrIncome] = useState('');
-
-    console.log(item);
+    const [editEntry, setEditEntry] = useState(false);
+    const [duplicatingEntry, setDuplicateEntry] = useState(false);
+    const [createNewEntry, setCreateNewEntry] = useState(false);
 
     const handleContextMenu = e => {
         e.preventDefault();
@@ -36,8 +35,7 @@ export default function IncomeAndExpenseEntries() {
         );
     };
 
-    const handleClose = () => setContextMenu(null);
-    const closeEntryCategory = () => setEditEntry(false);
+    const handleCloseRightMenu = () => setContextMenu(null);
 
     return (
         <IncomeAndExpenseWrapper
@@ -105,21 +103,16 @@ export default function IncomeAndExpenseEntries() {
                         </ListItemButton>
                     </ListItem>
                     <Divider variant="inset" component="li" />
-                    {editEntry ? (
-                        <EntryModal
-                            closeModal={closeEntryCategory}
-                            addOrEditEntry={item}
-                        />
-                    ) : (
-                        ''
-                    )}
                 </>
             ))}
-            <RightClickMenu contextMenu={contextMenu} handleClose={handleClose}>
+            <RightClickMenu
+                contextMenu={contextMenu}
+                handleClose={handleCloseRightMenu}
+            >
                 <MenuItem
                     onClick={() => {
-                        setEditEntry(true);
-                        handleClose();
+                        setDuplicateEntry(true);
+                        handleCloseRightMenu();
                     }}
                 >
                     Duplicate
@@ -127,21 +120,51 @@ export default function IncomeAndExpenseEntries() {
                 <MenuItem
                     onClick={() => {
                         setItem(null);
-                        setEditEntry(true);
-                        handleClose();
+                        setCreateNewEntry(true);
+                        handleCloseRightMenu();
                     }}
                 >
                     Create New
                 </MenuItem>
                 <MenuItem
                     onClick={() => {
-                        handleClose();
+                        handleCloseRightMenu();
                         deleteEntry(item);
                     }}
                 >
                     Delete
                 </MenuItem>
             </RightClickMenu>
+            {editEntry ? (
+                <EntryModal
+                    buttonDesc="UPDATE"
+                    closeModal={() => setEditEntry(false)}
+                    addOrEditEntry={item}
+                    typeDefault={undefined}
+                />
+            ) : (
+                ''
+            )}
+            {duplicatingEntry ? (
+                <EntryModal
+                    buttonDesc="ADD"
+                    closeModal={() => setDuplicateEntry(false)}
+                    addOrEditEntry={item}
+                    typeDefault={undefined}
+                />
+            ) : (
+                ''
+            )}
+            {createNewEntry ? (
+                <EntryModal
+                    buttonDesc="ADD"
+                    closeModal={() => setCreateNewEntry(false)}
+                    addOrEditEntry={item}
+                    typeDefault="income"
+                />
+            ) : (
+                ''
+            )}
         </IncomeAndExpenseWrapper>
     );
 }

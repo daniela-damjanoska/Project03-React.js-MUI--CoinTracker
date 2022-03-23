@@ -24,8 +24,6 @@ export default function Navigation({ active }) {
     //for default type value
     const [isExpense, setIsExpense] = useState(true);
 
-    const { categories, addEntry, updateEntry } = useContext(Context);
-
     const matches = useMediaQuery('(min-width:601px)');
 
     const navigate = useNavigate();
@@ -153,6 +151,7 @@ export default function Navigation({ active }) {
             </Modal>
             {addIncome ? (
                 <EntryModal
+                    buttonDesc="Add"
                     typeDefault={isExpense ? 'expense' : 'income'}
                     closeModal={handleCloseModalEntry}
                 />
