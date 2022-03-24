@@ -13,15 +13,17 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 import MenuItem from '@mui/material/MenuItem';
+import ConfirmDeletionModal from './ConfirmDeletionModal';
 
 export default function IncomeAndExpenseEntries() {
-    const { entries, deleteEntry } = useContext(Context);
+    const { entries, deleteEntry, saveCategoryIcon } = useContext(Context);
 
     const [item, setItem] = useState();
     const [contextMenu, setContextMenu] = useState(null);
     const [editEntry, setEditEntry] = useState(false);
     const [duplicatingEntry, setDuplicateEntry] = useState(false);
     const [createNewEntry, setCreateNewEntry] = useState(false);
+    const [confirmDeletion, setConfirmDeletion] = useState(false);
 
     const handleContextMenu = e => {
         e.preventDefault();
@@ -62,7 +64,7 @@ export default function IncomeAndExpenseEntries() {
                     >
                         <ListItemButton>
                             <ListItemIcon>
-                                <Icon>{entry.categoryIcon}</Icon>
+                                <Icon>{entry.icon}</Icon>
                             </ListItemIcon>
                             <Box
                                 sx={{
@@ -112,6 +114,7 @@ export default function IncomeAndExpenseEntries() {
                 <MenuItem
                     onClick={() => {
                         setDuplicateEntry(true);
+                        saveCategoryIcon(item.icon);
                         handleCloseRightMenu();
                     }}
                 >
@@ -129,7 +132,7 @@ export default function IncomeAndExpenseEntries() {
                 <MenuItem
                     onClick={() => {
                         handleCloseRightMenu();
-                        deleteEntry(item);
+                        setConfirmDeletion(true);
                     }}
                 >
                     Delete
@@ -161,6 +164,14 @@ export default function IncomeAndExpenseEntries() {
                     closeModal={() => setCreateNewEntry(false)}
                     addOrEditEntry={item}
                     typeDefault="income"
+                />
+            ) : (
+                ''
+            )}
+            {confirmDeletion ? (
+                <ConfirmDeletionModal
+                    closeModal={() => setConfirmDeletion(false)}
+                    item={item}
                 />
             ) : (
                 ''

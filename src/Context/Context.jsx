@@ -13,7 +13,8 @@ export const Provider = ({ children }) => {
 
     useEffect(() => {
         const categoriesFromLS = localStorage.getItem('categories'),
-            entriesFromLS = localStorage.getItem('entries');
+            entriesFromLS = localStorage.getItem('entries'),
+            iconFromLS = localStorage.getItem('icon');
 
         if (categoriesFromLS) {
             setCategories(JSON.parse(categoriesFromLS));
@@ -88,6 +89,7 @@ export const Provider = ({ children }) => {
         entryToUpdate.name = entry.name;
         entryToUpdate.category = entry.category;
         entryToUpdate.amount = entry.amount;
+        entryToUpdate.icon = categoryIcon;
         entryToUpdate.date = entry.date;
 
         localStorage.setItem('entries', JSON.stringify(entries));
@@ -114,8 +116,6 @@ export const Provider = ({ children }) => {
             localStorage.setItem('categories', JSON.stringify(categories));
         });
     }
-
-    console.log(categories);
 
     const contextObject = {
         updateCategoriesArray,

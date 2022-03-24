@@ -55,14 +55,12 @@ export default function EntryModal({
             ? filteredIncomeCategories
             : filteredExpenseCategories;
 
-    const handleModalClosing = () => closeModal();
-
     const handleSubmit = e => {
         e.preventDefault();
 
         buttonDesc === 'UPDATE' ? updateEntry(entryData) : addEntry(entryData);
 
-        handleModalClosing();
+        closeModal();
     };
 
     return (
@@ -175,7 +173,7 @@ export default function EntryModal({
                         onChange={e => {
                             setEntryData({
                                 ...entryData,
-                                amount: +e.target.value,
+                                amount: e.target.value,
                             });
                         }}
                     />
@@ -202,7 +200,7 @@ export default function EntryModal({
                             mt: 7,
                         }}
                     >
-                        <Button variant="text" onClick={handleModalClosing}>
+                        <Button variant="text" onClick={() => closeModal()}>
                             CANCEL
                         </Button>
                         <Button variant="contained" type="submit">

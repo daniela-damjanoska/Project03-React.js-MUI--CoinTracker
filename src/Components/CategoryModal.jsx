@@ -55,14 +55,12 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
     const isEditing = Boolean(addOrEditCategory),
         matches = useMediaQuery('(min-width:601px)');
 
-    const handleModalClosing = () => closeModal();
-
     const handleSubmit = e => {
         e.preventDefault();
 
         isEditing ? updateCategory(categoryData) : addCategory(categoryData);
 
-        handleModalClosing();
+        closeModal();
     };
 
     return (
@@ -221,7 +219,7 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
                             justifyContent: 'space-between',
                         }}
                     >
-                        <Button variant="text" onClick={handleModalClosing}>
+                        <Button variant="text" onClick={() => closeModal()}>
                             CANCEL
                         </Button>
                         <Button variant="contained" type="submit">
