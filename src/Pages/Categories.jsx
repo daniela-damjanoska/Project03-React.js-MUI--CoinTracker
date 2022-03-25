@@ -57,7 +57,7 @@ export default function Categories() {
                         paddingX: 2,
                         borderTopRightRadius: '3px',
                         borderTopLeftRadius: '3px',
-                        color: 'lightGrey.main',
+                        color: 'secondary.light',
                     }}
                 >
                     Categories
@@ -72,12 +72,12 @@ export default function Categories() {
                     >
                         <ListItemButton>
                             <ListItemIcon sx={{ pb: 2 }}>
-                                <AddIcon color="dark" />
+                                <AddIcon color="secondary" />
                             </ListItemIcon>
                             <ListItemText
                                 primary="Add New Category"
                                 primaryTypographyProps={{
-                                    color: 'dark.main',
+                                    color: 'secondary',
                                     pb: 2,
                                 }}
                             />
@@ -98,7 +98,7 @@ export default function Categories() {
                                     sx={{
                                         color:
                                             category.type === 'expense'
-                                                ? 'danger.main'
+                                                ? 'error.main'
                                                 : 'info.main',
                                     }}
                                 >
@@ -106,7 +106,7 @@ export default function Categories() {
                                         sx={{
                                             color:
                                                 category.type === 'expense'
-                                                    ? 'danger.main'
+                                                    ? 'error.main'
                                                     : 'info.main',
                                         }}
                                     >
@@ -142,7 +142,7 @@ export default function Categories() {
                                                         ? '40%'
                                                         : '100%',
                                                 ml: 'auto',
-                                                color: 'secondary.main',
+                                                color: 'secondary',
                                             }}
                                         />
                                         <ListItemText

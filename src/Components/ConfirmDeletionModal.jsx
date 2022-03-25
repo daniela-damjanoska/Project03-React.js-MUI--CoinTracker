@@ -41,7 +41,7 @@ export default function ConfirmDeletionModal({ closeModal, item }) {
                         id="modal-content"
                         variant="h6"
                         component="p"
-                        color="dark.main"
+                        color="secondary"
                         marginBottom={4}
                     >
                         Are you sure that you want to delete this entry?
@@ -56,17 +56,17 @@ export default function ConfirmDeletionModal({ closeModal, item }) {
                         <Button
                             variant="text"
                             onClick={() => closeModal()}
-                            color="dark"
+                            color="secondary"
                         >
                             CANCEL
                         </Button>
                         <Button
                             variant="contained"
                             sx={{
-                                backgroundColor: 'danger.main',
-                                // '& .hover': {
-                                //     backgroundColor: '#ffffffbf',
-                                // },
+                                backgroundColor: 'error.main',
+                                '&:hover': {
+                                    backgroundColor: '#8b0000',
+                                },
                             }}
                             onClick={() => {
                                 deleteEntry(item);

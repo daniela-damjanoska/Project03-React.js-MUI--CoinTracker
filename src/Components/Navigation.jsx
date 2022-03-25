@@ -75,7 +75,7 @@ export default function Navigation({ active }) {
                 label="Overview"
                 icon={<HomeIcon />}
                 sx={{
-                    color: 'light.main',
+                    color: 'secondary.extraLight',
                 }}
                 onClick={() => navigate('/overview')}
             />
@@ -83,7 +83,7 @@ export default function Navigation({ active }) {
                 label="Categories"
                 icon={<CategoryIcon />}
                 sx={{
-                    color: 'light.main',
+                    color: 'secondary.extraLight',
                 }}
                 onClick={() => navigate('/categories')}
             />
@@ -91,7 +91,7 @@ export default function Navigation({ active }) {
                 label="Statistics"
                 icon={<EqualizerIcon />}
                 sx={{
-                    color: 'light.main',
+                    color: 'secondary.extraLight',
                     marginRight: 2,
                 }}
                 onClick={() => navigate('/statistics')}
@@ -100,13 +100,13 @@ export default function Navigation({ active }) {
                 color="info"
                 aria-label="add"
                 sx={{
-                    color: 'light.main',
+                    color: 'secondary.dark',
                     marginRight: 4,
                     marginTop: '-28px',
                 }}
                 onClick={handleOpenModal}
             >
-                <AddIcon color="dark" />
+                <AddIcon color="secondary.dark" />
             </Fab>
             <Modal
                 open={openModal}

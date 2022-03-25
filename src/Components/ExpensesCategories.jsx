@@ -31,7 +31,7 @@ export default function ExpensesCategories() {
                             <ListItemText
                                 primary={category.name}
                                 primaryTypographyProps={{
-                                    color: 'dark.main',
+                                    color: 'secondary.dark',
                                 }}
                             />
                             <ListItemText
@@ -47,7 +47,7 @@ export default function ExpensesCategories() {
                                         category.budget === ''
                                             ? '13px'
                                             : '22px',
-                                    color: 'dark.main',
+                                    color: 'secondary.dark',
                                     textAlign: 'right',
                                 }}
                             />

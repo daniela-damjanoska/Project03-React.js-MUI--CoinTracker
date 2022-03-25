@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../Context/Context';
 
 import IncomeAndExpenseWrapper from './IncomeAndExpenseWrapper';
@@ -31,7 +31,7 @@ export default function IncomeCategories() {
                             <ListItemText
                                 primary={category.name}
                                 primaryTypographyProps={{
-                                    color: 'dark.main',
+                                    color: 'secondary.dark',
                                 }}
                             />
                             <ListItemText
@@ -47,11 +47,16 @@ export default function IncomeCategories() {
                                         category.budget === ''
                                             ? '13px'
                                             : '22px',
-                                    color: 'dark.main',
+                                    color: 'secondary.dark',
                                     textAlign: 'right',
                                 }}
                             />
-                            <ListItemText primary={category.entriesArr} />
+                            <ListItemText
+                                primary={category.entriesArr}
+                                primaryTypographyProps={{
+                                    color: 'secondary.dark',
+                                }}
+                            />
                         </ListItemButton>
                     </ListItem>
                     <Divider variant="inset" component="li" />

@@ -13,8 +13,7 @@ export const Provider = ({ children }) => {
 
     useEffect(() => {
         const categoriesFromLS = localStorage.getItem('categories'),
-            entriesFromLS = localStorage.getItem('entries'),
-            iconFromLS = localStorage.getItem('icon');
+            entriesFromLS = localStorage.getItem('entries');
 
         if (categoriesFromLS) {
             setCategories(JSON.parse(categoriesFromLS));

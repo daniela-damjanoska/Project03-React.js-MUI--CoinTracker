@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ConfirmDeletionModal from './ConfirmDeletionModal';
 
 export default function IncomeAndExpenseEntries() {
-    const { entries, deleteEntry, saveCategoryIcon } = useContext(Context);
+    const { entries, saveCategoryIcon } = useContext(Context);
 
     const [item, setItem] = useState();
     const [contextMenu, setContextMenu] = useState(null);
@@ -75,14 +75,14 @@ export default function IncomeAndExpenseEntries() {
                                 <ListItemText
                                     primary={`${entry.category} (${entry.name})`}
                                     primaryTypographyProps={{
-                                        color: 'dark.main',
+                                        color: 'secondary.dark',
                                         mb: -1,
                                     }}
                                 />
                                 <ListItemText
                                     primary={entry.date}
                                     primaryTypographyProps={{
-                                        color: 'lightGrey.main',
+                                        color: 'secondary.light',
                                         mt: 0,
                                     }}
                                 />
@@ -99,7 +99,7 @@ export default function IncomeAndExpenseEntries() {
                                     color:
                                         entry.type === 'income'
                                             ? 'info.main'
-                                            : 'danger.main',
+                                            : 'error',
                                 }}
                             />
                         </ListItemButton>

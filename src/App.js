@@ -15,7 +15,17 @@ import NotFound from './Pages/NotFound';
 import { Box } from '@mui/material';
 import { ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import { grey, red } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
+
+const style = {
+    backgroundImage: "url('./Images/bg-img.png')",
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+};
 
 function App() {
     const theme = createTheme({
@@ -25,21 +35,12 @@ function App() {
             },
             secondary: {
                 main: grey[600],
-            },
-            dark: {
-                main: grey[700],
-            },
-            lightGrey: {
-                main: grey[400],
-            },
-            light: {
-                main: grey[50],
+                dark: grey[700],
+                light: grey[400],
+                extraLight: grey[50],
             },
             info: {
                 main: '#18ffff',
-            },
-            danger: {
-                main: red[800],
             },
         },
     });
@@ -47,17 +48,7 @@ function App() {
     return (
         <Provider>
             <ThemeProvider theme={theme}>
-                <Box
-                    sx={{
-                        backgroundImage: "url('./Images/bg-img.png')",
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
-                        minHeight: '100vh',
-                        display: 'flex',
-                        alignItems: 'center',
-                    }}
-                >
+                <Box sx={style}>
                     <Router>
                         <Routes>
                             <Route path="/" element={<SignIn />}></Route>
