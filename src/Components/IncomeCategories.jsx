@@ -36,6 +36,21 @@ export default function IncomeCategories() {
                             />
                             <ListItemText
                                 primary={
+                                    category.entriesAmount > 0
+                                        ? `${category.entriesAmount}/`
+                                        : ''
+                                }
+                                primaryTypographyProps={{
+                                    color: 'secondary.dark',
+                                    textAlign: 'right',
+                                    fontSize: '22px',
+                                }}
+                                sx={{
+                                    width: 'fit-content',
+                                }}
+                            />
+                            <ListItemText
+                                primary={
                                     category.budget === 0 ||
                                     category.budget === ''
                                         ? 'no limit'
@@ -49,12 +64,7 @@ export default function IncomeCategories() {
                                             : '22px',
                                     color: 'secondary.dark',
                                     textAlign: 'right',
-                                }}
-                            />
-                            <ListItemText
-                                primary={category.entriesArr}
-                                primaryTypographyProps={{
-                                    color: 'secondary.dark',
+                                    width: 'fit-content',
                                 }}
                             />
                         </ListItemButton>
