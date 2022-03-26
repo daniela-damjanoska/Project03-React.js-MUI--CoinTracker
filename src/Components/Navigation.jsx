@@ -1,6 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Context } from '../Context/Context';
 
 import EntryModal from '../Components/EntryModal';
 

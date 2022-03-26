@@ -83,7 +83,13 @@ export default function Categories() {
                             />
                         </ListItemButton>
                     </ListItem>
-                    <Divider variant="inset" component="li" />
+                    <Divider
+                        variant="inset"
+                        component="li"
+                        sx={{
+                            mr: 2,
+                        }}
+                    />
                     {categories.map(category => (
                         <>
                             <ListItem
@@ -158,7 +164,13 @@ export default function Categories() {
                                     </Box>
                                 </ListItemButton>
                             </ListItem>
-                            <Divider variant="inset" component="li" />
+                            <Divider
+                                variant="inset"
+                                component="li"
+                                sx={{
+                                    mr: 2,
+                                }}
+                            />
                         </>
                     ))}
                 </List>

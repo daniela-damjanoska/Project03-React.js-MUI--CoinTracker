@@ -10,16 +10,18 @@ export default function IncomeChart() {
     return (
         <IncomeAndExpenseWrapper
             title="Income"
-            customTopMarginMob={0}
+            customTopMarginMob={11}
             customBottomMarginMob={5}
             customLeftMarginPC={0}
             customLeftMarginMob={0}
+            array={filteredIncomeCategories}
+            type="income categories"
         >
             <CategoriesChart
                 array={filteredIncomeCategories}
-                backgroundColor="rgba(255,99,132,0.2)"
-                borderColor="rgba(255,99,132,1)"
-                hoverBackgroundColor="rgba(255,99,132,0.4)"
+                backgroundColor="rgba(0,128,0,0.2)"
+                borderColor="rgba(0,128,0,1)"
+                hoverBackgroundColor="rgba(0,128,0,0.4)"
                 type="income"
             />
         </IncomeAndExpenseWrapper>

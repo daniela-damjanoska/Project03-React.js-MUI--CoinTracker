@@ -14,12 +14,14 @@ export default function ExpensesChart() {
             customBottomMarginMob={5}
             customLeftMarginPC={4}
             customLeftMarginMob={0}
+            array={filteredExpenseCategories}
+            type="expense categories"
         >
             <CategoriesChart
                 array={filteredExpenseCategories}
-                backgroundColor="rgba(0,128,0,0.2)"
-                borderColor="rgba(0,128,0,1)"
-                hoverBackgroundColor="rgba(0,128,0,0.4)"
+                backgroundColor="rgba(255,99,132,0.2)"
+                borderColor="rgba(255,99,132,1)"
+                hoverBackgroundColor="rgba(255,99,132,0.4)"
                 type="expense"
             />
         </IncomeAndExpenseWrapper>

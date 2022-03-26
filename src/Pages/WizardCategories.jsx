@@ -80,7 +80,11 @@ export default function WizardCategories() {
                                             {icon}
                                         </Icon>
                                     </ListItemIcon>
-                                    <ListItemText id={id} primary={name} />
+                                    <ListItemText
+                                        id={id}
+                                        primary={name}
+                                        sx={{ color: 'secondary.dark' }}
+                                    />
                                 </ListItemButton>
                             </ListItem>
                             <Divider variant="inset" component="li" />

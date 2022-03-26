@@ -12,6 +12,8 @@ export default function IncomeAndExpenseWrapper({
     customLeftMarginPC,
     customLeftMarginMob,
     title,
+    array,
+    type,
 }) {
     const matches = useMediaQuery('(min-width:601px)');
 
@@ -19,7 +21,7 @@ export default function IncomeAndExpenseWrapper({
         <Paper
             elevation={6}
             sx={{
-                flexBasis: '33.333%',
+                width: matches ? '33.333%' : '100%',
                 height: 'fit-content',
                 mt: matches ? 13 : customTopMarginMob,
                 mb: matches ? 13 : customBottomMarginMob,
@@ -40,7 +42,18 @@ export default function IncomeAndExpenseWrapper({
             >
                 {title}
             </Typography>
-            <List dense>{children}</List>
+            {array?.length ? (
+                <List dense>{children}</List>
+            ) : (
+                <Typography
+                    variant="body"
+                    component="p"
+                    padding={2}
+                    color="secondary"
+                >
+                    There is no data for {type}
+                </Typography>
+            )}
         </Paper>
     );
 }

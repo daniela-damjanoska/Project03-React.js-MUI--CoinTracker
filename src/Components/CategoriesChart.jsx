@@ -11,8 +11,6 @@ import {
 
 import { Bar } from 'react-chartjs-2';
 
-import Typography from '@mui/material/Typography';
-
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function CategoriesChart({
@@ -20,7 +18,6 @@ export default function CategoriesChart({
     backgroundColor,
     borderColor,
     hoverBackgroundColor,
-    type,
 }) {
     const labels = [];
     const chartData = [];
@@ -28,7 +25,7 @@ export default function CategoriesChart({
     if (array) {
         array.forEach(category => {
             labels.push(category.name);
-            chartData.push(parseInt(category.entriesAmount));
+            chartData.push(+category.entriesAmount);
         });
     }
 
@@ -56,20 +53,5 @@ export default function CategoriesChart({
         ],
     };
 
-    return (
-        <>
-            {array?.length ? (
-                <Bar data={chartSet} options={options} />
-            ) : (
-                <Typography
-                    variant="body"
-                    component="p"
-                    padding={2}
-                    color="secondary"
-                >
-                    There is no data for {type} categories
-                </Typography>
-            )}
-        </>
-    );
+    return <Bar data={chartSet} options={options} />;
 }
