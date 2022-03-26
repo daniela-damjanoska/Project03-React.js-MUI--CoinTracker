@@ -60,7 +60,7 @@ export default function WizardCategoriesAmount() {
                             <ListItem key={id} disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <Icon sx={{ color: 'dark.main' }}>
+                                        <Icon sx={{ color: 'secondary.dark' }}>
                                             {icon}
                                         </Icon>
                                     </ListItemIcon>

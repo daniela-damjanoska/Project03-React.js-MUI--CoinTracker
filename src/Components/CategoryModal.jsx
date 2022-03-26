@@ -15,6 +15,7 @@ import Icon from '@mui/material/Icon';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import IconInput from './IconInput';
 
 const icons = [
     'downhill_skiing',
@@ -28,21 +29,21 @@ const icons = [
 
 const iconsFromCategoriesArr = initialCategories.map(category => category.icon),
     allIcons = [...icons, ...iconsFromCategoriesArr],
-    uniqueIcons = [...new Set(allIcons)],
-    //icons dropdown:
-    ITEM_HEIGHT = 40,
-    ITEM_PADDING_TOP = 8,
-    MenuProps = {
-        PaperProps: {
-            style: { maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP },
-        },
-    };
+    uniqueIcons = [...new Set(allIcons)];
+// //icons dropdown:
+// ITEM_HEIGHT = 40,
+// ITEM_PADDING_TOP = 8,
+// MenuProps = {
+//     PaperProps: {
+//         style: { maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP },
+//     },
+// };
 
-export default function CategoryModal({ closeModal, addOrEdit }) {
+export default function CategoryModal({ closeModal, addOrEditCategory }) {
     const { addCategory, updateCategory } = useContext(Context);
 
     const [categoryData, setCategoryData] = useState(
-        addOrEdit || {
+        addOrEditCategory || {
             name: '',
             type: '',
             budget: '',
@@ -51,17 +52,15 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
         }
     );
 
-    const isEditing = Boolean(addOrEdit),
+    const isEditing = Boolean(addOrEditCategory),
         matches = useMediaQuery('(min-width:601px)');
-
-    const handleModalClosing = () => closeModal();
 
     const handleSubmit = e => {
         e.preventDefault();
 
         isEditing ? updateCategory(categoryData) : addCategory(categoryData);
 
-        handleModalClosing();
+        closeModal();
     };
 
     return (
@@ -70,6 +69,11 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
             onClose={closeModal}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
+            sx={{
+                '& .MuiBackdrop-root': {
+                    backgroundColor: '#ffffffbf',
+                },
+            }}
         >
             <Box
                 sx={{
@@ -123,7 +127,18 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
                             });
                         }}
                     />
-                    <FormControl fullWidth sx={{ mb: 4, mt: 4 }} size="small">
+                    <IconInput
+                        setCategoryData={setCategoryData}
+                        categoryData={categoryData}
+                        label="icon"
+                    >
+                        {uniqueIcons.map((icon, idx) => (
+                            <MenuItem value={icon} key={idx}>
+                                <Icon>{icon}</Icon>
+                            </MenuItem>
+                        ))}
+                    </IconInput>
+                    {/* <FormControl fullWidth sx={{ mb: 4, mt: 4 }} size="small">
                         <InputLabel id="icon-select-label">Icon</InputLabel>
                         <Select
                             labelId="icon-select-label"
@@ -144,7 +159,7 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
                                 </MenuItem>
                             ))}
                         </Select>
-                    </FormControl>
+                    </FormControl> */}
                     <TextField
                         id="category-budget"
                         label="Budget"
@@ -204,7 +219,7 @@ export default function CategoryModal({ closeModal, addOrEdit }) {
                             justifyContent: 'space-between',
                         }}
                     >
-                        <Button variant="text" onClick={handleModalClosing}>
+                        <Button variant="text" onClick={() => closeModal()}>
                             CANCEL
                         </Button>
                         <Button variant="contained" type="submit">

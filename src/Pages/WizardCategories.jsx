@@ -69,14 +69,14 @@ export default function WizardCategories() {
                                         inputProps={{
                                             'aria-labelledby': labelId,
                                         }}
-                                        color="dark"
+                                        color="secondary"
                                     />
                                 }
                                 disablePadding
                             >
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <Icon sx={{ color: 'dark.main' }}>
+                                        <Icon sx={{ color: 'secondary.dark' }}>
                                             {icon}
                                         </Icon>
                                     </ListItemIcon>

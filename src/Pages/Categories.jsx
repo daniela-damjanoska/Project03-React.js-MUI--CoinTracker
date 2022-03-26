@@ -57,6 +57,7 @@ export default function Categories() {
                         paddingX: 2,
                         borderTopRightRadius: '3px',
                         borderTopLeftRadius: '3px',
+                        color: 'secondary.light',
                     }}
                 >
                     Categories
@@ -70,10 +71,16 @@ export default function Categories() {
                         }}
                     >
                         <ListItemButton>
-                            <ListItemIcon>
-                                <AddIcon color="dark"></AddIcon>
+                            <ListItemIcon sx={{ pb: 2 }}>
+                                <AddIcon color="secondary" />
                             </ListItemIcon>
-                            <ListItemText primary="Add New Category" />
+                            <ListItemText
+                                primary="Add New Category"
+                                primaryTypographyProps={{
+                                    color: 'secondary',
+                                    pb: 2,
+                                }}
+                            />
                         </ListItemButton>
                     </ListItem>
                     <Divider variant="inset" component="li" />
@@ -91,64 +98,62 @@ export default function Categories() {
                                     sx={{
                                         color:
                                             category.type === 'expense'
-                                                ? '#af2126'
-                                                : '#3caca4',
+                                                ? 'error.main'
+                                                : 'info.main',
                                     }}
                                 >
                                     <ListItemIcon
                                         sx={{
                                             color:
                                                 category.type === 'expense'
-                                                    ? '#af2126'
-                                                    : '#3caca4',
+                                                    ? 'error.main'
+                                                    : 'info.main',
                                         }}
                                     >
                                         <Icon>{category.icon}</Icon>
                                     </ListItemIcon>
-                                    <ListItemText
-                                        id={category.id}
-                                        primary={category.name}
-                                    />
+                                    <ListItemText primary={category.name} />
                                     <Box
                                         sx={{
                                             display: 'flex',
                                             flexDirection: 'column-reverse',
                                             textAlign:
-                                                category.budget === 0
+                                                category.budget === 0 ||
+                                                category.budget === ''
                                                     ? 'center'
                                                     : 'right',
                                         }}
                                     >
                                         <ListItemText
-                                            sx={{
-                                                color: 'secondary.main',
-                                            }}
-                                            primaryTypographyProps={{
-                                                fontSize: '8px',
-                                                width:
-                                                    category.budget === 0
-                                                        ? '40%'
-                                                        : '100%',
-                                                ml: 'auto',
-                                            }}
                                             primary={
-                                                category.budget === 0
+                                                category.budget === 0 ||
+                                                category.budget === ''
                                                     ? 'NO BUDGET LIMIT'
                                                     : category.type ===
                                                       'expense'
                                                     ? 'BUDGET'
                                                     : 'PLANNED'
                                             }
+                                            primaryTypographyProps={{
+                                                fontSize: '8px',
+                                                width:
+                                                    category.budget === 0 ||
+                                                    category.budget === ''
+                                                        ? '40%'
+                                                        : '100%',
+                                                ml: 'auto',
+                                                color: 'secondary',
+                                            }}
                                         />
                                         <ListItemText
-                                            primaryTypographyProps={{
-                                                fontSize: '22px',
-                                            }}
                                             primary={
                                                 category.budget !== 0
                                                     ? category.budget
                                                     : ''
                                             }
+                                            primaryTypographyProps={{
+                                                fontSize: '22px',
+                                            }}
                                         />
                                     </Box>
                                 </ListItemButton>
@@ -160,7 +165,7 @@ export default function Categories() {
                 {addEditCategory ? (
                     <CategoryModal
                         closeModal={closeModalCategory}
-                        addOrEdit={item}
+                        addOrEditCategory={item}
                     />
                 ) : (
                     ''

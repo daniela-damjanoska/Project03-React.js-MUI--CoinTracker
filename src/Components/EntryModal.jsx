@@ -23,49 +23,44 @@ const MenuProps = {
     },
 };
 
-export default function EntryModal({ closeModal, typeDefault }) {
-    const [categoryId, setCategoryId] = useState('');
-    const [entryType, setEntryType] = useState(typeDefault);
-    const [entryName, setEntryName] = useState('');
-    const [category, setCategory] = useState('');
-    const [entryAmount, setEntryAmount] = useState('');
-    const [entryDate, setEntryDate] = useState(
-        format(new Date(), 'yyyy-MM-dd')
-    );
-    const [isEditing, setIsEditing] = useState(false);
+export default function EntryModal({
+    buttonDesc,
+    closeModal,
+    addOrEditEntry,
+    typeDefault,
+}) {
+    const {
+        addEntry,
+        updateEntry,
+        saveCategoryId,
+        saveCategoryIcon,
+        filteredIncomeCategories,
+        filteredExpenseCategories,
+    } = useContext(Context);
 
-    const { categories } = useContext(Context);
+    const [entryData, setEntryData] = useState(
+        addOrEditEntry || {
+            type: typeDefault,
+            name: '',
+            category: '',
+            amount: '',
+            date: format(new Date(), 'yyyy-MM-dd'),
+        }
+    );
 
     const matches = useMediaQuery('(min-width:601px)');
 
-    const handleModalClosing = () => closeModal();
+    const filteredIncomeOrExpenseCategories =
+        entryData.type === 'income'
+            ? filteredIncomeCategories
+            : filteredExpenseCategories;
 
     const handleSubmit = e => {
         e.preventDefault();
 
-        const newEntry = {
-            id: new Date().valueOf(),
-            type: entryType,
-            name: entryName,
-            category: category,
-            amount: entryAmount,
-            date: entryDate,
-        };
+        buttonDesc === 'UPDATE' ? updateEntry(entryData) : addEntry(entryData);
 
-        console.log(newEntry);
-
-        // isEditing
-        //     ? updateCategory(
-        //           3,
-        //           categoryType,
-        //           categoryName,
-        //           categoryIcon,
-        //           categoryBudget,
-        //           isEnabled
-        //       )
-        //     : addCategory(newCategory);
-
-        handleModalClosing();
+        closeModal();
     };
 
     return (
@@ -74,6 +69,11 @@ export default function EntryModal({ closeModal, typeDefault }) {
             onClose={closeModal}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
+            sx={{
+                '& .MuiBackdrop-root': {
+                    backgroundColor: '#ffffffbf',
+                },
+            }}
         >
             <Box
                 sx={{
@@ -89,15 +89,20 @@ export default function EntryModal({ closeModal, typeDefault }) {
                 }}
             >
                 <Typography variant="h6" component="h2" sx={{ mb: 3 }}>
-                    {isEditing ? 'Update Entry' : 'Add New Entry'}
+                    {buttonDesc === 'UPDATE' ? 'Update Entry' : 'Add New Entry'}
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <FormControl fullWidth size="small" sx={{ mb: 4 }}>
                         <Select
                             labelId="entry-type-select-label"
                             id="entry-type-select"
-                            value={entryType}
-                            onChange={e => setEntryType(e.target.value)}
+                            value={entryData.type}
+                            onChange={e => {
+                                setEntryData({
+                                    ...entryData,
+                                    type: e.target.value,
+                                });
+                            }}
                         >
                             <MenuItem value={'income'}>Income</MenuItem>
                             <MenuItem value={'expense'}>Expense</MenuItem>
@@ -110,8 +115,13 @@ export default function EntryModal({ closeModal, typeDefault }) {
                         fullWidth
                         required
                         size="small"
-                        value={entryName}
-                        onChange={e => setEntryName(e.target.value)}
+                        value={entryData.name}
+                        onChange={e => {
+                            setEntryData({
+                                ...entryData,
+                                name: e.target.value,
+                            });
+                        }}
                     />
                     <FormControl
                         fullWidth
@@ -125,16 +135,30 @@ export default function EntryModal({ closeModal, typeDefault }) {
                         <Select
                             labelId="category-select-label"
                             id="category-select"
-                            value={category}
+                            value={entryData.category}
                             label="Category"
-                            onChange={e => setCategory(e.target.value)}
+                            onChange={e => {
+                                setEntryData({
+                                    ...entryData,
+                                    category: e.target.value,
+                                });
+                            }}
                             MenuProps={MenuProps}
                         >
-                            {categories.map(({ name }, idx) => (
-                                <MenuItem value={name} key={idx}>
-                                    {name}
-                                </MenuItem>
-                            ))}
+                            {filteredIncomeOrExpenseCategories.map(
+                                ({ name, id, icon }) => (
+                                    <MenuItem
+                                        value={name}
+                                        key={id}
+                                        onClick={() => {
+                                            saveCategoryIcon(icon);
+                                            saveCategoryId(id);
+                                        }}
+                                    >
+                                        {name}
+                                    </MenuItem>
+                                )
+                            )}
                         </Select>
                     </FormControl>
                     <TextField
@@ -145,18 +169,28 @@ export default function EntryModal({ closeModal, typeDefault }) {
                         required
                         size="small"
                         type="number"
-                        value={entryAmount}
-                        onChange={e => setEntryAmount(e.target.value)}
+                        value={entryData.amount}
+                        onChange={e => {
+                            setEntryData({
+                                ...entryData,
+                                amount: e.target.value,
+                            });
+                        }}
                     />
                     <Stack spacing={3}>
                         <TextField
                             id="entry-date"
                             type="date"
-                            defaultValue={entryDate}
+                            defaultValue={entryData.date}
                             fullWidth
                             sx={{ mt: 4 }}
                             size="small"
-                            onChange={e => setEntryDate(e.target.value)}
+                            onChange={e => {
+                                setEntryData({
+                                    ...entryData,
+                                    date: e.target.value,
+                                });
+                            }}
                         />
                     </Stack>
                     <Box
@@ -166,11 +200,11 @@ export default function EntryModal({ closeModal, typeDefault }) {
                             mt: 7,
                         }}
                     >
-                        <Button variant="text" onClick={handleModalClosing}>
+                        <Button variant="text" onClick={() => closeModal()}>
                             CANCEL
                         </Button>
                         <Button variant="contained" type="submit">
-                            {isEditing ? 'UPDATE' : 'ADD'}
+                            {buttonDesc}
                         </Button>
                     </Box>
                 </form>
