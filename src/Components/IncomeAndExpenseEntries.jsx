@@ -46,6 +46,8 @@ export default function IncomeAndExpenseEntries() {
             customBottomMarginMob={13}
             customLeftMarginPC={4}
             customLeftMarginMob={0}
+            array={entries}
+            type="income or expense entries"
         >
             {entries.map((entry, idx) => (
                 <>
@@ -104,7 +106,13 @@ export default function IncomeAndExpenseEntries() {
                             />
                         </ListItemButton>
                     </ListItem>
-                    <Divider variant="inset" component="li" />
+                    <Divider
+                        variant="inset"
+                        component="li"
+                        sx={{
+                            mr: 2,
+                        }}
+                    />
                 </>
             ))}
             <RightClickMenu

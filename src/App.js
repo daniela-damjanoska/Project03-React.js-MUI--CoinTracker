@@ -40,7 +40,7 @@ function App() {
                 extraLight: grey[50],
             },
             info: {
-                main: '#18ffff',
+                main: '#0fdddd',
             },
         },
     });

@@ -64,7 +64,11 @@ export default function WizardCategoriesAmount() {
                                             {icon}
                                         </Icon>
                                     </ListItemIcon>
-                                    <ListItemText id={id} primary={name} />
+                                    <ListItemText
+                                        id={id}
+                                        primary={name}
+                                        sx={{ color: 'secondary.dark' }}
+                                    />
                                     <TextField
                                         id="amount-per-category"
                                         size="small"
@@ -73,6 +77,7 @@ export default function WizardCategoriesAmount() {
                                         name={String(id)}
                                         sx={{
                                             width: '120px',
+                                            borderColor: 'red',
                                         }}
                                         onChange={handleChange}
                                     />
