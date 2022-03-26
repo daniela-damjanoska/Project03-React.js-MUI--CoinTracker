@@ -9,7 +9,6 @@ export const Provider = ({ children }) => {
     const [entries, setEntries] = useState([]);
     const [categoryId, setCategoryId] = useState('');
     const [categoryIcon, setCategoryIcon] = useState('');
-    // const [calcSum, setCalcSum] = useState('');
 
     useEffect(() => {
         const categoriesFromLS = localStorage.getItem('categories'),
@@ -62,7 +61,6 @@ export const Provider = ({ children }) => {
         setEntries([
             {
                 ...entry,
-                categoryIcon,
                 id: new Date().valueOf(),
                 categoryId,
                 icon: categoryIcon,
@@ -100,19 +98,18 @@ export const Provider = ({ children }) => {
         setEntries(updated);
     };
 
-    // make a sum of the income
-    // let sum = 0;
-    // const makeSum = num => (sum += num);
+    //make a sum of the entries amount for each category
+    if (entries) {
+        filteredEnabledCategories.forEach(category => {
+            const totalAmount = entries.reduce((accumulation, entry) => {
+                if (entry.categoryId === category.id) {
+                    return accumulation + parseInt(entry.amount);
+                } else {
+                    return accumulation;
+                }
+            }, 0);
 
-    if (entries.length > 0) {
-        categories.forEach(el => {
-            const filteredEntriesForSum = entries.filter(
-                entry => el.id === entry.categoryId
-            );
-
-            el.entriesArr = filteredEntriesForSum.map(el => el.amount);
-
-            localStorage.setItem('categories', JSON.stringify(categories));
+            category.entriesAmount = totalAmount;
         });
     }
 
