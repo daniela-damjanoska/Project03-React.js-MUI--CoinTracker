@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -14,14 +13,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Stack from '@mui/material/Stack';
-
-const ITEM_HEIGHT = 40;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: { maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP },
-    },
-};
+import Autocomplete from '@mui/material/Autocomplete';
 
 export default function EntryModal({
     buttonDesc,
@@ -47,6 +39,7 @@ export default function EntryModal({
             date: format(new Date(), 'yyyy-MM-dd'),
         }
     );
+    const [openAutocomplete, setOpenAutocomplete] = useState(false);
 
     const matches = useMediaQuery('(min-width:601px)');
 
@@ -123,44 +116,38 @@ export default function EntryModal({
                             });
                         }}
                     />
-                    <FormControl
+                    <Autocomplete
+                        id="entry-category"
                         fullWidth
-                        sx={{ mb: 4, mt: 4 }}
-                        size="small"
                         required
-                    >
-                        <InputLabel id="category-select-label">
-                            Category
-                        </InputLabel>
-                        <Select
-                            labelId="category-select-label"
-                            id="category-select"
-                            value={entryData.category}
-                            label="Category"
-                            onChange={e => {
-                                setEntryData({
-                                    ...entryData,
-                                    category: e.target.value,
-                                });
-                            }}
-                            MenuProps={MenuProps}
-                        >
-                            {filteredIncomeOrExpenseCategories.map(
-                                ({ name, id, icon }) => (
-                                    <MenuItem
-                                        value={name}
-                                        key={id}
-                                        onClick={() => {
-                                            saveCategoryIcon(icon);
-                                            saveCategoryId(id);
-                                        }}
-                                    >
-                                        {name}
-                                    </MenuItem>
-                                )
-                            )}
-                        </Select>
-                    </FormControl>
+                        size="small"
+                        autoHighlight
+                        style={{
+                            maxHeight: '200px',
+                            marginBottom: '32px',
+                            marginTop: '32px',
+                        }}
+                        onOpen={() => setOpenAutocomplete(true)}
+                        onClose={() => setOpenAutocomplete(false)}
+                        getOptionLabel={option => option.name}
+                        options={filteredIncomeOrExpenseCategories}
+                        onChange={(e, value) => {
+                            saveCategoryIcon(value.icon);
+                            saveCategoryId(value.id);
+                            setEntryData({
+                                ...entryData,
+                                category: value.name,
+                            });
+                        }}
+                        renderInput={params => (
+                            <TextField {...params} label="Category" required />
+                        )}
+                        ListboxProps={{
+                            style: {
+                                maxHeight: '150px',
+                            },
+                        }}
+                    />
                     <TextField
                         id="entry-amount"
                         label="Amount"
