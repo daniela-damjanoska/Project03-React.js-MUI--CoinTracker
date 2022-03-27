@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+import FormHelperText from '@mui/material/FormHelperText';
 
 export default function SignUp() {
     const [values, setValues] = useState({
@@ -20,6 +21,12 @@ export default function SignUp() {
         password: '',
         showPassword: false,
     });
+    const [userErrors, setUserErrors] = useState(false);
+    const [passErrors, setPassErrors] = useState(false);
+    const [userSuccess, setUserSuccess] = useState(false);
+    const [passSuccess, setPassSuccess] = useState(false);
+    const [helperTextUser, setHelperTextUser] = useState('');
+    const [helperTextPass, setHelperTextPass] = useState('');
 
     const navigate = useNavigate();
 
@@ -44,9 +51,44 @@ export default function SignUp() {
         navigate('/wizard-amount');
     }
 
+    const validateUser = () => {
+        if (
+            !values.username.match(
+                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            )
+        ) {
+            setUserErrors(true);
+            setHelperTextUser('Please enter a valid e-mail address');
+        } else {
+            setUserSuccess(true);
+            localStorage.setItem('username', JSON.stringify(values.username));
+        }
+    };
+
+    const validatePassword = () => {
+        if (values.password.length < 8) {
+            setPassErrors(true);
+            setHelperTextPass('Password must be at least 8 characters');
+        } else if (!values.password.match(/^(?=.*?[#!@$%^&*]).{8,}$/)) {
+            setPassErrors(true);
+            setHelperTextPass(
+                'Password must contains at least one of this characters: !@#$%^&*'
+            );
+        } else if (values.password.length > 32) {
+            setPassErrors(true);
+            setHelperTextPass('Password must be less than 32 characters');
+        } else {
+            setPassSuccess(true);
+            localStorage.setItem('password', JSON.stringify(values.password));
+        }
+    };
+
     const handleSubmit = e => {
         e.preventDefault();
-        fetchMoviesJSON();
+
+        if (userSuccess && passSuccess) {
+            fetchMoviesJSON();
+        }
     };
 
     return (
@@ -59,6 +101,10 @@ export default function SignUp() {
                     fullWidth={true}
                     size="small"
                     required
+                    error={userErrors ? true : false}
+                    helperText={userErrors ? helperTextUser : ''}
+                    onBlur={() => validateUser()}
+                    onFocus={() => setUserErrors(false)}
                     value={values.username}
                     onChange={handleChange('username')}
                     sx={{
@@ -79,6 +125,9 @@ export default function SignUp() {
                         required
                         type={values.showPassword ? 'text' : 'password'}
                         value={values.password}
+                        error={passErrors ? true : false}
+                        onBlur={() => validatePassword()}
+                        onFocus={() => setPassErrors(false)}
                         onChange={handleChange('password')}
                         endAdornment={
                             <InputAdornment position="end">
@@ -98,6 +147,11 @@ export default function SignUp() {
                         }
                         label="Password"
                     />
+                    {passErrors && (
+                        <FormHelperText error id="password-error">
+                            {helperTextPass}
+                        </FormHelperText>
+                    )}
                 </FormControl>
                 <Button variant="contained" type="submit">
                     Sign up
