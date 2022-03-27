@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Context } from '../Context/Context';
 
 import initialCategories from '../Data/Categories';
+import icons from '../Data/Icons';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -15,29 +16,40 @@ import Icon from '@mui/material/Icon';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import IconInput from './IconInput';
-
-const icons = [
-    'downhill_skiing',
-    'child_care',
-    'directions_car',
-    'vibration',
-    'pool',
-    'fitness_center',
-    'home',
-];
 
 const iconsFromCategoriesArr = initialCategories.map(category => category.icon),
     allIcons = [...icons, ...iconsFromCategoriesArr],
     uniqueIcons = [...new Set(allIcons)];
-// //icons dropdown:
-// ITEM_HEIGHT = 40,
-// ITEM_PADDING_TOP = 8,
-// MenuProps = {
-//     PaperProps: {
-//         style: { maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP },
-//     },
-// };
+//icons dropdown:
+const ITEM_HEIGHT = 40,
+    ITEM_PADDING_TOP = 8,
+    MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                display: 'flex',
+                textAlign: 'center',
+                maxWidth: 1,
+            },
+        },
+    };
+
+//enabled category styles
+const styles = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    border: 1,
+    borderRadius: '3px',
+    mt: 4,
+    borderColor: '#c4c4c4',
+    height: '42.3px',
+    pl: '14px',
+    mb: 7,
+    '&:hover': {
+        borderColor: 'black',
+    },
+};
 
 export default function CategoryModal({ closeModal, addOrEditCategory }) {
     const { addCategory, updateCategory } = useContext(Context);
@@ -127,18 +139,7 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
                             });
                         }}
                     />
-                    <IconInput
-                        setCategoryData={setCategoryData}
-                        categoryData={categoryData}
-                        label="icon"
-                    >
-                        {uniqueIcons.map((icon, idx) => (
-                            <MenuItem value={icon} key={idx}>
-                                <Icon>{icon}</Icon>
-                            </MenuItem>
-                        ))}
-                    </IconInput>
-                    {/* <FormControl fullWidth sx={{ mb: 4, mt: 4 }} size="small">
+                    <FormControl fullWidth sx={{ mb: 4, mt: 4 }} size="small">
                         <InputLabel id="icon-select-label">Icon</InputLabel>
                         <Select
                             labelId="icon-select-label"
@@ -154,12 +155,19 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
                             }}
                         >
                             {uniqueIcons.map((icon, idx) => (
-                                <MenuItem value={icon} key={idx}>
+                                <MenuItem
+                                    value={icon}
+                                    key={idx}
+                                    sx={{
+                                        display: 'inline-flex',
+                                        color: 'primary.main',
+                                    }}
+                                >
                                     <Icon>{icon}</Icon>
                                 </MenuItem>
                             ))}
                         </Select>
-                    </FormControl> */}
+                    </FormControl>
                     <TextField
                         id="category-budget"
                         label="Budget"
@@ -175,23 +183,7 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
                             });
                         }}
                     />
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            border: 1,
-                            borderRadius: '3px',
-                            mt: 4,
-                            borderColor: '#c4c4c4',
-                            height: '42.3px',
-                            pl: '14px',
-                            mb: 7,
-                            '&:hover': {
-                                borderColor: 'black',
-                            },
-                        }}
-                    >
+                    <Box sx={styles}>
                         <Typography
                             variant="body1"
                             component="p"
