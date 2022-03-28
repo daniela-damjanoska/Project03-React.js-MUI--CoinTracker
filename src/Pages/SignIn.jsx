@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+import FormHelperText from '@mui/material/FormHelperText';
 
 export default function SignIn() {
     const [values, setValues] = useState({
@@ -20,8 +21,15 @@ export default function SignIn() {
         password: '',
         showPassword: false,
     });
+    const [userErrors, setUserErrors] = useState(false);
+    const [passErrors, setPassErrors] = useState(false);
+    const [userSuccess, setUserSuccess] = useState(false);
+    const [passSuccess, setPassSuccess] = useState(false);
+    const [helperTextUser, setHelperTextUser] = useState('');
+    const [helperTextPass, setHelperTextPass] = useState('');
 
     const navigate = useNavigate();
+    const userFromLS = JSON.parse(localStorage.getItem('username'));
 
     const handleChange = prop => e => {
         setValues({ ...values, [prop]: e.target.value });
@@ -44,9 +52,36 @@ export default function SignIn() {
         navigate('/Overview');
     }
 
+    const validateUser = () => {
+        if (userFromLS && userFromLS === values.username) {
+            setUserSuccess(true);
+        } else {
+            setUserErrors(true);
+            setHelperTextUser(
+                'The e-mail address does not exist, please try again'
+            );
+        }
+    };
+
+    const validatePassword = () => {
+        const passFromLS = JSON.parse(localStorage.getItem('password'));
+
+        if (userFromLS && passFromLS && passFromLS === values.password) {
+            setPassSuccess(true);
+        } else {
+            setPassErrors(true);
+            setHelperTextPass(
+                'Your password is incorrect, please try again later'
+            );
+        }
+    };
+
     const handleSubmit = e => {
         e.preventDefault();
-        fetchMoviesJSON();
+
+        if (userSuccess && passSuccess) {
+            fetchMoviesJSON();
+        }
     };
 
     return (
@@ -59,6 +94,10 @@ export default function SignIn() {
                     fullWidth
                     size="small"
                     required
+                    error={userErrors ? true : false}
+                    helperText={userErrors ? helperTextUser : ''}
+                    onBlur={() => validateUser()}
+                    onFocus={() => setUserErrors(false)}
                     value={values.username}
                     onChange={handleChange('username')}
                     sx={{ mb: 3 }}
@@ -75,6 +114,9 @@ export default function SignIn() {
                         required
                         type={values.showPassword ? 'text' : 'password'}
                         value={values.password}
+                        error={passErrors ? true : false}
+                        onBlur={() => validatePassword()}
+                        onFocus={() => setPassErrors(false)}
                         onChange={handleChange('password')}
                         endAdornment={
                             <InputAdornment position="end">
@@ -94,6 +136,11 @@ export default function SignIn() {
                         }
                         label="Password"
                     />
+                    {passErrors && (
+                        <FormHelperText error id="password-error">
+                            {helperTextPass}
+                        </FormHelperText>
+                    )}
                 </FormControl>
                 <Button variant="contained" type="submit">
                     Sign in
