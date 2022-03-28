@@ -16,6 +16,7 @@ import { Box } from '@mui/material';
 import { ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
+import ScrollToTop from './Components/ScrollToTop';
 
 const style = {
     backgroundImage: "url('./Images/bg-img.png')",
@@ -50,35 +51,40 @@ function App() {
             <ThemeProvider theme={theme}>
                 <Box sx={style}>
                     <Router>
-                        <Routes>
-                            <Route path="/" element={<SignIn />}></Route>
-                            <Route path="/signUp" element={<SignUp />}></Route>
-                            <Route
-                                path="/wizard-amount"
-                                element={<WizardAmount />}
-                            ></Route>
-                            <Route
-                                path="/wizard-categories"
-                                element={<WizardCategories />}
-                            ></Route>
-                            <Route
-                                path="/wizard-categories-amount"
-                                element={<WizardCategoriesAmount />}
-                            ></Route>
-                            <Route
-                                path="/overview"
-                                element={<Overview />}
-                            ></Route>
-                            <Route
-                                path="/categories"
-                                element={<Categories />}
-                            ></Route>
-                            <Route
-                                path="/statistics"
-                                element={<Statistics />}
-                            ></Route>
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
+                        <ScrollToTop>
+                            <Routes>
+                                <Route path="/" element={<SignIn />}></Route>
+                                <Route
+                                    path="/signUp"
+                                    element={<SignUp />}
+                                ></Route>
+                                <Route
+                                    path="/wizard-amount"
+                                    element={<WizardAmount />}
+                                ></Route>
+                                <Route
+                                    path="/wizard-categories"
+                                    element={<WizardCategories />}
+                                ></Route>
+                                <Route
+                                    path="/wizard-categories-amount"
+                                    element={<WizardCategoriesAmount />}
+                                ></Route>
+                                <Route
+                                    path="/overview"
+                                    element={<Overview />}
+                                ></Route>
+                                <Route
+                                    path="/categories"
+                                    element={<Categories />}
+                                ></Route>
+                                <Route
+                                    path="/statistics"
+                                    element={<Statistics />}
+                                ></Route>
+                                <Route path="*" element={<NotFound />} />
+                            </Routes>
+                        </ScrollToTop>
                     </Router>
                 </Box>
             </ThemeProvider>
