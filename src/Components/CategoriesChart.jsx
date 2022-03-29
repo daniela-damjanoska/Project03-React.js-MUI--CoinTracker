@@ -19,8 +19,8 @@ export default function CategoriesChart({
     borderColor,
     hoverBackgroundColor,
 }) {
-    const labels = [];
-    const chartData = [];
+    const labels = [],
+        chartData = [];
 
     if (array) {
         array.forEach(category => {

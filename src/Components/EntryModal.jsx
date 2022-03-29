@@ -15,21 +15,30 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 
+const styles = {
+    modalOverlay: {
+        '& .MuiBackdrop-root': {
+            backgroundColor: '#ffffffbf',
+        },
+    },
+    autocomplete: {
+        maxHeight: '200px',
+        marginBottom: '32px',
+        marginTop: '32px',
+    },
+    boxButtons: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        mt: 7,
+    },
+};
+
 export default function EntryModal({
     buttonDesc,
     closeModal,
     addOrEditEntry,
     typeDefault,
 }) {
-    const {
-        addEntry,
-        updateEntry,
-        saveCategoryId,
-        saveCategoryIcon,
-        filteredIncomeCategories,
-        filteredExpenseCategories,
-    } = useContext(Context);
-
     const [entryData, setEntryData] = useState(
         addOrEditEntry || {
             type: typeDefault,
@@ -40,6 +49,15 @@ export default function EntryModal({
         }
     );
     const [openAutocomplete, setOpenAutocomplete] = useState(false);
+
+    const {
+        addEntry,
+        updateEntry,
+        saveCategoryId,
+        saveCategoryIcon,
+        filteredIncomeCategories,
+        filteredExpenseCategories,
+    } = useContext(Context);
 
     const matches = useMediaQuery('(min-width:601px)');
 
@@ -62,11 +80,7 @@ export default function EntryModal({
             onClose={closeModal}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
-            sx={{
-                '& .MuiBackdrop-root': {
-                    backgroundColor: '#ffffffbf',
-                },
-            }}
+            sx={styles.modalOverlay}
         >
             <Box
                 sx={{
@@ -122,11 +136,7 @@ export default function EntryModal({
                         required
                         size="small"
                         autoHighlight
-                        style={{
-                            maxHeight: '200px',
-                            marginBottom: '32px',
-                            marginTop: '32px',
-                        }}
+                        style={styles.autocomplete}
                         onOpen={() => setOpenAutocomplete(true)}
                         onClose={() => setOpenAutocomplete(false)}
                         getOptionLabel={option => option.name}
@@ -180,13 +190,7 @@ export default function EntryModal({
                             }}
                         />
                     </Stack>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            mt: 7,
-                        }}
-                    >
+                    <Box sx={styles.boxButtons}>
                         <Button variant="text" onClick={() => closeModal()}>
                             CANCEL
                         </Button>

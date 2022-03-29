@@ -15,22 +15,59 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+const styles = {
+    main: {
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'primary.main',
+        '& .Mui-selected': {
+            '& .MuiBottomNavigationAction-label': {
+                color: 'info.main',
+            },
+            '& .MuiSvgIcon-root': {
+                color: 'info.main',
+            },
+        },
+    },
+    iconColor: {
+        color: 'secondary.extraLight',
+    },
+    addIcon: {
+        color: 'secondary.dark',
+        marginRight: 4,
+        marginTop: '-28px',
+    },
+    modalOverlay: {
+        '& .MuiBackdrop-root': {
+            backgroundColor: '#ffffffbf',
+        },
+    },
+    expenseBtn: {
+        display: 'block',
+        ml: 'auto',
+        mb: 4,
+    },
+    incomeBtn: {
+        display: 'block',
+        ml: 'auto',
+    },
+};
+
 export default function Navigation({ active }) {
-    const [value, setValue] = useState(active);
-    const [openModal, setOpenModal] = useState(false);
-    const [openModalEntry, setOpenModalEntry] = useState(false);
-    const [addIncome, setAddIncome] = useState(false);
-    //for default type value
-    const [isExpense, setIsExpense] = useState(true);
+    const [value, setValue] = useState(active),
+        [openModal, setOpenModal] = useState(false),
+        [openModalEntry, setOpenModalEntry] = useState(false),
+        [addIncome, setAddIncome] = useState(false),
+        //for default type value
+        [isExpense, setIsExpense] = useState(true);
 
-    const matches = useMediaQuery('(min-width:601px)');
-
-    const navigate = useNavigate();
+    const matches = useMediaQuery('(min-width:601px)'),
+        navigate = useNavigate();
 
     const handleOpenModal = () => setOpenModal(true);
-
     const handleCloseModal = () => setOpenModal(false);
-
     const handleCloseModalEntry = () => {
         setOpenModalEntry(false);
         setAddIncome(false);
@@ -54,55 +91,30 @@ export default function Navigation({ active }) {
             showLabels
             value={value}
             onChange={newValue => setValue(newValue)}
-            sx={{
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                backgroundColor: 'primary.main',
-                '& .Mui-selected': {
-                    '& .MuiBottomNavigationAction-label': {
-                        color: 'info.main',
-                    },
-                    '& .MuiSvgIcon-root': {
-                        color: 'info.main',
-                    },
-                },
-            }}
+            sx={styles.main}
         >
             <BottomNavigationAction
                 label="Overview"
                 icon={<HomeIcon />}
-                sx={{
-                    color: 'secondary.extraLight',
-                }}
+                sx={styles.iconColor}
                 onClick={() => navigate('/overview')}
             />
             <BottomNavigationAction
                 label="Categories"
                 icon={<CategoryIcon />}
-                sx={{
-                    color: 'secondary.extraLight',
-                }}
+                sx={styles.iconColor}
                 onClick={() => navigate('/categories')}
             />
             <BottomNavigationAction
                 label="Statistics"
                 icon={<EqualizerIcon />}
-                sx={{
-                    color: 'secondary.extraLight',
-                    marginRight: 2,
-                }}
+                sx={styles.iconColor}
                 onClick={() => navigate('/statistics')}
             />
             <Fab
                 color="info"
                 aria-label="add"
-                sx={{
-                    color: 'secondary.dark',
-                    marginRight: 4,
-                    marginTop: '-28px',
-                }}
+                sx={styles.addIcon}
                 onClick={handleOpenModal}
             >
                 <AddIcon color="secondary.dark" />
@@ -112,11 +124,7 @@ export default function Navigation({ active }) {
                 onClose={handleCloseModal}
                 aria-labelledby="parent-modal-title"
                 aria-describedby="parent-modal-description"
-                sx={{
-                    '& .MuiBackdrop-root': {
-                        backgroundColor: '#ffffffbf',
-                    },
-                }}
+                sx={styles.modalOverlay}
             >
                 <Box
                     sx={{
@@ -128,21 +136,14 @@ export default function Navigation({ active }) {
                     <Button
                         onClick={handleOpenModalEntry}
                         variant="contained"
-                        sx={{
-                            display: 'block',
-                            ml: 'auto',
-                            mb: 4,
-                        }}
+                        sx={styles.expenseBtn}
                     >
                         ADD EXPENSE
                     </Button>
                     <Button
                         onClick={handleIsExpense}
                         variant="contained"
-                        sx={{
-                            display: 'block',
-                            ml: 'auto',
-                        }}
+                        sx={styles.incomeBtn}
                     >
                         ADD INCOME
                     </Button>

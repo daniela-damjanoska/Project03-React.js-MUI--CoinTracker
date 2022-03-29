@@ -4,6 +4,7 @@ import { Context } from '../Context/Context';
 import IncomeAndExpenseWrapper from './IncomeAndExpenseWrapper';
 import EntryModal from '../Components/EntryModal';
 import RightClickMenu from './RightClickMenu';
+import ConfirmDeletionModal from './ConfirmDeletionModal';
 
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
@@ -13,17 +14,16 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 import MenuItem from '@mui/material/MenuItem';
-import ConfirmDeletionModal from './ConfirmDeletionModal';
 
 export default function IncomeAndExpenseEntries() {
-    const { entries, saveCategoryIcon } = useContext(Context);
+    const [item, setItem] = useState(),
+        [contextMenu, setContextMenu] = useState(null),
+        [editEntry, setEditEntry] = useState(false),
+        [duplicatingEntry, setDuplicateEntry] = useState(false),
+        [createNewEntry, setCreateNewEntry] = useState(false),
+        [confirmDeletion, setConfirmDeletion] = useState(false);
 
-    const [item, setItem] = useState();
-    const [contextMenu, setContextMenu] = useState(null);
-    const [editEntry, setEditEntry] = useState(false);
-    const [duplicatingEntry, setDuplicateEntry] = useState(false);
-    const [createNewEntry, setCreateNewEntry] = useState(false);
-    const [confirmDeletion, setConfirmDeletion] = useState(false);
+    const { entries, saveCategoryIcon } = useContext(Context);
 
     const handleContextMenu = e => {
         e.preventDefault();

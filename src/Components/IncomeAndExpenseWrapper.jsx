@@ -5,6 +5,15 @@ import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+const style = {
+    backgroundColor: '#f4f4f4',
+    paddingY: 2,
+    paddingX: 2,
+    borderTopRightRadius: '3px',
+    borderTopLeftRadius: '3px',
+    color: 'secondary.light',
+};
+
 export default function IncomeAndExpenseWrapper({
     children,
     customTopMarginMob,
@@ -28,18 +37,7 @@ export default function IncomeAndExpenseWrapper({
                 ml: matches ? customLeftMarginPC : customLeftMarginMob,
             }}
         >
-            <Typography
-                variant="h5"
-                component="h2"
-                sx={{
-                    backgroundColor: '#f4f4f4',
-                    paddingY: 2,
-                    paddingX: 2,
-                    borderTopRightRadius: '3px',
-                    borderTopLeftRadius: '3px',
-                    color: 'secondary.light',
-                }}
-            >
+            <Typography variant="h5" component="h2" sx={style}>
                 {title}
             </Typography>
             {array?.length ? (

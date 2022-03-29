@@ -16,16 +16,15 @@ import Button from '@mui/material/Button';
 import Icon from '@mui/material/Icon';
 
 export default function WizardCategories() {
-    const { categories, updateCategoriesArray } = useContext(Context);
-
     const [checked, setChecked] = useState([]);
 
-    const navigate = useNavigate();
+    const { categories, updateCategoriesArray } = useContext(Context),
+        navigate = useNavigate();
 
     //manipulate the checkboxes
     const handleToggle = value => () => {
-        const currentIndex = checked.indexOf(value);
-        const checkedItems = [...checked];
+        const currentIndex = checked.indexOf(value),
+            checkedItems = [...checked];
 
         if (currentIndex === -1) {
             checkedItems.push(value);
@@ -55,42 +54,36 @@ export default function WizardCategories() {
                 Choose what you spend money on
             </Typography>
             <List dense>
-                {categories.map(({ id, icon, name }) => {
-                    const labelId = `checkbox-list-secondary-label-${id}`;
-                    return (
-                        <>
-                            <ListItem
-                                key={id}
-                                secondaryAction={
-                                    <Checkbox
-                                        edge="end"
-                                        onChange={handleToggle(id)}
-                                        checked={checked.indexOf(id) !== -1}
-                                        inputProps={{
-                                            'aria-labelledby': labelId,
-                                        }}
-                                        color="secondary"
-                                    />
-                                }
-                                disablePadding
-                            >
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <Icon sx={{ color: 'secondary.dark' }}>
-                                            {icon}
-                                        </Icon>
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        id={id}
-                                        primary={name}
-                                        sx={{ color: 'secondary.dark' }}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                            <Divider variant="inset" component="li" />
-                        </>
-                    );
-                })}
+                {categories.map(({ id, icon, name }) => (
+                    <>
+                        <ListItem
+                            key={id}
+                            secondaryAction={
+                                <Checkbox
+                                    edge="end"
+                                    onChange={handleToggle(id)}
+                                    checked={checked.indexOf(id) !== -1}
+                                    color="secondary"
+                                />
+                            }
+                            disablePadding
+                        >
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <Icon sx={{ color: 'secondary.dark' }}>
+                                        {icon}
+                                    </Icon>
+                                </ListItemIcon>
+                                <ListItemText
+                                    id={id}
+                                    primary={name}
+                                    sx={{ color: 'secondary.dark' }}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                    </>
+                ))}
             </List>
             <Button
                 variant="contained"

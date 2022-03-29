@@ -21,15 +21,15 @@ export default function SignIn() {
         password: '',
         showPassword: false,
     });
-    const [userErrors, setUserErrors] = useState(false);
-    const [passErrors, setPassErrors] = useState(false);
-    const [userSuccess, setUserSuccess] = useState(false);
-    const [passSuccess, setPassSuccess] = useState(false);
-    const [helperTextUser, setHelperTextUser] = useState('');
-    const [helperTextPass, setHelperTextPass] = useState('');
+    const [userErrors, setUserErrors] = useState(false),
+        [passErrors, setPassErrors] = useState(false),
+        [userSuccess, setUserSuccess] = useState(false),
+        [passSuccess, setPassSuccess] = useState(false),
+        [helperTextUser, setHelperTextUser] = useState(''),
+        [helperTextPass, setHelperTextPass] = useState('');
 
-    const navigate = useNavigate();
-    const userFromLS = JSON.parse(localStorage.getItem('username'));
+    const navigate = useNavigate(),
+        userFromLS = JSON.parse(localStorage.getItem('username'));
 
     const handleChange = prop => e => {
         setValues({ ...values, [prop]: e.target.value });

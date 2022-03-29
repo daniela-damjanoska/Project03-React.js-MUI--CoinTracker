@@ -34,26 +34,38 @@ const ITEM_HEIGHT = 40,
         },
     };
 
-//enabled category styles
 const styles = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    border: 1,
-    borderRadius: '3px',
-    mt: 4,
-    borderColor: '#c4c4c4',
-    height: '42.3px',
-    pl: '14px',
-    mb: 7,
-    '&:hover': {
-        borderColor: 'black',
+    modalOverlay: {
+        '& .MuiBackdrop-root': {
+            backgroundColor: '#ffffffbf',
+        },
+    },
+    boxEnabled: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        border: 1,
+        borderRadius: '3px',
+        mt: 4,
+        borderColor: '#c4c4c4',
+        height: '42.3px',
+        pl: '14px',
+        mb: 7,
+        '&:hover': {
+            borderColor: 'black',
+        },
+    },
+    iconsMenuItem: {
+        display: 'inline-flex',
+        color: 'primary.main',
+    },
+    boxButtons: {
+        display: 'flex',
+        justifyContent: 'space-between',
     },
 };
 
 export default function CategoryModal({ closeModal, addOrEditCategory }) {
-    const { addCategory, updateCategory } = useContext(Context);
-
     const [categoryData, setCategoryData] = useState(
         addOrEditCategory || {
             name: '',
@@ -64,7 +76,8 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
         }
     );
 
-    const isEditing = Boolean(addOrEditCategory),
+    const { addCategory, updateCategory } = useContext(Context),
+        isEditing = Boolean(addOrEditCategory),
         matches = useMediaQuery('(min-width:601px)');
 
     const handleSubmit = e => {
@@ -81,11 +94,7 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
             onClose={closeModal}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
-            sx={{
-                '& .MuiBackdrop-root': {
-                    backgroundColor: '#ffffffbf',
-                },
-            }}
+            sx={styles.modalOverlay}
         >
             <Box
                 sx={{
@@ -158,10 +167,7 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
                                 <MenuItem
                                     value={icon}
                                     key={idx}
-                                    sx={{
-                                        display: 'inline-flex',
-                                        color: 'primary.main',
-                                    }}
+                                    sx={styles.iconsMenuItem}
                                 >
                                     <Icon>{icon}</Icon>
                                 </MenuItem>
@@ -183,7 +189,7 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
                             });
                         }}
                     />
-                    <Box sx={styles}>
+                    <Box sx={styles.boxEnabled}>
                         <Typography
                             variant="body1"
                             component="p"
@@ -205,12 +211,7 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
                             }}
                         />
                     </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                        }}
-                    >
+                    <Box sx={styles.boxButtons}>
                         <Button variant="text" onClick={() => closeModal()}>
                             CANCEL
                         </Button>

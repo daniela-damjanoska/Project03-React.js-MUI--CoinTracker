@@ -19,13 +19,26 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import AddIcon from '@mui/icons-material/Add';
 import Icon from '@mui/material/Icon';
 
+const styles = {
+    title: {
+        backgroundColor: '#f4f4f4',
+        paddingY: 2,
+        paddingX: 2,
+        borderTopRightRadius: '3px',
+        borderTopLeftRadius: '3px',
+        color: 'secondary.light',
+    },
+    dividerMargin: {
+        mr: 2,
+    },
+};
+
 export default function Categories() {
-    const [addEditCategory, setAddEditCategory] = useState(false);
-    const [item, setItem] = useState();
+    const [addEditCategory, setAddEditCategory] = useState(false),
+        [item, setItem] = useState();
 
-    const { categories } = useContext(Context);
-
-    const matches = useMediaQuery('(min-width:601px)');
+    const { categories } = useContext(Context),
+        matches = useMediaQuery('(min-width:601px)');
 
     const closeModalCategory = () => setAddEditCategory(false);
 
@@ -48,21 +61,10 @@ export default function Categories() {
                     mb: matches ? 13 : 11,
                 }}
             >
-                <Typography
-                    variant="h5"
-                    component="h2"
-                    sx={{
-                        backgroundColor: '#f4f4f4',
-                        paddingY: 2,
-                        paddingX: 2,
-                        borderTopRightRadius: '3px',
-                        borderTopLeftRadius: '3px',
-                        color: 'secondary.light',
-                    }}
-                >
+                <Typography variant="h5" component="h2" sx={styles.title}>
                     Categories
                 </Typography>
-                <List dense sx={{ pt: 2 }}>
+                <List dense sx={{ pt: 3 }}>
                     <ListItem
                         disablePadding
                         onClick={() => {
@@ -86,9 +88,7 @@ export default function Categories() {
                     <Divider
                         variant="inset"
                         component="li"
-                        sx={{
-                            mr: 2,
-                        }}
+                        sx={styles.dividerMargin}
                     />
                     {categories.map(category => (
                         <>
@@ -167,9 +167,7 @@ export default function Categories() {
                             <Divider
                                 variant="inset"
                                 component="li"
-                                sx={{
-                                    mr: 2,
-                                }}
+                                sx={styles.dividerMargin}
                             />
                         </>
                     ))}

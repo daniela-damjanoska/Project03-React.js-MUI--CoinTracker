@@ -11,6 +11,14 @@ import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 import Box from '@mui/material/Box';
 
+const style = {
+    width: '75%',
+    backgroundColor: 'rgba(15, 221, 221, 0.2)',
+    height: '4px',
+    mr: 2,
+    ml: 'auto',
+};
+
 export default function ExpensesCategories() {
     const { filteredExpenseCategories } = useContext(Context);
 
@@ -22,7 +30,7 @@ export default function ExpensesCategories() {
             customLeftMarginPC={4}
             customLeftMarginMob={0}
             array={filteredExpenseCategories}
-            type='expense categories'
+            type="expense categories"
         >
             {filteredExpenseCategories.map(
                 ({ id, icon, name, budget, entriesAmount }) => (
@@ -87,15 +95,7 @@ export default function ExpensesCategories() {
                             </ListItemButton>
                         </ListItem>
                         {entriesAmount > 0 ? (
-                            <Box
-                                sx={{
-                                    width: '75%',
-                                    backgroundColor: 'rgba(15, 221, 221, 0.2)',
-                                    height: '4px',
-                                    mr: 2,
-                                    ml: 'auto',
-                                }}
-                            >
+                            <Box sx={style}>
                                 <Box
                                     sx={{
                                         width:
