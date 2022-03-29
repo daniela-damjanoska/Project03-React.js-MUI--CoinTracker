@@ -16,11 +16,10 @@ import Button from '@mui/material/Button';
 import Icon from '@mui/material/Icon';
 
 export default function WizardCategoriesAmount() {
-    const { categories, updateCategoriesArray } = useContext(Context);
-
     const [inputValues, setInputValues] = useState({});
 
-    const navigate = useNavigate();
+    const { categories, updateCategoriesArray } = useContext(Context),
+        navigate = useNavigate();
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -39,7 +38,9 @@ export default function WizardCategoriesAmount() {
 
     const handleSubmit = () => {
         updateCategoriesArray(categories);
+
         localStorage.setItem('categories', JSON.stringify(categories));
+
         navigate('/overview');
     };
 
@@ -54,39 +55,35 @@ export default function WizardCategoriesAmount() {
                 Set how much money you want to spend on each Category monthly
             </Typography>
             <List dense>
-                {categories.map(({ id, icon, name }) => {
-                    return (
-                        <>
-                            <ListItem key={id} disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <Icon sx={{ color: 'secondary.dark' }}>
-                                            {icon}
-                                        </Icon>
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        id={id}
-                                        primary={name}
-                                        sx={{ color: 'secondary.dark' }}
-                                    />
-                                    <TextField
-                                        id="amount-per-category"
-                                        size="small"
-                                        type="number"
-                                        //it has to be a string because of the warning in the console
-                                        name={String(id)}
-                                        sx={{
-                                            width: '120px',
-                                            borderColor: 'red',
-                                        }}
-                                        onChange={handleChange}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                            <Divider variant="inset" component="li" />
-                        </>
-                    );
-                })}
+                {categories.map(({ id, icon, name }) => (
+                    <>
+                        <ListItem key={id} disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <Icon sx={{ color: 'secondary.dark' }}>
+                                        {icon}
+                                    </Icon>
+                                </ListItemIcon>
+                                <ListItemText
+                                    id={id}
+                                    primary={name}
+                                    sx={{ color: 'secondary.dark' }}
+                                />
+                                <TextField
+                                    id="amount-per-category"
+                                    size="small"
+                                    type="number"
+                                    name={String(id)}
+                                    sx={{
+                                        width: '120px',
+                                    }}
+                                    onChange={handleChange}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                    </>
+                ))}
             </List>
             <Button
                 variant="contained"

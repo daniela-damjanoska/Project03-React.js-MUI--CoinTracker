@@ -11,6 +11,21 @@ import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 import Box from '@mui/material/Box';
 
+const styles = {
+    typographyProp: {
+        color: 'secondary.dark',
+        textAlign: 'right',
+        fontSize: '22px',
+    },
+    progressBar: {
+        width: '75%',
+        backgroundColor: 'rgba(98, 0, 238, 0.2)',
+        height: '4px',
+        mr: 2,
+        ml: 'auto',
+    },
+};
+
 export default function IncomeCategories() {
     const { filteredIncomeCategories } = useContext(Context);
 
@@ -44,11 +59,9 @@ export default function IncomeCategories() {
                                             ? `${entriesAmount}/`
                                             : ''
                                     }
-                                    primaryTypographyProps={{
-                                        color: 'secondary.dark',
-                                        textAlign: 'right',
-                                        fontSize: '22px',
-                                    }}
+                                    primaryTypographyProps={
+                                        styles.typographyProp
+                                    }
                                 />
                                 <ListItemText
                                     primary={
@@ -71,15 +84,7 @@ export default function IncomeCategories() {
                             </ListItemButton>
                         </ListItem>
                         {entriesAmount > 0 ? (
-                            <Box
-                                sx={{
-                                    width: '75%',
-                                    backgroundColor: 'rgba(98, 0, 238, 0.2)',
-                                    height: '4px',
-                                    mr: 2,
-                                    ml: 'auto',
-                                }}
-                            >
+                            <Box sx={styles.progressBar}>
                                 <Box
                                     sx={{
                                         width:

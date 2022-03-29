@@ -12,6 +12,7 @@ const stylesLink = {
 
 export default function NotFound() {
     const matches = useMediaQuery('(min-width:601px)');
+    
     return (
         <Box
             sx={{

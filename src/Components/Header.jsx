@@ -21,7 +21,6 @@ export default function Header({ title }) {
                             display: 'flex',
                             alignItems: 'center',
                             width: '100%',
-
                             paddingX: matches ? 7 : 1,
                         }}
                     >

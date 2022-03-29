@@ -5,10 +5,10 @@ import initialCategories from '../Data/Categories';
 export const Context = createContext({});
 
 export const Provider = ({ children }) => {
-    const [categories, setCategories] = useState(initialCategories);
-    const [entries, setEntries] = useState([]);
-    const [categoryId, setCategoryId] = useState('');
-    const [categoryIcon, setCategoryIcon] = useState('');
+    const [categories, setCategories] = useState(initialCategories),
+        [entries, setEntries] = useState([]),
+        [categoryId, setCategoryId] = useState(''),
+        [categoryIcon, setCategoryIcon] = useState('');
 
     useEffect(() => {
         const categoriesFromLS = localStorage.getItem('categories'),
@@ -45,10 +45,10 @@ export const Provider = ({ children }) => {
         category => category.type === 'expense'
     );
 
-    const updateCategoriesArray = array => setCategories(array);
-    const updateEntriesArray = array => setEntries(array);
-    const saveCategoryId = id => setCategoryId(id);
-    const saveCategoryIcon = icon => setCategoryIcon(icon);
+    const updateCategoriesArray = array => setCategories(array),
+        updateEntriesArray = array => setEntries(array),
+        saveCategoryId = id => setCategoryId(id),
+        saveCategoryIcon = icon => setCategoryIcon(icon);
 
     const addCategory = category => {
         setCategories([
