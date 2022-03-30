@@ -52,34 +52,44 @@ export default function SignUp() {
     }
 
     const validateUser = () => {
-        if (
-            !values.username.match(
-                /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-            )
-        ) {
-            setUserErrors(true);
-            setHelperTextUser('Please enter a valid e-mail address');
-        } else {
-            setUserSuccess(true);
-            localStorage.setItem('username', JSON.stringify(values.username));
+        if (values.username) {
+            if (
+                !values.username.match(
+                    /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+                )
+            ) {
+                setUserErrors(true);
+                setHelperTextUser('Please enter a valid e-mail address');
+            } else {
+                setUserSuccess(true);
+                localStorage.setItem(
+                    'username',
+                    JSON.stringify(values.username)
+                );
+            }
         }
     };
 
     const validatePassword = () => {
-        if (values.password.length < 8) {
-            setPassErrors(true);
-            setHelperTextPass('Password must be at least 8 characters');
-        } else if (!values.password.match(/^(?=.*?[#!@$%^&*]).{8,}$/)) {
-            setPassErrors(true);
-            setHelperTextPass(
-                'Password must contains at least one of this characters: !@#$%^&*'
-            );
-        } else if (values.password.length > 32) {
-            setPassErrors(true);
-            setHelperTextPass('Password must be less than 32 characters');
-        } else {
-            setPassSuccess(true);
-            localStorage.setItem('password', JSON.stringify(values.password));
+        if (values.password) {
+            if (values.password.length < 8) {
+                setPassErrors(true);
+                setHelperTextPass('Password must be at least 8 characters');
+            } else if (!values.password.match(/^(?=.*?[#!@$%^&*]).{8,}$/)) {
+                setPassErrors(true);
+                setHelperTextPass(
+                    'Password must contains at least one of this characters: !@#$%^&*'
+                );
+            } else if (values.password.length > 32) {
+                setPassErrors(true);
+                setHelperTextPass('Password must be less than 32 characters');
+            } else {
+                setPassSuccess(true);
+                localStorage.setItem(
+                    'password',
+                    JSON.stringify(values.password)
+                );
+            }
         }
     };
 
@@ -115,6 +125,7 @@ export default function SignUp() {
                     variant="outlined"
                     fullWidth={true}
                     size="small"
+                    required
                     sx={{
                         marginBottom: 7,
                     }}
@@ -122,7 +133,6 @@ export default function SignUp() {
                     <InputLabel htmlFor="sign-up-password">Password</InputLabel>
                     <OutlinedInput
                         id="sign-up-password"
-                        required
                         type={values.showPassword ? 'text' : 'password'}
                         value={values.password}
                         error={passErrors ? true : false}

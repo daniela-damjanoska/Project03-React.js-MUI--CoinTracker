@@ -12,11 +12,12 @@ import Categories from './Pages/Categories';
 import Statistics from './Pages/Statistics';
 import NotFound from './Pages/NotFound';
 
-import { Box } from '@mui/material';
+import ScrollToTop from './Components/ScrollToTop';
+
+import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
-import ScrollToTop from './Components/ScrollToTop';
 
 const style = {
     backgroundImage: "url('./Images/bg-img.png')",

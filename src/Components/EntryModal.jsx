@@ -85,7 +85,7 @@ export default function EntryModal({
             <Box
                 sx={{
                     position: 'absolute',
-                    top: '12%',
+                    top: matches ? '12%' : '16%',
                     left: '50%',
                     transform: 'translateX(-50%)',
                     width: matches ? '550px' : '90%',
@@ -149,8 +149,16 @@ export default function EntryModal({
                                 category: value.name,
                             });
                         }}
+                        value={filteredIncomeOrExpenseCategories.find(
+                            el => el.name === entryData.category
+                        )}
                         renderInput={params => (
-                            <TextField {...params} label="Category" required />
+                            <TextField
+                                {...params}
+                                label="Category"
+                                required
+                                value={entryData.category}
+                            />
                         )}
                         ListboxProps={{
                             style: {

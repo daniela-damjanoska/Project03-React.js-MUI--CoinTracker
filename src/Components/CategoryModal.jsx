@@ -99,7 +99,7 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
             <Box
                 sx={{
                     position: 'absolute',
-                    top: matches ? '16%' : '12%',
+                    top: matches ? '12%' : '16%',
                     left: '50%',
                     transform: 'translateX(-50%)',
                     width: matches ? '550px' : '90%',
