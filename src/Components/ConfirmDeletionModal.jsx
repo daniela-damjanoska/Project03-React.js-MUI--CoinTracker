@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const styles = {
     modalOverlay: {
@@ -17,18 +18,13 @@ const styles = {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 'auto',
         backgroundColor: 'background.paper',
         borderRadius: '5px',
         border: '2px inset red',
         boxShadow: 24,
-        p: 4,
+        p: 3,
         textAlign: 'center',
-    },
-    boxButtons: {
-        display: 'flex',
-        px: 8,
-        justifyContent: 'space-between',
     },
     deleteButton: {
         backgroundColor: 'error.main',
@@ -39,7 +35,8 @@ const styles = {
 };
 
 export default function ConfirmDeletionModal({ closeModal, item }) {
-    const { deleteEntry } = useContext(Context);
+    const { deleteEntry } = useContext(Context),
+        matches = useMediaQuery('(min-width:601px)');
 
     return (
         <Modal
@@ -59,7 +56,13 @@ export default function ConfirmDeletionModal({ closeModal, item }) {
                 >
                     Are you sure that you want to delete this entry?
                 </Typography>
-                <Box sx={styles.boxButtons}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        px: matches ? 13 : 6,
+                    }}
+                >
                     <Button
                         variant="text"
                         onClick={() => closeModal()}

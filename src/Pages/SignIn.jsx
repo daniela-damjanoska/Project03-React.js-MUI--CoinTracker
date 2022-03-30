@@ -28,8 +28,7 @@ export default function SignIn() {
         [helperTextUser, setHelperTextUser] = useState(''),
         [helperTextPass, setHelperTextPass] = useState('');
 
-    const navigate = useNavigate(),
-        userFromLS = JSON.parse(localStorage.getItem('username'));
+    const navigate = useNavigate();
 
     const handleChange = prop => e => {
         setValues({ ...values, [prop]: e.target.value });
@@ -53,26 +52,32 @@ export default function SignIn() {
     }
 
     const validateUser = () => {
-        if (userFromLS && userFromLS === values.username) {
-            setUserSuccess(true);
-        } else {
-            setUserErrors(true);
-            setHelperTextUser(
-                'The e-mail address does not exist, please try again'
-            );
+        if (values.username) {
+            const userFromLS = JSON.parse(localStorage.getItem('username'));
+
+            if (userFromLS && userFromLS === values.username) {
+                setUserSuccess(true);
+            } else {
+                setUserErrors(true);
+                setHelperTextUser(
+                    'The e-mail address does not exist, please try again'
+                );
+            }
         }
     };
 
     const validatePassword = () => {
-        const passFromLS = JSON.parse(localStorage.getItem('password'));
+        if (values.password) {
+            const passFromLS = JSON.parse(localStorage.getItem('password'));
 
-        if (userFromLS && passFromLS && passFromLS === values.password) {
-            setPassSuccess(true);
-        } else {
-            setPassErrors(true);
-            setHelperTextPass(
-                'Your password is incorrect, please try again later'
-            );
+            if (passFromLS !== values.password) {
+                setPassErrors(true);
+                setHelperTextPass(
+                    'Your password is incorrect, please try again'
+                );
+            } else {
+                setPassSuccess(true);
+            }
         }
     };
 
@@ -106,12 +111,12 @@ export default function SignIn() {
                     variant="outlined"
                     fullWidth
                     size="small"
+                    required
                     sx={{ mb: 7 }}
                 >
                     <InputLabel htmlFor="login-password">Password</InputLabel>
                     <OutlinedInput
                         id="login-password"
-                        required
                         type={values.showPassword ? 'text' : 'password'}
                         value={values.password}
                         error={passErrors ? true : false}
