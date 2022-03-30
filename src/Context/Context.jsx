@@ -2,6 +2,8 @@ import { createContext, useState, useEffect } from 'react';
 
 import initialCategories from '../Data/Categories';
 
+import { format } from 'date-fns';
+
 export const Context = createContext({});
 
 export const Provider = ({ children }) => {
@@ -98,6 +100,47 @@ export const Provider = ({ children }) => {
         setEntries(updated);
     };
 
+    const datesBetween = (start, end) => {
+        const dates = new Array(),
+            day = new Date(start);
+
+        while (day <= end) {
+            dates.push(new Date(day));
+            day.setDate(day.getDate() + 1);
+        }
+        return dates;
+    };
+
+    const today = new Date();
+    const dateInProperFormat = format(today, 'yyyy-MM-dd');
+    const daysInCurrentMonth = +dateInProperFormat.slice(-2) - 1;
+
+    const thirtyDaysAgo = new Date().setDate(
+        new Date().getDate() - daysInCurrentMonth
+    );
+
+    const dates = datesBetween(thirtyDaysAgo, today);
+    const labels = dates.map(el => format(el, 'yyyy-MM-dd'));
+    console.log(labels);
+
+    const datesFromEntries = entries.map(el => el.date);
+    console.log(datesFromEntries);
+
+    const concat 
+
+    // const findDuplicates = array => {
+    //     const uniqueElements = new Set(array);
+    //     const filteredElements = array.filter(item => {
+    //         if (uniqueElements.has(item)) {
+    //             uniqueElements.delete(item);
+    //         } else {
+    //             return item;
+    //         }
+    //     });
+    
+    //     return [...new Set(filteredElements)];
+    // };
+
     //make a sum of the entries amount for each category
     if (entries) {
         filteredEnabledCategories.forEach(category => {
@@ -127,6 +170,7 @@ export const Provider = ({ children }) => {
         filteredExpenseCategories,
         categories,
         entries,
+        labels,
     };
 
     return (
