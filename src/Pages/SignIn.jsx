@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import LogoAndTitle from '../Components/LogoAndTitle';
+import LogoAndTitleWrapper from '../Components/LogoAndTitleWrapper';
 
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -90,7 +90,7 @@ export default function SignIn() {
     };
 
     return (
-        <LogoAndTitle title="SIGN IN">
+        <LogoAndTitleWrapper title="SIGN IN">
             <form onSubmit={handleSubmit}>
                 <TextField
                     id="login-username"
@@ -160,6 +160,6 @@ export default function SignIn() {
                 Don't have an account yet?{' '}
             </Typography>
             <Link to="/SignUp">Sign up now, it is free!</Link>
-        </LogoAndTitle>
+        </LogoAndTitleWrapper>
     );
 }

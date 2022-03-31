@@ -10,7 +10,7 @@ export default function IncomeChart() {
     return (
         <IncomeAndExpenseWrapper
             title="Income"
-            customTopMarginMob={0}
+            customTopMarginMob={11}
             customBottomMarginMob={5}
             customLeftMarginPC={0}
             customLeftMarginMob={0}

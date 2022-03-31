@@ -35,18 +35,6 @@ export const Provider = ({ children }) => {
         localStorage.setItem('entries', JSON.stringify(entries));
     }, [entries]);
 
-    const filteredEnabledCategories = categories.filter(
-        category => category.isEnabled === true
-    );
-
-    const filteredIncomeCategories = filteredEnabledCategories.filter(
-        category => category.type === 'income'
-    );
-
-    const filteredExpenseCategories = filteredEnabledCategories.filter(
-        category => category.type === 'expense'
-    );
-
     const updateCategoriesArray = array => setCategories(array),
         updateEntriesArray = array => setEntries(array),
         saveCategoryId = id => setCategoryId(id),
@@ -100,6 +88,7 @@ export const Provider = ({ children }) => {
         setEntries(updated);
     };
 
+    //find the days from the 1st of the month till today
     const datesBetween = (start, end) => {
         const dates = new Array(),
             day = new Date(start);
@@ -111,46 +100,43 @@ export const Provider = ({ children }) => {
         return dates;
     };
 
-    const today = new Date();
-    const dateInProperFormat = format(today, 'yyyy-MM-dd');
-    const daysInCurrentMonth = +dateInProperFormat.slice(-2) - 1;
+    const today = new Date(),
+        dateInProperFormat = format(today, 'yyyy-MM-dd'),
+        daysInCurrentMonth = +dateInProperFormat.slice(-2) - 1,
+        daysAgo = new Date().setDate(new Date().getDate() - daysInCurrentMonth),
+        dates = datesBetween(daysAgo, today),
+        //make the labels for the chart
+        labels = dates.map(el => format(el, 'yyyy-MM-dd'));
 
-    const thirtyDaysAgo = new Date().setDate(
-        new Date().getDate() - daysInCurrentMonth
+    const filteredEnabledCategories = categories.filter(
+        category => category.isEnabled === true
     );
 
-    const dates = datesBetween(thirtyDaysAgo, today);
-    const labels = dates.map(el => format(el, 'yyyy-MM-dd'));
-    console.log(labels);
+    const filteredIncomeCategories = filteredEnabledCategories.filter(
+        category => category.type === 'income'
+    );
 
-    const datesFromEntries = entries.map(el => el.date);
-    console.log(datesFromEntries);
+    const filteredExpenseCategories = filteredEnabledCategories.filter(
+        category => category.type === 'expense'
+    );
 
-    const concat 
+    const entriesInCurrentMonth = entries.filter(entry =>
+        labels.some(label => entry.date === label)
+    );
 
-    // const findDuplicates = array => {
-    //     const uniqueElements = new Set(array);
-    //     const filteredElements = array.filter(item => {
-    //         if (uniqueElements.has(item)) {
-    //             uniqueElements.delete(item);
-    //         } else {
-    //             return item;
-    //         }
-    //     });
-    
-    //     return [...new Set(filteredElements)];
-    // };
-
-    //make a sum of the entries amount for each category
-    if (entries) {
+    //make a sum of the entries amount for each category in the current month
+    if (entriesInCurrentMonth) {
         filteredEnabledCategories.forEach(category => {
-            const totalAmount = entries.reduce((accumulation, entry) => {
-                if (entry.categoryId === category.id) {
-                    return accumulation + parseInt(entry.amount);
-                } else {
-                    return accumulation;
-                }
-            }, 0);
+            const totalAmount = entriesInCurrentMonth.reduce(
+                (accumulation, entry) => {
+                    if (entry.categoryId === category.id) {
+                        return accumulation + parseInt(entry.amount);
+                    } else {
+                        return accumulation;
+                    }
+                },
+                0
+            );
 
             category.entriesAmount = totalAmount;
         });
@@ -171,6 +157,7 @@ export const Provider = ({ children }) => {
         categories,
         entries,
         labels,
+        entriesInCurrentMonth,
     };
 
     return (

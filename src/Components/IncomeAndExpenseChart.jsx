@@ -1,11 +1,6 @@
 import React, { useContext } from 'react';
 import { Context } from '../Context/Context';
 
-// import { format } from 'date-fns';
-import Paper from '@mui/material/Paper';
-
-import Typography from '@mui/material/Typography';
-
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -20,7 +15,6 @@ import {
 import { Line } from 'react-chartjs-2';
 
 import IncomeAndExpenseWrapper from './IncomeAndExpenseWrapper';
-import CategoriesChart from '../Components/CategoriesChart';
 
 ChartJS.register(
     CategoryScale,
@@ -33,42 +27,58 @@ ChartJS.register(
 );
 
 export default function IncomeAndExpenseChart() {
-    const { filteredIncomeCategories, filteredExpenseCategories, labels } =
-        useContext(Context);
+    const { labels, entriesInCurrentMonth } = useContext(Context);
 
-    let chartDataExpense = [];
+    let expenseAmountSums = [],
+        incomeAmountSums = [];
 
-    if (filteredExpenseCategories) {
-        filteredExpenseCategories.forEach(category => {
-            chartDataExpense.push(+category.entriesAmount);
+    //make an arrays of objects for income and expense entries
+    labels.forEach(label => incomeAmountSums.push({ date: label }));
+    labels.forEach(label => expenseAmountSums.push({ date: label }));
+
+    const incomeEntriesInCurrentMonth = entriesInCurrentMonth.filter(
+        entry => entry.type === 'income'
+    );
+
+    const expenseEntriesInCurrentMonth = entriesInCurrentMonth.filter(
+        entry => entry.type === 'expense'
+    );
+
+    //make a sum of the income entries amount for each day in the current month
+    if (incomeEntriesInCurrentMonth) {
+        incomeAmountSums.forEach(el => {
+            const totalAmount = incomeEntriesInCurrentMonth.reduce(
+                (accumulation, entry) => {
+                    if (entry.date === el.date) {
+                        return accumulation + parseInt(entry.amount);
+                    } else {
+                        return accumulation;
+                    }
+                },
+                0
+            );
+
+            el.sumIncome = totalAmount;
         });
     }
 
-    let chartDataIncome = [];
+     //make a sum of the expense entries amount for each day in the current month
+    if (expenseEntriesInCurrentMonth) {
+        expenseAmountSums.forEach(el => {
+            const totalAmount = expenseEntriesInCurrentMonth.reduce(
+                (accumulation, entry) => {
+                    if (entry.date === el.date) {
+                        return accumulation + parseInt(entry.amount);
+                    } else {
+                        return accumulation;
+                    }
+                },
+                0
+            );
 
-    if (filteredIncomeCategories) {
-        filteredIncomeCategories.forEach(category => {
-            chartDataIncome.push(+category.entriesAmount);
+            el.sumExpense = totalAmount;
         });
     }
-
-    console.log(chartDataExpense);
-    console.log(chartDataIncome);
-
-    // console.log(chartData);
-
-    // const labels = [];
-    // const today = new Date();
-    // const date = format(today, 'yyyy-MM-dd');
-    // const day = +date.slice(-2);
-    // // console.log(day);
-
-    // // for (let i = 1; i < day + 1; i++) labels.push(i);
-    // const thirtyDaysAgo = new Date().setDate(new Date().getDate() - 30);
-
-    // const labels = datesBetween(thirtyDaysAgo, today);
-
-    // console.log(thirtyDaysAgo);
 
     const options = {
         responsive: true,
@@ -94,14 +104,12 @@ export default function IncomeAndExpenseChart() {
         },
     };
 
-    // console.log(labels);
-
     const data = {
         labels,
         datasets: [
             {
                 label: 'Income',
-                data: chartDataIncome,
+                data: incomeAmountSums.map(el => el.sumIncome),
                 backgroundColor: 'rgba(0,128,0,0.2)',
                 borderColor: 'rgba(0,128,0,1)',
                 hoverBackgroundColor: 'rgba(0,128,0,0.4)',
@@ -109,7 +117,7 @@ export default function IncomeAndExpenseChart() {
             },
             {
                 label: 'Expenses',
-                data: chartDataExpense,
+                data: expenseAmountSums.map(el => el.sumExpense),
                 backgroundColor: 'rgba(255,99,132,0.2)',
                 borderColor: 'rgba(255,99,132,1)',
                 hoverBackgroundColor: 'rgba(255,99,132,0.4)',
@@ -118,35 +126,17 @@ export default function IncomeAndExpenseChart() {
         ],
     };
 
-    // const thirtyDaysAgo = new Date().setDate(new Date().getDate() - day);
-    // const labels30 = datesBetween(thirtyDaysAgo, today);
-    // console.log(labels30);
-
     return (
-        <Paper
-            elevation={6}
-            sx={{
-                width: '500px',
-                height: 'fit-content',
-                mt: 11,
-                mb: 11,
-            }}
+        <IncomeAndExpenseWrapper
+            title="Income & expenses"
+            customTopMarginMob={0}
+            customBottomMarginMob={13}
+            customLeftMarginPC={4}
+            customLeftMarginMob={0}
+            array={labels}
+            type=""
         >
-            <Typography
-                variant="h5"
-                component="h2"
-                sx={{
-                    backgroundColor: '#f4f4f4',
-                    paddingY: 2,
-                    paddingX: 2,
-                    borderTopRightRadius: '3px',
-                    borderTopLeftRadius: '3px',
-                    color: 'secondary.light',
-                }}
-            >
-                Categories
-            </Typography>
             <Line options={options} data={data} />
-        </Paper>
+        </IncomeAndExpenseWrapper>
     );
 }

@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-export default function LogoAndTitle({ children, title }) {
+export default function LogoAndTitleWrapper({ children, title }) {
     const matches = useMediaQuery('(min-width:601px)');
 
     return (
