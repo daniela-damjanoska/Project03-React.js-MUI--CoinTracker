@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../Components/Header';
 import IncomeChart from '../Components/IncomeChart';
 import ExpensesChart from '../Components/ExpensesChart';
+import IncomeAndExpenseChart from '../Components/IncomeAndExpenseChart';
 import Navigation from '../Components/Navigation';
 
 import Container from '@mui/material/Container';
@@ -24,6 +25,7 @@ export default function Statistics() {
             <Header title="Statistics" />
             <IncomeChart />
             <ExpensesChart />
+            <IncomeAndExpenseChart />
             <Navigation active={2} />
         </Container>
     );

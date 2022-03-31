@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../Context/Context';
 
-import LogoAndTitle from '../Components/LogoAndTitle';
+import LogoAndTitleWrapper from '../Components/LogoAndTitleWrapper';
 
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
@@ -44,7 +44,7 @@ export default function WizardCategories() {
     checkedCategories.forEach(filteredItem => (filteredItem.isEnabled = true));
 
     return (
-        <LogoAndTitle title="WELCOME">
+        <LogoAndTitleWrapper title="WELCOME">
             <Typography
                 variant="body2"
                 component="p"
@@ -100,6 +100,6 @@ export default function WizardCategories() {
             >
                 Done
             </Button>
-        </LogoAndTitle>
+        </LogoAndTitleWrapper>
     );
 }

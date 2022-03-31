@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import LogoAndTitle from '../Components/LogoAndTitle';
+import LogoAndTitleWrapper from '../Components/LogoAndTitleWrapper';
 
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -41,7 +41,7 @@ export default function WizardAmount() {
     };
 
     return (
-        <LogoAndTitle title="WELCOME">
+        <LogoAndTitleWrapper title="WELCOME">
             <Typography
                 variant="body2"
                 component="p"
@@ -78,6 +78,6 @@ export default function WizardAmount() {
                     ADD
                 </Button>
             </form>
-        </LogoAndTitle>
+        </LogoAndTitleWrapper>
     );
 }

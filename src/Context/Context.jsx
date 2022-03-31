@@ -2,6 +2,8 @@ import { createContext, useState, useEffect } from 'react';
 
 import initialCategories from '../Data/Categories';
 
+import { format } from 'date-fns';
+
 export const Context = createContext({});
 
 export const Provider = ({ children }) => {
@@ -32,18 +34,6 @@ export const Provider = ({ children }) => {
     useEffect(() => {
         localStorage.setItem('entries', JSON.stringify(entries));
     }, [entries]);
-
-    const filteredEnabledCategories = categories.filter(
-        category => category.isEnabled === true
-    );
-
-    const filteredIncomeCategories = filteredEnabledCategories.filter(
-        category => category.type === 'income'
-    );
-
-    const filteredExpenseCategories = filteredEnabledCategories.filter(
-        category => category.type === 'expense'
-    );
 
     const updateCategoriesArray = array => setCategories(array),
         updateEntriesArray = array => setEntries(array),
@@ -98,16 +88,55 @@ export const Provider = ({ children }) => {
         setEntries(updated);
     };
 
-    //make a sum of the entries amount for each category
-    if (entries) {
+    //find the days from the 1st of the month till today
+    const datesBetween = (start, end) => {
+        const dates = new Array(),
+            day = new Date(start);
+
+        while (day <= end) {
+            dates.push(new Date(day));
+            day.setDate(day.getDate() + 1);
+        }
+        return dates;
+    };
+
+    const today = new Date(),
+        dateInProperFormat = format(today, 'yyyy-MM-dd'),
+        daysInCurrentMonth = +dateInProperFormat.slice(-2) - 1,
+        daysAgo = new Date().setDate(new Date().getDate() - daysInCurrentMonth),
+        dates = datesBetween(daysAgo, today),
+        //make the labels for the chart
+        labels = dates.map(el => format(el, 'yyyy-MM-dd'));
+
+    const filteredEnabledCategories = categories.filter(
+        category => category.isEnabled === true
+    );
+
+    const filteredIncomeCategories = filteredEnabledCategories.filter(
+        category => category.type === 'income'
+    );
+
+    const filteredExpenseCategories = filteredEnabledCategories.filter(
+        category => category.type === 'expense'
+    );
+
+    const entriesInCurrentMonth = entries.filter(entry =>
+        labels.some(label => entry.date === label)
+    );
+
+    //make a sum of the entries amount for each category in the current month
+    if (entriesInCurrentMonth) {
         filteredEnabledCategories.forEach(category => {
-            const totalAmount = entries.reduce((accumulation, entry) => {
-                if (entry.categoryId === category.id) {
-                    return accumulation + parseInt(entry.amount);
-                } else {
-                    return accumulation;
-                }
-            }, 0);
+            const totalAmount = entriesInCurrentMonth.reduce(
+                (accumulation, entry) => {
+                    if (entry.categoryId === category.id) {
+                        return accumulation + parseInt(entry.amount);
+                    } else {
+                        return accumulation;
+                    }
+                },
+                0
+            );
 
             category.entriesAmount = totalAmount;
         });
@@ -127,6 +156,8 @@ export const Provider = ({ children }) => {
         filteredExpenseCategories,
         categories,
         entries,
+        labels,
+        entriesInCurrentMonth,
     };
 
     return (
