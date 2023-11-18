@@ -50,12 +50,12 @@ if ("serviceWorker" in navigator) {
 //   });
 // }
 
-// window.addEventListener("beforeinstallprompt", (e) => {
-//   console.log("beforeinstallprompt fired....");
-//   e.preventDefault();
-//   deferredPrompt = e;
-//   return false;
-// });
+window.addEventListener("beforeinstallprompt", (e) => {
+  console.log("beforeinstallprompt fired....");
+  e.preventDefault();
+  deferredPrompt = e;
+  return false;
+});
 
 function App() {
   const theme = createTheme({
