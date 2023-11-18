@@ -7,7 +7,7 @@ self.addEventListener("install", (event) => {
   //     return cache.addAll(urlsToCache);
   //   })
   // );
-  console.log("SERVICE WORKER instaling......", event);
+  console.log("SERVICE WORKER installing......", event);
 });
 
 self.addEventListener("activate", (event) => {
@@ -22,7 +22,7 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   console.log("SERVICE WORKER fetching ......", event);
-  event.RespondWith(fetch(event.request));
+  event.respondWith(fetch(event.request));
 });
 
 // self.addEventListener("fetch", (event) => {
@@ -32,3 +32,6 @@ self.addEventListener("fetch", (event) => {
 //     })
 //   );
 // });
+
+//THIS CAN BE USED FOR CRITERIA EXPLANATION https://web.dev/articles/install-criteria   FOR CHROME, AND THAN i CAN MENTION THAT OTHER BROWSERS HAVE SIMILar criteria with some minor differences
+//the above is from 2020 maybe I can check on microsoft page for something newer
