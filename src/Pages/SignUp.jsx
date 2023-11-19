@@ -139,7 +139,7 @@ export default function SignUp() {
                   onMouseDown={(e) => e.preventDefault()}
                   edge="end"
                 >
-                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             }

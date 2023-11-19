@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "./Context/Context";
 
-//pages imports
 import SignIn from "./Pages/SignIn.jsx";
 import SignUp from "./Pages/SignUp";
 import WizardAmount from "./Pages/WizardAmount";
@@ -33,7 +32,7 @@ export let deferredPrompt;
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register("/sw.js") // Adjust the path based on your project structure
+    .register("/sw.js")
     .then((registration) => {
       console.log("Service Worker registered with scope:", registration.scope);
     })
@@ -41,14 +40,6 @@ if ("serviceWorker" in navigator) {
       console.error("Service Worker registration failed:", error);
     });
 }
-
-// if ("serviceWorker" in navigator) {
-//   window.addEventListener("load", function () {
-//     navigator.serviceWorker.register("/sw.js").then((registration) => {
-//       console.log("Service Worker registered with scope:", registration.scope);
-//     });
-//   });
-// }
 
 window.addEventListener("beforeinstallprompt", (e) => {
   console.log("beforeinstallprompt fired....");
@@ -82,20 +73,20 @@ function App() {
           <Router>
             <ScrollToTop>
               <Routes>
-                <Route path="/" element={<SignIn />}></Route>
-                <Route path="/signUp" element={<SignUp />}></Route>
-                <Route path="/wizard-amount" element={<WizardAmount />}></Route>
+                <Route path="/" element={<SignIn />} />
+                <Route path="/signUp" element={<SignUp />} />
+                <Route path="/wizard-amount" element={<WizardAmount />} />
                 <Route
                   path="/wizard-categories"
                   element={<WizardCategories />}
-                ></Route>
+                />
                 <Route
                   path="/wizard-categories-amount"
                   element={<WizardCategoriesAmount />}
-                ></Route>
-                <Route path="/overview" element={<Overview />}></Route>
-                <Route path="/categories" element={<Categories />}></Route>
-                <Route path="/statistics" element={<Statistics />}></Route>
+                />
+                <Route path="/overview" element={<Overview />} />
+                <Route path="/categories" element={<Categories />} />
+                <Route path="/statistics" element={<Statistics />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </ScrollToTop>
