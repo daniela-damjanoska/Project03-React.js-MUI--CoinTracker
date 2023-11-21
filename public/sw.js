@@ -1,11 +1,13 @@
-const CACHE_STATIC_NAME = "static2";
+const CACHE_STATIC_NAME = "static9";
 const CACHE_DYNAMIC_NAME = "dynamic2";
 
 const staticUrlsToCache = [
   "/",
   "/static/js/bundle.js",
   "/index.html",
-  "/SignUp",
+  "/signUp",
+  "/overview",
+  "/offline",
   "/src/index.css",
   "/src/App.js",
   "favicon-16x16.png",
@@ -39,25 +41,25 @@ self.addEventListener("activate", (event) => {
   );
   return self.clients.claim();
 });
-
-self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      } else {
-        return fetch(event.request)
-          .then((res) => {
-            return caches.open(CACHE_DYNAMIC_NAME).then((cache) => {
-              cache.put(event.request.url, res.clone());
-              return res;
-            });
-          })
-          .catch((err) => {});
-      }
-    })
-  );
-});
+//CACHE WITH NETWORK FALLBACK
+// self.addEventListener("fetch", (event) => {
+//   event.respondWith(
+//     caches.match(event.request).then((response) => {
+//       if (response) {
+//         return response;
+//       } else {
+//         return fetch(event.request)
+//           .then((res) => {
+//             return caches.open(CACHE_DYNAMIC_NAME).then((cache) => {
+//               cache.put(event.request.url, res.clone());
+//               return res;
+//             });
+//           })
+//           .catch((err) => {});
+//       }
+//     })
+//   );
+// });
 
 // //CACHE ONLY STRATEGY
 // self.addEventListener("fetch", (event) =>
@@ -98,6 +100,58 @@ self.addEventListener("fetch", (event) => {
 //       !networkDataReceived && console.log(data);
 //     });
 // }
+
+//CACHE THEN NETWORK STRATEGY AND DYNAMIC CACHING  (works only Online, but not offline, )
+// self.addEventListener("fetch", (event) => {
+//   event.respondWith(
+//     caches.open(CACHE_DYNAMIC_NAME).then((cache) => {
+//       return fetch(event.request).then((res) => {
+//         cache.put(event.request, res.clone());
+//         return res;
+//       });
+//     })
+//   );
+// });
+
+// The improvement of the above strategy from line 102 is: CACHE THEN NETWORK STRATEGY AND DYNAMIC CACHING ONLY FOR THE GIVEN LINK
+//Otherwise use CACHE WITH NETWORK FALLBACK
+self.addEventListener("fetch", function (event) {
+  var url = "https://randomuser.me/api";
+
+  if (event.request.url === URL) {
+    event.respondWith(
+      caches.open(CACHE_DYNAMIC_NAME).then(function (cache) {
+        return fetch(event.request).then(function (res) {
+          cache.put(event.request, res.clone());
+          return res;
+        });
+      })
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then(function (response) {
+        if (response) {
+          return response;
+        } else {
+          return fetch(event.request)
+            .then(function (res) {
+              return caches.open(CACHE_DYNAMIC_NAME).then(function (cache) {
+                cache.put(event.request.url, res.clone());
+                return res;
+              });
+            })
+            .catch(function (err) {
+              return caches.open(CACHE_STATIC_NAME).then(function (cache) {
+                if (event.request.url.indexOf("/statistics") > -1) {
+                  return cache.match("/offline");
+                }
+              });
+            });
+        }
+      })
+    );
+  }
+});
 
 //THIS CAN BE USED FOR CRITERIA EXPLANATION https://web.dev/articles/install-criteria   FOR CHROME, AND THAN i CAN MENTION THAT OTHER BROWSERS HAVE SIMILar criteria with some minor differences
 //the above is from 2020 maybe I can check on microsoft page for something newer

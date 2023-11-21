@@ -46,7 +46,7 @@ export default function SignIn() {
       data = await response.json();
 
     localStorage.setItem("avatar", data.results[0].picture.thumbnail);
-    navigate("/Overview");
+    navigate("/overview");
   }
 
   const validateUser = () => {
@@ -146,7 +146,7 @@ export default function SignIn() {
       <Typography variant="body2" component="p" marginTop={2} color="secondary">
         Don't have an account yet?{" "}
       </Typography>
-      <Link to="/SignUp">Sign up now, it is free!</Link>
+      <Link to="/signUp">Sign up now, it is free!</Link>
     </LogoAndTitleWrapper>
   );
 }

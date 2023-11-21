@@ -87,6 +87,7 @@ function App() {
                 <Route path="/overview" element={<Overview />} />
                 <Route path="/categories" element={<Categories />} />
                 <Route path="/statistics" element={<Statistics />} />
+                <Route path="/offline" element={<p>Test Offline</p>} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </ScrollToTop>
