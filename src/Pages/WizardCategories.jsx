@@ -19,8 +19,8 @@ export default function WizardCategories() {
   const [checked, setChecked] = useState([]);
 
   const { categories, updateCategoriesArray } = useContext(Context),
-    navigate = useNavigate();
-  let location = useLocation();
+    navigate = useNavigate(),
+    { state } = useLocation();
 
   //manipulate the checkboxes
   const handleToggle = (value) => () => {
@@ -87,7 +87,7 @@ export default function WizardCategories() {
         onClick={() => {
           updateCategoriesArray(checkedCategories);
           navigate("/wizard-categories-amount", {
-            state: { amount: location?.state?.amount },
+            state: { amount: state?.amount },
           });
         }}
       >

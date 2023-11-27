@@ -22,7 +22,7 @@ export default function WizardCategoriesAmount() {
   const { categories, addCategory, updateCategoriesArray } =
       useContext(Context),
     navigate = useNavigate(),
-    location = useLocation();
+    { state } = useLocation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +46,7 @@ export default function WizardCategoriesAmount() {
       id: new Date().valueOf(),
       name: "Salary",
       type: "income",
-      budget: location.state.amount,
+      budget: state?.amount,
       icon: "paid",
       isEnabled: true,
     });
