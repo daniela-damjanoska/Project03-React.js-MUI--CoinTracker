@@ -1,5 +1,5 @@
 import React, { useState, useContext, Fragment, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Context } from "../Context/Context";
 
 import LogoAndTitleWrapper from "../Components/LogoAndTitleWrapper";
@@ -20,6 +20,7 @@ export default function WizardCategories() {
 
   const { categories, updateCategoriesArray } = useContext(Context),
     navigate = useNavigate();
+  let location = useLocation();
 
   //manipulate the checkboxes
   const handleToggle = (value) => () => {
@@ -85,7 +86,9 @@ export default function WizardCategories() {
         }}
         onClick={() => {
           updateCategoriesArray(checkedCategories);
-          navigate("/wizard-categories-amount");
+          navigate("/wizard-categories-amount", {
+            state: { amount: location?.state?.amount },
+          });
         }}
       >
         Done

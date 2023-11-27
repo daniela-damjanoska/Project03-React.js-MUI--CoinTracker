@@ -1,5 +1,5 @@
 import React, { useContext, useState, Fragment } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Context } from "../Context/Context";
 import { deferredPrompt } from "../App";
 
@@ -19,8 +19,10 @@ import Icon from "@mui/material/Icon";
 export default function WizardCategoriesAmount() {
   const [inputValues, setInputValues] = useState({});
 
-  const { categories, updateCategoriesArray } = useContext(Context),
-    navigate = useNavigate();
+  const { categories, addCategory, updateCategoriesArray } =
+      useContext(Context),
+    navigate = useNavigate(),
+    location = useLocation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,6 +41,15 @@ export default function WizardCategoriesAmount() {
     updateCategoriesArray(categories);
 
     localStorage.setItem("categories", JSON.stringify(categories));
+
+    addCategory({
+      id: new Date().valueOf(),
+      name: "Salary",
+      type: "income",
+      budget: location.state.amount,
+      icon: "paid",
+      isEnabled: true,
+    });
 
     navigate("/overview");
     if (deferredPrompt) {

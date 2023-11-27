@@ -57,7 +57,7 @@ export const Provider = ({ children }) => {
     saveCategoryIcon = (icon) => setCategoryIcon(icon);
 
   const addCategory = async (category) => {
-    setCategories([...categories, { ...category, id: new Date().valueOf() }]);
+    // setCategories([...categories, { ...category, id: new Date().valueOf() }]);
     await setDoc(doc(db, "categories", new Date().valueOf().toString()), {
       ...category,
       id: new Date().valueOf(),
