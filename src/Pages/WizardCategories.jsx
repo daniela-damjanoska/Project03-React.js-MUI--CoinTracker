@@ -1,4 +1,4 @@
-import React, { useState, useContext, Fragment } from "react";
+import React, { useState, useContext, Fragment, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../Context/Context";
 
@@ -26,11 +26,9 @@ export default function WizardCategories() {
     const currentIndex = checked.indexOf(value),
       checkedItems = [...checked];
 
-    if (currentIndex === -1) {
-      checkedItems.push(value);
-    } else {
-      checkedItems.splice(currentIndex, 1);
-    }
+    currentIndex === -1
+      ? checkedItems.push(value)
+      : checkedItems.splice(currentIndex, 1);
 
     setChecked(checkedItems);
   };

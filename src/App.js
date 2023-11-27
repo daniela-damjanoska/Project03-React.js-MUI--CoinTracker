@@ -1,5 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "./Context/Context";
+import { initializeApp } from "firebase/app";
+import {
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+} from "firebase/firestore";
 
 import SignIn from "./Pages/SignIn.jsx";
 import SignUp from "./Pages/SignUp";
@@ -9,6 +15,7 @@ import WizardCategoriesAmount from "./Pages/WizardCategoriesAmount";
 import Overview from "./Pages/Overview";
 import Categories from "./Pages/Categories";
 import Statistics from "./Pages/Statistics";
+import Offline from "./Pages/Offline";
 import NotFound from "./Pages/NotFound";
 
 import ScrollToTop from "./Components/ScrollToTop";
@@ -27,6 +34,24 @@ const style = {
   display: "flex",
   alignItems: "center",
 };
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAkRrqSyoLjCNlLPxtyJW_dMN8D5_2rIFE",
+  authDomain: "coin-tracker-pwa.firebaseapp.com",
+  projectId: "coin-tracker-pwa",
+  storageBucket: "coin-tracker-pwa.appspot.com",
+  messagingSenderId: "281774586413",
+  appId: "1:281774586413:web:e6d586ffcb28a4d80316a4",
+  measurementId: "G-1D90N8VN3R",
+};
+
+const app = initializeApp(firebaseConfig);
+
+export const db = initializeFirestore(app, {
+  localCache: persistentLocalCache(
+    /*settings*/ { tabManager: persistentMultipleTabManager() }
+  ),
+});
 
 export let deferredPrompt;
 
@@ -87,7 +112,7 @@ function App() {
                 <Route path="/overview" element={<Overview />} />
                 <Route path="/categories" element={<Categories />} />
                 <Route path="/statistics" element={<Statistics />} />
-                <Route path="/offline" element={<p>Test Offline</p>} />
+                <Route path="/offline" element={<Offline />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </ScrollToTop>

@@ -41,7 +41,7 @@ export default function IncomeAndExpenseEntries() {
 
   return (
     <IncomeAndExpenseWrapper
-      title="Entries"
+      title="Income/Expenses Entries"
       customTopMarginMob={0}
       customBottomMarginMob={13}
       customLeftMarginPC={4}

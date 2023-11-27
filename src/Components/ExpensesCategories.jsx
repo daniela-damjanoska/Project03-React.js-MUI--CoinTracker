@@ -24,7 +24,7 @@ export default function ExpensesCategories() {
 
   return (
     <IncomeAndExpenseWrapper
-      title="Expenses"
+      title="Expenses Categories"
       customTopMarginMob={0}
       customBottomMarginMob={5}
       customLeftMarginPC={4}

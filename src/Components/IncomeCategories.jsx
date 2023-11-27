@@ -31,7 +31,7 @@ export default function IncomeCategories() {
 
   return (
     <IncomeAndExpenseWrapper
-      title="Income"
+      title="Income Categories"
       customTopMarginMob={11}
       customBottomMarginMob={5}
       customLeftMarginPC={0}
