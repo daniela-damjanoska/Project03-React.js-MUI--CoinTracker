@@ -43,7 +43,13 @@ export default function IncomeCategories() {
         ({ id, icon, name, budget, entriesAmount }) => (
           <Fragment key={id}>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton
+                sx={{
+                  "& .MuiListItemIcon-root": {
+                    minWidth: "35px",
+                  },
+                }}
+              >
                 <ListItemIcon>
                   <Icon>{icon}</Icon>
                 </ListItemIcon>
@@ -54,44 +60,30 @@ export default function IncomeCategories() {
                   }}
                 />
                 <ListItemText
-                  primary={entriesAmount > 0 ? `${entriesAmount}/` : ""}
-                  primaryTypographyProps={styles.typographyProp}
-                />
-                <ListItemText
-                  primary={budget === 0 || budget === "" ? "no limit" : budget}
-                  primaryTypographyProps={{
-                    fontSize: budget === 0 || budget === "" ? "13px" : "22px",
-                    color: "secondary.dark",
-                    textAlign: "right",
-                  }}
+                  primary={
+                    !entriesAmount && budget === 0
+                      ? "no amount"
+                      : budget + entriesAmount
+                  }
+                  primaryTypographyProps={
+                    !entriesAmount && budget === 0
+                      ? { ...styles.typographyProp, fontSize: "13px" }
+                      : styles.typographyProp
+                  }
                   sx={{
                     flexBasis: 0,
+                    ml: 1,
                   }}
                 />
               </ListItemButton>
             </ListItem>
-            {entriesAmount > 0 ? (
-              <Box sx={styles.progressBar}>
-                <Box
-                  sx={{
-                    width:
-                      entriesAmount < budget
-                        ? `${(entriesAmount / budget) * 100}%`
-                        : "100%",
-                    height: "4px",
-                    backgroundColor: "primary.main",
-                  }}
-                ></Box>
-              </Box>
-            ) : (
-              <Divider
-                variant="inset"
-                component="li"
-                sx={{
-                  mr: 2,
-                }}
-              />
-            )}
+            <Divider
+              variant="inset"
+              component="li"
+              sx={{
+                mr: 2,
+              }}
+            />
           </Fragment>
         )
       )}

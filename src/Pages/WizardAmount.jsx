@@ -43,7 +43,7 @@ export default function WizardAmount() {
   return (
     <LogoAndTitleWrapper title="WELCOME">
       <Typography variant="body2" component="p" marginTop={2} marginBottom={6}>
-        How much money do you have at the moment?
+        Please enter your salary
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField

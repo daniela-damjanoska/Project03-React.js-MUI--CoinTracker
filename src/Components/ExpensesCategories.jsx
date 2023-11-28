@@ -36,7 +36,13 @@ export default function ExpensesCategories() {
         ({ id, icon, name, budget, entriesAmount }) => (
           <Fragment key={id}>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton
+                sx={{
+                  "& .MuiListItemIcon-root": {
+                    minWidth: "35px",
+                  },
+                }}
+              >
                 <ListItemIcon
                   sx={{
                     color:
@@ -62,9 +68,9 @@ export default function ExpensesCategories() {
                   }}
                 />
                 <ListItemText
-                  primary={budget === 0 || budget === "" ? "no limit" : budget}
+                  primary={budget === 0 ? "no limit" : budget}
                   primaryTypographyProps={{
-                    fontSize: budget === 0 || budget === "" ? "13px" : "22px",
+                    fontSize: budget === 0 ? "13px" : "22px",
                     color:
                       entriesAmount > budget ? "error.main" : "secondary.dark",
                     textAlign: "right",

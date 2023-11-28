@@ -33,7 +33,9 @@ export default function WizardCategoriesAmount() {
     }));
 
     categories.map((category) =>
-      category.id === +name ? (category.budget = +value) : category
+      category.id === +name
+        ? (category.budget = value === "" ? 0 : +value)
+        : category
     );
   };
 
@@ -47,7 +49,7 @@ export default function WizardCategoriesAmount() {
       name: "Salary",
       type: "income",
       budget: state?.amount,
-      icon: "paid",
+      icon: "credit_card",
       isEnabled: true,
     });
 

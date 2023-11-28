@@ -63,7 +63,13 @@ export default function IncomeAndExpenseEntries() {
             onContextMenu={handleContextMenu}
             style={{ cursor: "context-menu" }}
           >
-            <ListItemButton>
+            <ListItemButton
+              sx={{
+                "& .MuiListItemIcon-root": {
+                  minWidth: "35px",
+                },
+              }}
+            >
               <ListItemIcon>
                 <Icon>{entry.icon}</Icon>
               </ListItemIcon>

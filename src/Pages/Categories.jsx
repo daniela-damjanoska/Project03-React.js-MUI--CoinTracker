@@ -116,34 +116,20 @@ export default function Categories() {
                     sx={{
                       display: "flex",
                       flexDirection: "column-reverse",
-                      textAlign:
-                        category.budget === 0 || category.budget === ""
-                          ? "center"
-                          : "right",
+                      textAlign: "right",
                     }}
                   >
                     <ListItemText
                       primary={
-                        category.budget === 0 || category.budget === ""
-                          ? "NO BUDGET LIMIT"
+                        category.budget
+                          ? category.budget
                           : category.type === "expense"
-                          ? "BUDGET"
-                          : "PLANNED"
+                          ? "NO LIMIT"
+                          : "NO AMOUNT"
                       }
                       primaryTypographyProps={{
-                        fontSize: "8px",
-                        width:
-                          category.budget === 0 || category.budget === ""
-                            ? "40%"
-                            : "100%",
-                        ml: "auto",
-                        color: "secondary",
-                      }}
-                    />
-                    <ListItemText
-                      primary={category.budget !== 0 ? category.budget : ""}
-                      primaryTypographyProps={{
-                        fontSize: "22px",
+                        fontSize: category.budget ? "22px" : "8px",
+                        color: !category.budget && "secondary",
                       }}
                     />
                   </Box>
