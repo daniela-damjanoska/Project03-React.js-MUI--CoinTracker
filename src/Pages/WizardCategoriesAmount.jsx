@@ -1,7 +1,9 @@
 import React, { useContext, useState, Fragment } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Context } from "../Context/Context";
+import { Context, getCategoriesOrEntries } from "../Context/Context";
 import { deferredPrompt } from "../App";
+import { doc, writeBatch } from "firebase/firestore";
+import { db } from "../App";
 
 import LogoAndTitleWrapper from "../Components/LogoAndTitleWrapper";
 
@@ -15,6 +17,16 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import Icon from "@mui/material/Icon";
+
+const updateCategoriesAmount = async (categoryId, categories, value) => {
+  const batch = writeBatch(db);
+  categories.map(
+    (category) =>
+      category.id === categoryId &&
+      batch.update(doc(db, "categories", category.id), { budget: value })
+  );
+  await batch.commit();
+};
 
 export default function WizardCategoriesAmount() {
   const [inputValues, setInputValues] = useState({});
@@ -31,29 +43,30 @@ export default function WizardCategoriesAmount() {
       ...prevValues,
       [name]: value,
     }));
-
-    categories.map((category) =>
-      category.id === +name
-        ? (category.budget = value === "" ? 0 : +value)
-        : category
-    );
   };
 
   const handleSubmit = () => {
-    updateCategoriesArray(categories);
+    addCategory(
+      "categories",
+      {
+        name: "Salary",
+        type: "income",
+        budget: state?.amount,
+        icon: "credit_card",
+        isEnabled: true,
+      },
+      new Date().valueOf().toString()
+    );
 
-    localStorage.setItem("categories", JSON.stringify(categories));
+    Object.keys(inputValues).forEach((key) =>
+      updateCategoriesAmount(key, categories, +inputValues[key])
+    );
 
-    addCategory({
-      id: new Date().valueOf(),
-      name: "Salary",
-      type: "income",
-      budget: state?.amount,
-      icon: "credit_card",
-      isEnabled: true,
+    getCategoriesOrEntries(db, "categories").then((data) => {
+      updateCategoriesArray(data);
+      navigate("/overview");
     });
 
-    navigate("/overview");
     if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
@@ -72,7 +85,7 @@ export default function WizardCategoriesAmount() {
         Set how much money you want to spend on each Category monthly
       </Typography>
       <List dense>
-        {categories.map(({ id, icon, name }) => (
+        {categories?.map(({ id, icon, name }) => (
           <Fragment key={id}>
             <ListItem disablePadding>
               <ListItemButton>

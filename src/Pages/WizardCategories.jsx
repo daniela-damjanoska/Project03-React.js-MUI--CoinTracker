@@ -1,5 +1,8 @@
-import React, { useState, useContext, Fragment, useEffect } from "react";
+import React, { useState, useContext, Fragment } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { doc, writeBatch } from "firebase/firestore";
+
+import { db } from "../App";
 import { Context } from "../Context/Context";
 
 import LogoAndTitleWrapper from "../Components/LogoAndTitleWrapper";
@@ -15,6 +18,21 @@ import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import Icon from "@mui/material/Icon";
 
+const deleteUncheckedAndUpdateCheckedCategories = async (
+  uncheckedCategories,
+  checkedCategories
+) => {
+  const batch = writeBatch(db);
+
+  uncheckedCategories.map((category) =>
+    batch.delete(doc(db, "categories", category.id))
+  );
+  checkedCategories.map((category) =>
+    batch.update(doc(db, "categories", category.id), { isEnabled: true })
+  );
+  await batch.commit();
+};
+
 export default function WizardCategories() {
   const [checked, setChecked] = useState([]);
 
@@ -28,19 +46,19 @@ export default function WizardCategories() {
       checkedItems = [...checked];
 
     currentIndex === -1
-      ? checkedItems.push(value)
-      : checkedItems.splice(currentIndex, 1);
+      ? checkedItems?.push(value)
+      : checkedItems?.splice(currentIndex, 1);
 
     setChecked(checkedItems);
   };
 
-  //filter the array according to the checkboxes that are checked
-  const checkedCategories = categories.filter((category) =>
-    checked.includes(category.id)
+  const checkedCategories = categories?.filter((category) =>
+    checked?.includes(category.id)
   );
 
-  //set IsEnabled to true to the elements when the checkboxes are checked
-  checkedCategories.forEach((filteredItem) => (filteredItem.isEnabled = true));
+  const uncheckedCategories = categories?.filter(
+    (category) => !checked?.includes(category.id)
+  );
 
   return (
     <LogoAndTitleWrapper title="WELCOME">
@@ -89,6 +107,10 @@ export default function WizardCategories() {
           navigate("/wizard-categories-amount", {
             state: { amount: state?.amount },
           });
+          deleteUncheckedAndUpdateCheckedCategories(
+            uncheckedCategories,
+            checkedCategories
+          );
         }}
       >
         Done

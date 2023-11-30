@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
-import { Context } from "../Context/Context";
+import { Context, getCategoriesOrEntries } from "../Context/Context";
+import { db } from "../App";
 
 import initialCategories from "../Data/Categories";
 import icons from "../Data/Icons";
@@ -78,14 +79,25 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
     }
   );
 
-  const { addCategory, updateCategory } = useContext(Context),
+  const { addCategory, updateCategory, updateCategoriesArray } =
+      useContext(Context),
     isEditing = Boolean(addOrEditCategory),
     matches = useMediaQuery("(min-width:601px)");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    isEditing ? updateCategory(categoryData) : addCategory(categoryData);
+    isEditing
+      ? updateCategory(categoryData)
+      : addCategory(
+          "categories",
+          categoryData,
+          new Date().valueOf().toString()
+        );
+
+    getCategoriesOrEntries(db, "categories").then((data) =>
+      updateCategoriesArray(data)
+    );
 
     closeModal();
   };
@@ -183,7 +195,7 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
             onChange={(e) => {
               setCategoryData({
                 ...categoryData,
-                budget: e.target.value,
+                budget: +e.target.value,
               });
             }}
           />

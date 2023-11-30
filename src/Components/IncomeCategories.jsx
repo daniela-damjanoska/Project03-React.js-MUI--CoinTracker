@@ -9,7 +9,6 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Icon from "@mui/material/Icon";
-import Box from "@mui/material/Box";
 
 const styles = {
   typographyProp: {
@@ -39,7 +38,7 @@ export default function IncomeCategories() {
       array={filteredIncomeCategories}
       type="income categories"
     >
-      {filteredIncomeCategories.map(
+      {filteredIncomeCategories?.map(
         ({ id, icon, name, budget, entriesAmount }) => (
           <Fragment key={id}>
             <ListItem disablePadding>
@@ -48,6 +47,7 @@ export default function IncomeCategories() {
                   "& .MuiListItemIcon-root": {
                     minWidth: "35px",
                   },
+                  cursor: "auto",
                 }}
               >
                 <ListItemIcon>
@@ -72,7 +72,6 @@ export default function IncomeCategories() {
                   }
                   sx={{
                     flexBasis: 0,
-                    ml: 1,
                   }}
                 />
               </ListItemButton>
@@ -81,7 +80,7 @@ export default function IncomeCategories() {
               variant="inset"
               component="li"
               sx={{
-                mr: 2,
+                mx: 2,
               }}
             />
           </Fragment>

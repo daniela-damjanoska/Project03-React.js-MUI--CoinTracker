@@ -41,6 +41,7 @@ export default function ExpensesCategories() {
                   "& .MuiListItemIcon-root": {
                     minWidth: "35px",
                   },
+                  cursor: "auto",
                 }}
               >
                 <ListItemIcon
@@ -59,7 +60,7 @@ export default function ExpensesCategories() {
                   }}
                 />
                 <ListItemText
-                  primary={entriesAmount > 0 ? `${entriesAmount}/` : ""}
+                  primary={entriesAmount > 0 && `${entriesAmount}/`}
                   primaryTypographyProps={{
                     textAlign: "right",
                     fontSize: "22px",
@@ -100,7 +101,7 @@ export default function ExpensesCategories() {
                 variant="inset"
                 component="li"
                 sx={{
-                  mr: 2,
+                  mx: 2,
                 }}
               />
             )}

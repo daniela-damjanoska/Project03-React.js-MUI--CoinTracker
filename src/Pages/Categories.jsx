@@ -128,7 +128,7 @@ export default function Categories() {
                           : "NO AMOUNT"
                       }
                       primaryTypographyProps={{
-                        fontSize: category.budget ? "22px" : "8px",
+                        fontSize: category.budget ? "22px" : "12px",
                         color: !category.budget && "secondary",
                       }}
                     />

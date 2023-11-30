@@ -1,19 +1,22 @@
 import { createContext, useState, useEffect } from "react";
-import { collection, getDocs, doc, setDoc } from "firebase/firestore";
-
-// import { getCategories } from "../db";
+import {
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "../App";
-
-import initialCategories from "../Data/Categories";
 
 import { format } from "date-fns";
 
-const getCategories = async (db) => {
-  const categoriesCol = collection(db, "categories");
-  const categoriesSnapshot = await getDocs(categoriesCol);
-  const categoriesList = categoriesSnapshot.docs.map((doc) => doc.data());
-  console.log(categoriesList);
-  return categoriesList;
+export const getCategoriesOrEntries = async (db, collectionName) => {
+  const categoriesOrEntries = collection(db, collectionName);
+  const categoriesOrEntriesSnapshot = await getDocs(categoriesOrEntries);
+  const categoriesOrEntriesList = categoriesOrEntriesSnapshot.docs.map((doc) =>
+    doc.data()
+  );
+  return categoriesOrEntriesList;
 };
 
 export const Context = createContext({});
@@ -25,84 +28,98 @@ export const Provider = ({ children }) => {
     [categoryIcon, setCategoryIcon] = useState("");
 
   useEffect(() => {
-    getCategories(db).then((data) => setCategories(data));
+    getCategoriesOrEntries(db, "categories").then((data) =>
+      setCategories(data)
+    );
+    getCategoriesOrEntries(db, "entries").then((data) => setEntries(data));
   }, []);
-
-  useEffect(() => {
-    // const categoriesFromLS = localStorage.getItem("categories"),
-    const entriesFromLS = localStorage.getItem("entries");
-
-    // if (categoriesFromLS) {
-    //   setCategories(JSON.parse(categoriesFromLS));
-    // } else {
-    //   setCategories(initialCategories);
-    // }
-
-    if (entriesFromLS) {
-      setEntries(JSON.parse(entriesFromLS));
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("categories", JSON.stringify(categories));
-  // }, [categories]);
-
-  useEffect(() => {
-    localStorage.setItem("entries", JSON.stringify(entries));
-  }, [entries]);
 
   const updateCategoriesArray = (array) => setCategories(array),
     updateEntriesArray = (array) => setEntries(array),
     saveCategoryId = (id) => setCategoryId(id),
     saveCategoryIcon = (icon) => setCategoryIcon(icon);
 
-  const addCategory = async (category) => {
-    // setCategories([...categories, { ...category, id: new Date().valueOf() }]);
-    await setDoc(doc(db, "categories", new Date().valueOf().toString()), {
-      ...category,
-      id: new Date().valueOf(),
+  const addCategory = async (collectionName, itemFields, itemId) => {
+    await setDoc(doc(db, collectionName, itemId), {
+      ...itemFields,
+      id: itemId,
     });
   };
 
-  const addEntry = (entry) => {
-    setEntries([
+  const addEntry = async (collectionName, itemFields, itemId) => {
+    await setDoc(doc(db, collectionName, itemId), {
+      ...itemFields,
+      id: itemId,
+      categoryId,
+      icon: categoryIcon,
+    });
+  };
+
+  const updateCategoryOrEntryHelper = async (
+    collectionName,
+    itemFields,
+    itemToBeUpdated
+  ) => {
+    await setDoc(
+      doc(db, collectionName, itemToBeUpdated),
       {
-        ...entry,
-        id: new Date().valueOf(),
-        categoryId,
-        icon: categoryIcon,
+        ...itemFields,
       },
-      ...entries,
-    ]);
+      { merge: true }
+    );
   };
 
   const updateCategory = (category) => {
     const categoryToUpdate = categories.find((el) => el.id === category.id);
-    categoryToUpdate.type = category.type;
-    categoryToUpdate.name = category.name;
-    categoryToUpdate.icon = category.icon;
-    categoryToUpdate.budget = category.budget;
-    categoryToUpdate.isEnabled = category.isEnabled;
 
-    // localStorage.setItem("categories", JSON.stringify(categories));
+    updateCategoryOrEntryHelper(
+      "categories",
+      {
+        type: category.type,
+        name: category.name,
+        icon: category.icon,
+        budget: category.budget,
+        isEnabled: category.isEnabled,
+      },
+      categoryToUpdate.id
+    );
   };
 
   const updateEntry = (entry) => {
     const entryToUpdate = entries.find((el) => el.id === entry.id);
-    entryToUpdate.type = entry.type;
-    entryToUpdate.name = entry.name;
-    entryToUpdate.category = entry.category;
-    entryToUpdate.amount = entry.amount;
-    entryToUpdate.icon = categoryIcon;
-    entryToUpdate.date = entry.date;
 
-    localStorage.setItem("entries", JSON.stringify(entries));
+    updateCategoryOrEntryHelper(
+      "entries",
+      {
+        type: entry.type,
+        name: entry.name,
+        category: entry.category,
+        amount: +entry.amount,
+        icon: categoryIcon,
+        date: entry.date,
+      },
+      entryToUpdate.id
+    );
   };
 
-  const deleteEntry = (entry) => {
-    const updated = entries.filter((el) => el.id !== entry.id);
+  const deleteEntry = async (entry) => {
+    const categoryToBeUpdated = categories.find(
+      (category) => category.id === entry.categoryId
+    );
 
-    setEntries(updated);
+    updateCategoryOrEntryHelper(
+      "categories",
+      {
+        entriesAmount: categoryToBeUpdated.entriesAmount - entry.amount,
+      },
+      categoryToBeUpdated.id
+    );
+
+    await deleteDoc(doc(db, "entries", entry.id));
+
+    getCategoriesOrEntries(db, "entries").then((data) =>
+      updateEntriesArray(data)
+    );
   };
 
   //find the days from the 1st of the month till today
@@ -125,32 +142,31 @@ export const Provider = ({ children }) => {
     //make the labels for the chart
     labels = dates.map((el) => format(el, "yyyy-MM-dd"));
 
-  const filteredEnabledCategories = categories.filter(
+  const filteredEnabledCategories = categories?.filter(
     (category) => category.isEnabled === true
   );
 
-  const filteredIncomeCategories = filteredEnabledCategories.filter(
+  const filteredIncomeCategories = filteredEnabledCategories?.filter(
     (category) => category.type === "income"
   );
 
-  const filteredExpenseCategories = filteredEnabledCategories.filter(
+  const filteredExpenseCategories = filteredEnabledCategories?.filter(
     (category) => category.type === "expense"
   );
 
-  const entriesInCurrentMonth = entries.filter((entry) =>
+  const entriesInCurrentMonth = entries?.filter((entry) =>
     labels.some((label) => entry.date === label)
   );
 
   //make a sum of the entries amount for each category in the current month
   if (entriesInCurrentMonth) {
-    filteredEnabledCategories.forEach((category) => {
+    filteredEnabledCategories?.forEach((category) => {
       const totalAmount = entriesInCurrentMonth.reduce(
         (accumulation, entry) => {
           if (entry.categoryId === category.id) {
             return accumulation + parseInt(entry.amount);
-          } else {
-            return accumulation;
           }
+          return accumulation;
         },
         0
       );
@@ -166,6 +182,7 @@ export const Provider = ({ children }) => {
     addEntry,
     updateCategory,
     updateEntry,
+    updateCategoryOrEntryHelper,
     deleteEntry,
     saveCategoryId,
     saveCategoryIcon,

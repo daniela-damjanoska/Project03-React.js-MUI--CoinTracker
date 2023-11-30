@@ -80,7 +80,7 @@ export default function IncomeAndExpenseEntries() {
                 }}
               >
                 <ListItemText
-                  primary={`${entry.category} (${entry.name})`}
+                  primary={`${entry.name} (${entry.category}) `}
                   primaryTypographyProps={{
                     color: "secondary.dark",
                     mb: -1,
@@ -112,7 +112,7 @@ export default function IncomeAndExpenseEntries() {
             variant="inset"
             component="li"
             sx={{
-              mr: 2,
+              mx: 2,
             }}
           />
         </Fragment>
@@ -148,43 +148,37 @@ export default function IncomeAndExpenseEntries() {
           Delete
         </MenuItem>
       </RightClickMenu>
-      {editEntry ? (
+      {editEntry && (
         <EntryModal
           buttonDesc="UPDATE"
           closeModal={() => setEditEntry(false)}
           addOrEditEntry={item}
           typeDefault={undefined}
         />
-      ) : (
-        ""
       )}
-      {duplicatingEntry ? (
+      {duplicatingEntry && (
         <EntryModal
           buttonDesc="ADD"
-          closeModal={() => setDuplicateEntry(false)}
+          closeModal={() => {
+            setDuplicateEntry(false);
+          }}
           addOrEditEntry={item}
           typeDefault={undefined}
         />
-      ) : (
-        ""
       )}
-      {createNewEntry ? (
+      {createNewEntry && (
         <EntryModal
           buttonDesc="ADD"
           closeModal={() => setCreateNewEntry(false)}
           addOrEditEntry={item}
           typeDefault="income"
         />
-      ) : (
-        ""
       )}
-      {confirmDeletion ? (
+      {confirmDeletion && (
         <ConfirmDeletionModal
           closeModal={() => setConfirmDeletion(false)}
           item={item}
         />
-      ) : (
-        ""
       )}
     </IncomeAndExpenseWrapper>
   );

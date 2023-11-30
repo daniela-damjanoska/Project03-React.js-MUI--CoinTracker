@@ -91,12 +91,6 @@ export default function IncomeAndExpenseChart() {
       y: {
         type: "linear",
         display: true,
-        position: "left",
-        beginAtZero: true,
-      },
-      y1: {
-        type: "linear",
-        display: true,
         position: "right",
         beginAtZero: true,
       },
@@ -120,14 +114,14 @@ export default function IncomeAndExpenseChart() {
         backgroundColor: "rgba(255,99,132,0.2)",
         borderColor: "rgba(255,99,132,1)",
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        yAxisID: "y1",
+        yAxisID: "y",
       },
     ],
   };
 
   return (
     <IncomeAndExpenseWrapper
-      title="Income & Expenses"
+      title="Income & Expenses Entries"
       customTopMarginMob={0}
       customBottomMarginMob={13}
       customLeftMarginPC={4}
