@@ -18,15 +18,19 @@ import Divider from "@mui/material/Divider";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import AddIcon from "@mui/icons-material/Add";
 import Icon from "@mui/material/Icon";
+import Popper from "@mui/material/Popper";
 
 const styles = {
-  title: {
+  titleWrapper: {
     backgroundColor: "#f4f4f4",
     paddingY: 2,
     paddingX: 2,
     borderTopRightRadius: "3px",
     borderTopLeftRadius: "3px",
     color: "secondary.light",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   dividerMargin: {
     mr: 2,
@@ -35,10 +39,12 @@ const styles = {
 
 export default function Categories() {
   const [addEditCategory, setAddEditCategory] = useState(false),
-    [item, setItem] = useState();
+    [item, setItem] = useState(),
+    [anchorEl, setAnchorEl] = useState(null);
 
   const { categories } = useContext(Context),
-    matches = useMediaQuery("(min-width:601px)");
+    matches = useMediaQuery("(min-width:601px)"),
+    idPopper = Boolean(anchorEl) && "simple-popper";
 
   const closeModalCategory = () => setAddEditCategory(false);
 
@@ -61,9 +67,38 @@ export default function Categories() {
           mb: matches ? 13 : 11,
         }}
       >
-        <Typography variant="h5" component="h2" sx={styles.title}>
-          Categories
-        </Typography>
+        <Box sx={styles.titleWrapper}>
+          <Typography variant="h5" component="h2">
+            Categories
+          </Typography>
+
+          <Icon
+            sx={{ cursor: "pointer" }}
+            onMouseOver={(e) => setAnchorEl(e.currentTarget)}
+            onMouseLeave={(e) => setAnchorEl(null)}
+          >
+            info
+          </Icon>
+        </Box>
+        <Popper
+          id={idPopper}
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          placement="top"
+        >
+          <Box
+            sx={{
+              borderColor: "#757575",
+              p: 1.5,
+              bgcolor: "info.main",
+              borderRadius: "4px",
+              color: "primary.main",
+              maxWidth: "300px",
+            }}
+          >
+            On click on each category, you can edit the chosen category.
+          </Box>
+        </Popper>
         <List dense sx={{ pt: 3 }}>
           <ListItem
             disablePadding

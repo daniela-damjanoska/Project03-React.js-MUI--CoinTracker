@@ -50,7 +50,7 @@ export const Provider = ({ children }) => {
     await setDoc(doc(db, collectionName, itemId), {
       ...itemFields,
       id: itemId,
-      categoryId,
+      categoryId: categoryId,
       icon: categoryIcon,
     });
   };
@@ -93,6 +93,7 @@ export const Provider = ({ children }) => {
       {
         type: entry.type,
         name: entry.name,
+        categoryId: entry.categoryId,
         category: entry.category,
         amount: +entry.amount,
         icon: categoryIcon,

@@ -1,5 +1,5 @@
-const STATIC_CACHE_NAME = "site-static-10";
-const DYNAMIC_CACHE_NAME = "site-dynamic-10";
+const STATIC_CACHE_NAME = "site-static-2";
+const DYNAMIC_CACHE_NAME = "site-dynamic-2";
 
 const staticUrlsToCache = [
   "/",

@@ -82,12 +82,12 @@ export default function EntryModal({
       updateEntriesArray(data)
     );
 
-    const relevantEntriesForTheGivenCategorySum =
-      entries.length > 0 &&
-      entries
-        .filter((el) => el.category === entryData.category)
-        .map((el) => +el.amount)
-        .reduce((accumulator, el) => accumulator + el);
+    const relevantEntriesForTheGivenCategorySum = entries
+      .filter((el) => el.categoryId === entryData.categoryId)
+      .map((el) => +el.amount)
+      .reduce((accumulator, el) => {
+        return accumulator + el;
+      }, 0);
 
     const categoryToBeUpdated = categories.find(
       (el) => el.name === entryData.category
@@ -171,7 +171,7 @@ export default function EntryModal({
             onClose={() => setOpenAutocomplete(false)}
             getOptionLabel={(option) => option.name}
             options={filteredIncomeOrExpenseCategories}
-            onChange={(value) => {
+            onChange={(e, value) => {
               saveCategoryIcon(value.icon);
               saveCategoryId(value.id);
               setEntryData({
@@ -179,15 +179,12 @@ export default function EntryModal({
                 category: value.name,
               });
             }}
-            value={filteredIncomeOrExpenseCategories.find(
-              (el) => el.name === entryData.category
-            )}
             renderInput={(params) => (
               <TextField
                 {...params}
                 label="Category"
                 required
-                value={entryData.category}
+                value={entryData.categoryId}
               />
             )}
             ListboxProps={{

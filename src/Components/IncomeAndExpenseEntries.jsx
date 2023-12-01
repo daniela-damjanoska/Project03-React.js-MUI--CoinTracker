@@ -48,6 +48,10 @@ export default function IncomeAndExpenseEntries() {
       customLeftMarginMob={0}
       array={entries}
       type="income or expense entries"
+      additionalInfo={true}
+      popperContent={
+        "On click on each entry, you can edit the chosen entry. On right-click, you can create, update, or delete the chosen entry."
+      }
     >
       {entries.map((entry, idx) => (
         <Fragment key={idx}>

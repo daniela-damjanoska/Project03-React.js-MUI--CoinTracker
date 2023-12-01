@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { Context, getCategoriesOrEntries } from "../Context/Context";
 import { db } from "../App";
 
-import initialCategories from "../Data/Categories";
 import icons from "../Data/Icons";
 
 import Box from "@mui/material/Box";
@@ -18,11 +17,6 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-const iconsFromCategoriesArr = initialCategories.map(
-    (category) => category.icon
-  ),
-  allIcons = [...icons, ...iconsFromCategoriesArr],
-  uniqueIcons = [...new Set(allIcons)];
 //icons dropdown:
 const ITEM_HEIGHT = 40,
   ITEM_PADDING_TOP = 8,
@@ -177,7 +171,7 @@ export default function CategoryModal({ closeModal, addOrEditCategory }) {
                 });
               }}
             >
-              {uniqueIcons.map((icon, idx) => (
+              {icons.map((icon, idx) => (
                 <MenuItem value={icon} key={idx} sx={styles.iconsMenuItem}>
                   <Icon>{icon}</Icon>
                 </MenuItem>

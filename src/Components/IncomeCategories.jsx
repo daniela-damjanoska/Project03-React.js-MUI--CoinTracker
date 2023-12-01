@@ -9,6 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Icon from "@mui/material/Icon";
+import Box from "@mui/material/Box";
 
 const styles = {
   typographyProp: {
@@ -17,8 +18,8 @@ const styles = {
     fontSize: "22px",
   },
   progressBar: {
-    width: "75%",
-    backgroundColor: "rgba(98, 0, 238, 0.2)",
+    width: "81.5%",
+    backgroundColor: "#FFCCCB",
     height: "4px",
     mr: 2,
     ml: "auto",
@@ -50,7 +51,11 @@ export default function IncomeCategories() {
                   cursor: "auto",
                 }}
               >
-                <ListItemIcon>
+                <ListItemIcon
+                  sx={{
+                    color: "secondary.dark",
+                  }}
+                >
                   <Icon>{icon}</Icon>
                 </ListItemIcon>
                 <ListItemText
@@ -60,29 +65,51 @@ export default function IncomeCategories() {
                   }}
                 />
                 <ListItemText
-                  primary={
-                    !entriesAmount && budget === 0
-                      ? "no amount"
-                      : budget + entriesAmount
-                  }
-                  primaryTypographyProps={
-                    !entriesAmount && budget === 0
-                      ? { ...styles.typographyProp, fontSize: "13px" }
-                      : styles.typographyProp
-                  }
+                  primary={entriesAmount > 0 && `${entriesAmount}  /`}
+                  primaryTypographyProps={{
+                    textAlign: "right",
+                    fontSize: "22px",
+                    color: "secondary.dark",
+                  }}
+                />
+                <ListItemText
+                  primary={budget === 0 || budget === "" ? "no amount" : budget}
+                  primaryTypographyProps={{
+                    fontSize: budget === 0 || budget === "" ? "13px" : "22px",
+                    color: "secondary.dark",
+                    textAlign: "right",
+                  }}
                   sx={{
                     flexBasis: 0,
                   }}
                 />
               </ListItemButton>
             </ListItem>
-            <Divider
-              variant="inset"
-              component="li"
-              sx={{
-                mx: 2,
-              }}
-            />
+            {entriesAmount > 0 ? (
+              <Box sx={styles.progressBar}>
+                <Box
+                  sx={{
+                    width:
+                      entriesAmount < budget
+                        ? `${(entriesAmount / budget) * 100}%`
+                        : "100%",
+                    height: "4px",
+                    backgroundColor:
+                      entriesAmount > 0 && entriesAmount < budget
+                        ? "error.main"
+                        : "info.main",
+                  }}
+                ></Box>
+              </Box>
+            ) : (
+              <Divider
+                variant="inset"
+                component="li"
+                sx={{
+                  mr: 2,
+                }}
+              />
+            )}
           </Fragment>
         )
       )}

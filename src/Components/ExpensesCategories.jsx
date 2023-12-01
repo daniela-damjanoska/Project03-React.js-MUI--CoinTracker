@@ -12,7 +12,7 @@ import Icon from "@mui/material/Icon";
 import Box from "@mui/material/Box";
 
 const style = {
-  width: "75%",
+  width: "81.5%",
   backgroundColor: "rgba(15, 221, 221, 0.2)",
   height: "4px",
   mr: 2,
@@ -46,8 +46,7 @@ export default function ExpensesCategories() {
               >
                 <ListItemIcon
                   sx={{
-                    color:
-                      entriesAmount > budget ? "error.main" : "secondary.dark",
+                    color: "secondary.dark",
                   }}
                 >
                   <Icon>{icon}</Icon>
@@ -55,25 +54,22 @@ export default function ExpensesCategories() {
                 <ListItemText
                   primary={name}
                   primaryTypographyProps={{
-                    color:
-                      entriesAmount > budget ? "error.main" : "secondary.dark",
+                    color: "secondary.dark",
                   }}
                 />
                 <ListItemText
-                  primary={entriesAmount > 0 && `${entriesAmount}/`}
+                  primary={entriesAmount > 0 && `${entriesAmount} /`}
                   primaryTypographyProps={{
                     textAlign: "right",
                     fontSize: "22px",
-                    color:
-                      entriesAmount > budget ? "error.main" : "secondary.dark",
+                    color: "secondary.dark",
                   }}
                 />
                 <ListItemText
-                  primary={budget === 0 ? "no limit" : budget}
+                  primary={budget === 0 || budget === "" ? "no limit" : budget}
                   primaryTypographyProps={{
-                    fontSize: budget === 0 ? "13px" : "22px",
-                    color:
-                      entriesAmount > budget ? "error.main" : "secondary.dark",
+                    fontSize: budget === 0 || budget === "" ? "13px" : "22px",
+                    color: "secondary.dark",
                     textAlign: "right",
                   }}
                   sx={{

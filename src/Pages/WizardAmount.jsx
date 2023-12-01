@@ -20,7 +20,7 @@ export default function WizardAmount() {
 
   const handleChange = (e) => {
     e.target.value !== "" ? setIsValue(true) : setIsValue(false);
-    setAmount(e.target.value);
+    setAmount(+e.target.value);
   };
 
   const validateAmount = () => {
