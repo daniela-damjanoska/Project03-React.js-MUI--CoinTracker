@@ -22,7 +22,7 @@ export default function Overview() {
         backgroundColor: matches ? "transparent" : "white",
       }}
     >
-      <Header title="Overview" />
+      <Header title={`Welcome ${localStorage.getItem("name")}`} />
       <IncomeCategories />
       <ExpensesCategories />
       <IncomeAndExpenseEntries />

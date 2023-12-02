@@ -17,7 +17,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 
 export default function SignIn() {
   const [values, setValues] = useState({
-    username: "",
+    email: "",
     password: "",
     showPassword: false,
   });
@@ -50,10 +50,10 @@ export default function SignIn() {
   }
 
   const validateUser = () => {
-    if (values.username) {
-      const userFromLS = JSON.parse(localStorage.getItem("username"));
+    if (values.email) {
+      const userFromLS = JSON.parse(localStorage.getItem("email"));
 
-      if (userFromLS && userFromLS === values.username) {
+      if (userFromLS && userFromLS === values.email) {
         setUserSuccess(true);
       } else {
         setUserErrors(true);
@@ -89,8 +89,8 @@ export default function SignIn() {
     <LogoAndTitleWrapper title="SIGN IN">
       <form onSubmit={handleSubmit}>
         <TextField
-          id="login-username"
-          label="Username"
+          id="login-email"
+          label="Email"
           variant="outlined"
           fullWidth
           size="small"
@@ -99,8 +99,8 @@ export default function SignIn() {
           helperText={userErrors ? helperTextUser : ""}
           onBlur={() => validateUser()}
           onFocus={() => setUserErrors(false)}
-          value={values.username}
-          onChange={handleChange("username")}
+          value={values.email}
+          onChange={handleChange("email")}
           sx={{ mb: 3 }}
         />
         <FormControl

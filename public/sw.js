@@ -1,11 +1,13 @@
-const STATIC_CACHE_NAME = "site-static-2";
-const DYNAMIC_CACHE_NAME = "site-dynamic-2";
+const STATIC_CACHE_NAME = "site-static-3";
+const DYNAMIC_CACHE_NAME = "site-dynamic-3";
 
 const staticUrlsToCache = [
-  "/",
   "/static/js/bundle.js",
   "/index.html",
   "/offline",
+  "/overview",
+  "/statistics",
+  "/categories",
   "/src/index.css",
   "/src/App.js",
   "favicon-16x16.png",
@@ -20,7 +22,7 @@ const limitCacheSize = (name, size) => {
   caches.open(name).then((cache) => {
     cache.keys().then((keys) => {
       if (keys.length > size) {
-        //we want to delete the oldest item and keep repeating this process till we reach the number/size that set as a limit
+        //delete the oldest item and keep repeating this process until we reach the limit
         cache.delete(keys[0]).then(limitCacheSize(name, size));
       }
     });
@@ -56,7 +58,7 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  if (event.request.url.indexOf("firestore.googleapis.com" === -1)) {
+  if (event.request.url.indexOf("firestore.googleapis.com" < 0)) {
     event.respondWith(
       caches
         .match(event.request)
@@ -66,7 +68,7 @@ self.addEventListener("fetch", (event) => {
             fetch(event.request).then((fetchRes) =>
               caches.open(DYNAMIC_CACHE_NAME).then((cache) => {
                 cache.put(event.request.url, fetchRes.clone());
-                limitCacheSize(DYNAMIC_CACHE_NAME, 15);
+                limitCacheSize(DYNAMIC_CACHE_NAME, 20);
                 return fetchRes;
               })
             )

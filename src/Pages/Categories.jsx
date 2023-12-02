@@ -84,19 +84,20 @@ export default function Categories() {
           id={idPopper}
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
-          placement="top"
+          placement="bottom"
         >
           <Box
             sx={{
               borderColor: "#757575",
               p: 1.5,
-              bgcolor: "info.main",
+              bgcolor: "#6400f0e6",
               borderRadius: "4px",
-              color: "primary.main",
+              color: "#fff",
               maxWidth: "300px",
             }}
           >
-            On click on each category, you can edit the chosen category.
+            Click on any category to edit it. If a category is disabled, it will
+            be hidden from the overview and statistics
           </Box>
         </Popper>
         <List dense sx={{ pt: 3 }}>
@@ -159,8 +160,8 @@ export default function Categories() {
                         category.budget
                           ? category.budget
                           : category.type === "expense"
-                          ? "NO LIMIT"
-                          : "NO AMOUNT"
+                          ? "No limit"
+                          : "No amount"
                       }
                       primaryTypographyProps={{
                         fontSize: category.budget ? "22px" : "12px",

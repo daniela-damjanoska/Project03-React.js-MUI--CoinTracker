@@ -70,12 +70,11 @@ export default function WizardCategoriesAmount() {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
-        console.log(choiceResult.outcome);
-        if (choiceResult.outcome === "dismissed")
-          console.log("User cancelled installation");
-        else console.log("User added to home screen");
+        if (choiceResult.outcome === "accepted") {
+          console.log("User added to home screen");
+          deferredPrompt = null;
+        }
       });
-      // deferredPrompt = null;  //this throw an error, check this!!!!!
     }
   };
 

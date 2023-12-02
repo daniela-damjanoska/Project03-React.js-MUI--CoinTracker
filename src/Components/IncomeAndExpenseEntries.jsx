@@ -50,7 +50,7 @@ export default function IncomeAndExpenseEntries() {
       type="income or expense entries"
       additionalInfo={true}
       popperContent={
-        "On click on each entry, you can edit the chosen entry. On right-click, you can create, update, or delete the chosen entry."
+        "Click on any entry to edit it, and right-click to create, update, or delete the selected entry."
       }
     >
       {entries.map((entry, idx) => (

@@ -43,7 +43,7 @@ export default function WizardAmount() {
   return (
     <LogoAndTitleWrapper title="WELCOME">
       <Typography variant="body2" component="p" marginTop={2} marginBottom={6}>
-        Please enter your salary
+        Please enter your monthly income
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
@@ -67,7 +67,7 @@ export default function WizardAmount() {
           disabled={isValue ? false : true}
           sx={{
             display: "block",
-            mt: matches ? 9 : 40,
+            mt: matches ? 9 : 13,
           }}
         >
           ADD

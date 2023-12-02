@@ -73,7 +73,7 @@ export default function IncomeCategories() {
                   }}
                 />
                 <ListItemText
-                  primary={budget === 0 || budget === "" ? "no amount" : budget}
+                  primary={budget === 0 || budget === "" ? "No amount" : budget}
                   primaryTypographyProps={{
                     fontSize: budget === 0 || budget === "" ? "13px" : "22px",
                     color: "secondary.dark",

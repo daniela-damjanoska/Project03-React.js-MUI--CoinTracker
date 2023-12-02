@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "./Context/Context";
 import { initializeApp } from "firebase/app";
@@ -24,16 +25,6 @@ import Box from "@mui/material/Box";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
-
-const style = {
-  backgroundImage: "url('./Images/bg-img.png')",
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "center",
-  backgroundSize: "cover",
-  minHeight: "100vh",
-  display: "flex",
-  alignItems: "center",
-};
 
 const firebaseConfig = {
   apiKey: "AIzaSyAkRrqSyoLjCNlLPxtyJW_dMN8D5_2rIFE",
@@ -73,7 +64,33 @@ window.addEventListener("beforeinstallprompt", (e) => {
   return false;
 });
 
+const style = {
+  backgroundImage: "url('./Images/bg-img.png')",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
+  backgroundSize: "cover",
+  minHeight: "100vh",
+  display: "flex",
+  alignItems: "center",
+};
+
 function App() {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const handleOnlineStatusChange = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    window.addEventListener("online", handleOnlineStatusChange);
+    window.addEventListener("offline", handleOnlineStatusChange);
+
+    return () => {
+      window.removeEventListener("online", handleOnlineStatusChange);
+      window.removeEventListener("offline", handleOnlineStatusChange);
+    };
+  }, []);
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -98,8 +115,11 @@ function App() {
           <Router>
             <ScrollToTop>
               <Routes>
-                <Route path="/" element={<SignIn />} />
-                <Route path="/signUp" element={<SignUp />} />
+                <Route path="/" element={isOnline ? <SignIn /> : <Offline />} />
+                <Route
+                  path="/signUp"
+                  element={isOnline ? <SignUp /> : <Offline />}
+                />
                 <Route path="/wizard-amount" element={<WizardAmount />} />
                 <Route
                   path="/wizard-categories"

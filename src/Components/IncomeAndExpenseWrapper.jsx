@@ -66,15 +66,15 @@ export default function IncomeAndExpenseWrapper({
           id={idPopper}
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
-          placement="top"
+          placement="bottom"
         >
           <Box
             sx={{
               borderColor: "#757575",
               p: 1.5,
-              bgcolor: "info.main",
+              bgcolor: "#6400f0e6",
               borderRadius: "4px",
-              color: "primary.main",
+              color: "#fff",
               maxWidth: "300px",
             }}
           >

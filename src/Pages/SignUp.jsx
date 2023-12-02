@@ -17,7 +17,9 @@ import FormHelperText from "@mui/material/FormHelperText";
 
 export default function SignUp() {
   const [values, setValues] = useState({
-    username: "",
+    name: "",
+    surname: "",
+    email: "",
     password: "",
     showPassword: false,
   });
@@ -50,9 +52,9 @@ export default function SignUp() {
   }
 
   const validateUser = () => {
-    if (values.username) {
+    if (values.email) {
       if (
-        !values.username.match(
+        !values.email.match(
           /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
         )
       ) {
@@ -60,7 +62,7 @@ export default function SignUp() {
         setHelperTextUser("Please enter a valid e-mail address");
       } else {
         setUserSuccess(true);
-        localStorage.setItem("username", JSON.stringify(values.username));
+        localStorage.setItem("email", JSON.stringify(values.email));
       }
     }
   };
@@ -88,6 +90,9 @@ export default function SignUp() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    localStorage.setItem("name", values.name);
+    localStorage.setItem("surname", values.surname);
+
     if (userSuccess && passSuccess) {
       fetchUserAvatar();
     }
@@ -97,8 +102,30 @@ export default function SignUp() {
     <LogoAndTitleWrapper title="SIGN UP">
       <form onSubmit={handleSubmit}>
         <TextField
-          id="sign-up-username"
-          label="Username"
+          id="login-name"
+          label="Name"
+          variant="outlined"
+          fullWidth
+          size="small"
+          required
+          value={values.name}
+          onChange={handleChange("name")}
+          sx={{ mb: 3 }}
+        />
+        <TextField
+          id="login-surname"
+          label="Surname"
+          variant="outlined"
+          fullWidth
+          size="small"
+          required
+          value={values.surname}
+          onChange={handleChange("surname")}
+          sx={{ mb: 3 }}
+        />
+        <TextField
+          id="sign-up-email"
+          label="Email"
           variant="outlined"
           fullWidth={true}
           size="small"
@@ -107,8 +134,8 @@ export default function SignUp() {
           helperText={userErrors ? helperTextUser : ""}
           onBlur={() => validateUser()}
           onFocus={() => setUserErrors(false)}
-          value={values.username}
-          onChange={handleChange("username")}
+          value={values.email}
+          onChange={handleChange("email")}
           sx={{
             marginBottom: 3,
           }}
