@@ -29,6 +29,7 @@ export default function IncomeAndExpenseWrapper({
   title,
   array,
   type,
+  additionalInfo = false,
   popperContent,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -50,38 +51,42 @@ export default function IncomeAndExpenseWrapper({
         <Typography variant="h5" component="h2">
           {title}
         </Typography>
-        <Icon
-          sx={{ cursor: "pointer" }}
-          onMouseOver={(e) => setAnchorEl(e.currentTarget)}
-          onMouseLeave={(e) => setAnchorEl(null)}
-        >
-          info
-        </Icon>
+        {additionalInfo && (
+          <Icon
+            sx={{ cursor: "pointer" }}
+            onMouseOver={(e) => setAnchorEl(e.currentTarget)}
+            onMouseLeave={(e) => setAnchorEl(null)}
+          >
+            info
+          </Icon>
+        )}
       </Box>
-      <Popper
-        id={idPopper}
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        placement="bottom"
-      >
-        <Box
-          sx={{
-            borderColor: "#757575",
-            p: 1.5,
-            bgcolor: "#6400f0e6",
-            borderRadius: "4px",
-            color: "#fff",
-            maxWidth: "300px",
-          }}
+      {additionalInfo && (
+        <Popper
+          id={idPopper}
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          placement="bottom"
         >
-          {popperContent}
-        </Box>
-      </Popper>
+          <Box
+            sx={{
+              borderColor: "#757575",
+              p: 1.5,
+              bgcolor: "#6400f0e6",
+              borderRadius: "4px",
+              color: "#fff",
+              maxWidth: "300px",
+            }}
+          >
+            {popperContent}
+          </Box>
+        </Popper>
+      )}
       {array?.length ? (
         <List dense>{children}</List>
       ) : (
         <Typography variant="body" component="p" padding={2} color="secondary">
-          There is no data for {type}
+          No data available for {type} amounts
         </Typography>
       )}
     </Paper>

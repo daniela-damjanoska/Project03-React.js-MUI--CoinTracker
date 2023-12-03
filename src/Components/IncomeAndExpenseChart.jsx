@@ -128,6 +128,8 @@ export default function IncomeAndExpenseChart() {
       customLeftMarginMob={0}
       array={labels}
       type=""
+      additionalInfo={true}
+      popperContent="These are your monthly statistics for income and expense entries. They are reset at the beginning of each month."
     >
       <Line options={options} data={data} />
     </IncomeAndExpenseWrapper>

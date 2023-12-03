@@ -37,7 +37,8 @@ export default function IncomeCategories() {
       customLeftMarginPC={0}
       customLeftMarginMob={0}
       array={filteredIncomeCategories}
-      type="income categories"
+      type="income category"
+      additionalInfo={true}
       popperContent={
         "These are your income plan categories. If a category lacks a progress bar, it means there are no related entries. If a category has a red progress bar, it indicates that the sum of related entries is less than your planned amount."
       }

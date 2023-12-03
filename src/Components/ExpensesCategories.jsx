@@ -30,7 +30,8 @@ export default function ExpensesCategories() {
       customLeftMarginPC={4}
       customLeftMarginMob={0}
       array={filteredExpenseCategories}
-      type="expense categories"
+      type="expense category"
+      additionalInfo={true}
       popperContent={
         "These are your expenses plan categories. If a category lacks a progress bar, it means there are no related entries. If a category has a green progress bar, it indicates that the sum of related entries is less than your planned amount."
       }

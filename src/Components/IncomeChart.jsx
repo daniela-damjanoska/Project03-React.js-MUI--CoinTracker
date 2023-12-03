@@ -15,7 +15,7 @@ export default function IncomeChart() {
       customLeftMarginPC={0}
       customLeftMarginMob={0}
       array={filteredIncomeCategories}
-      type="income categories"
+      type="income category"
     >
       <CategoriesChart
         array={filteredIncomeCategories}

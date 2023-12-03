@@ -15,7 +15,7 @@ export default function ExpensesChart() {
       customLeftMarginPC={4}
       customLeftMarginMob={0}
       array={filteredExpenseCategories}
-      type="expense categories"
+      type="expense category"
     >
       <CategoriesChart
         array={filteredExpenseCategories}
