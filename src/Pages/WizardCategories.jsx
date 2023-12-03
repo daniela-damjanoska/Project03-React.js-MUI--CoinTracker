@@ -63,7 +63,7 @@ export default function WizardCategories() {
   return (
     <LogoAndTitleWrapper title="WELCOME">
       <Typography variant="body2" component="p" marginTop={2} marginBottom={6}>
-        Choose what you spend money on
+        Please choose from the suggested categories where to allocate your money
       </Typography>
       <List dense>
         {categories.map(({ id, icon, name }) => (

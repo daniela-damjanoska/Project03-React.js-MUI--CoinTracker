@@ -16,8 +16,16 @@ export default function Header({ title }) {
     matches = useMediaQuery("(min-width:601px)"),
     navigate = useNavigate();
 
-  const open = Boolean(anchorEl),
-    id = open && "simple-popover";
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open && "simple-popover";
 
   return (
     <AppBar position="fixed">
@@ -43,13 +51,13 @@ export default function Header({ title }) {
               alt="user"
               src={avatarUrl}
               sx={{ width: 50, height: 50, cursor: "pointer" }}
-              onClick={(e) => setAnchorEl(e.currentTarget)}
+              onClick={handleClick}
             />
             <Popover
               id={id}
               open={open}
               anchorEl={anchorEl}
-              onClose={setAnchorEl(null)}
+              onClose={handleClose}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "center",

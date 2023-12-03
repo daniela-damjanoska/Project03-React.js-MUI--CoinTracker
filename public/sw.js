@@ -1,5 +1,5 @@
-const STATIC_CACHE_NAME = "site-static-3";
-const DYNAMIC_CACHE_NAME = "site-dynamic-3";
+const STATIC_CACHE_NAME = "site-static-1";
+const DYNAMIC_CACHE_NAME = "site-dynamic-1";
 
 const staticUrlsToCache = [
   "/static/js/bundle.js",

@@ -81,7 +81,8 @@ export default function WizardCategoriesAmount() {
   return (
     <LogoAndTitleWrapper title="WELCOME">
       <Typography variant="body2" component="p" marginTop={2} marginBottom={6}>
-        Set how much money you want to spend on each Category monthly
+        Please specify the monthly budget for each category by setting the
+        desired spending amount.
       </Typography>
       <List dense>
         {categories?.map(({ id, icon, name }) => (

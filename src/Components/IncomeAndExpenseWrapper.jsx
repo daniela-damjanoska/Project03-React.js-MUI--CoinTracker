@@ -29,7 +29,6 @@ export default function IncomeAndExpenseWrapper({
   title,
   array,
   type,
-  additionalInfo = false,
   popperContent,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -51,37 +50,33 @@ export default function IncomeAndExpenseWrapper({
         <Typography variant="h5" component="h2">
           {title}
         </Typography>
-        {additionalInfo && (
-          <Icon
-            sx={{ cursor: "pointer" }}
-            onMouseOver={(e) => setAnchorEl(e.currentTarget)}
-            onMouseLeave={(e) => setAnchorEl(null)}
-          >
-            info
-          </Icon>
-        )}
-      </Box>
-      {additionalInfo && (
-        <Popper
-          id={idPopper}
-          open={Boolean(anchorEl)}
-          anchorEl={anchorEl}
-          placement="bottom"
+        <Icon
+          sx={{ cursor: "pointer" }}
+          onMouseOver={(e) => setAnchorEl(e.currentTarget)}
+          onMouseLeave={(e) => setAnchorEl(null)}
         >
-          <Box
-            sx={{
-              borderColor: "#757575",
-              p: 1.5,
-              bgcolor: "#6400f0e6",
-              borderRadius: "4px",
-              color: "#fff",
-              maxWidth: "300px",
-            }}
-          >
-            {popperContent}
-          </Box>
-        </Popper>
-      )}
+          info
+        </Icon>
+      </Box>
+      <Popper
+        id={idPopper}
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        placement="bottom"
+      >
+        <Box
+          sx={{
+            borderColor: "#757575",
+            p: 1.5,
+            bgcolor: "#6400f0e6",
+            borderRadius: "4px",
+            color: "#fff",
+            maxWidth: "300px",
+          }}
+        >
+          {popperContent}
+        </Box>
+      </Popper>
       {array?.length ? (
         <List dense>{children}</List>
       ) : (

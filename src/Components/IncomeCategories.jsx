@@ -38,6 +38,9 @@ export default function IncomeCategories() {
       customLeftMarginMob={0}
       array={filteredIncomeCategories}
       type="income categories"
+      popperContent={
+        "These are your income plan categories. If a category lacks a progress bar, it means there are no related entries. If a category has a red progress bar, it indicates that the sum of related entries is less than your planned amount."
+      }
     >
       {filteredIncomeCategories?.map(
         ({ id, icon, name, budget, entriesAmount }) => (

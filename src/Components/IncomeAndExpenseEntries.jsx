@@ -48,7 +48,6 @@ export default function IncomeAndExpenseEntries() {
       customLeftMarginMob={0}
       array={entries}
       type="income or expense entries"
-      additionalInfo={true}
       popperContent={
         "Click on any entry to edit it, and right-click to create, update, or delete the selected entry."
       }
