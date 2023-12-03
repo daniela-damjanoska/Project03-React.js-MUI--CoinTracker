@@ -1,4 +1,4 @@
-import React, { useContext, useState, Fragment } from "react";
+import { useContext, useState, Fragment } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Context, getCategoriesOrEntries } from "../Context/Context";
 import { deferredPrompt } from "../App";

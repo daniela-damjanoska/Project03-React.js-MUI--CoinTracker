@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import EntryModal from "../Components/EntryModal";
@@ -135,13 +135,10 @@ export default function Navigation({ active }) {
           aria-label="add"
           sx={styles.addIcon}
           onClick={handleOpenModal}
-          // onMouseOver={(e) => setAnchorEl(e.currentTarget)}
-          // onMouseLeave={(e) => setAnchorEl(null)}
         >
           <AddIcon color="secondary.dark" />
         </Fab>
       </Tooltip>
-
       <Modal
         open={openModal}
         onClose={handleCloseModal}

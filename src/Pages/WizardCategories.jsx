@@ -1,4 +1,4 @@
-import React, { useState, useContext, Fragment } from "react";
+import { useState, useContext, Fragment } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { doc, writeBatch } from "firebase/firestore";
 

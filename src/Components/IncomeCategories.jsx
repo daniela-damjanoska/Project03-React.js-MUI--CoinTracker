@@ -1,4 +1,4 @@
-import React, { useContext, Fragment } from "react";
+import { useContext, Fragment } from "react";
 import { Context } from "../Context/Context";
 
 import IncomeAndExpenseWrapper from "./IncomeAndExpenseWrapper";

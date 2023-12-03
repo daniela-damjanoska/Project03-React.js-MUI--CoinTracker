@@ -1,4 +1,4 @@
-import React, { useContext, useState, Fragment } from "react";
+import { useContext, useState, Fragment } from "react";
 import { Context } from "../Context/Context";
 
 import Header from "../Components/Header";

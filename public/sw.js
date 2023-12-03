@@ -1,5 +1,5 @@
-const STATIC_CACHE_NAME = "site-static-2";
-const DYNAMIC_CACHE_NAME = "site-dynamic-2";
+const STATIC_CACHE_NAME = "site-static-1";
+const DYNAMIC_CACHE_NAME = "site-dynamic-1";
 
 const staticUrlsToCache = [
   "/index.html",
@@ -29,8 +29,11 @@ const limitCacheSize = (name, size) => {
   });
 };
 
+/* eslint-disable-next-line no-restricted-globals */
 self.addEventListener("install", (event) => {
   console.log("SERVICE WORKER installing ...", event);
+  /* eslint-disable-next-line no-restricted-globals */
+  self.skipWaiting();
   event.waitUntil(
     caches
       .open(STATIC_CACHE_NAME)
@@ -38,6 +41,7 @@ self.addEventListener("install", (event) => {
   );
 });
 
+/* eslint-disable-next-line no-restricted-globals */
 self.addEventListener("activate", (event) => {
   console.log("SERVICE WORKER activating ...", event);
   event.waitUntil(
@@ -54,10 +58,11 @@ self.addEventListener("activate", (event) => {
         )
       )
   );
-  // return self.clients.claim();
 });
 
+/* eslint-disable-next-line no-restricted-globals */
 self.addEventListener("fetch", (event) => {
+  console.log("SERVICE WORKER fetching ...");
   if (event.request.url.indexOf("firestore.googleapis.com" < 0)) {
     event.respondWith(
       caches
