@@ -1,5 +1,5 @@
-const STATIC_CACHE_NAME = "site-static-2";
-const DYNAMIC_CACHE_NAME = "site-dynamic-2";
+const STATIC_CACHE_NAME = "site-static-1";
+const DYNAMIC_CACHE_NAME = "site-dynamic-1";
 
 const staticUrlsToCache = [
   "/index.html",
@@ -62,7 +62,6 @@ self.addEventListener("activate", (event) => {
 
 /* eslint-disable-next-line no-restricted-globals */
 self.addEventListener("fetch", (event) => {
-  console.log("SERVICE WORKER fetching ...");
   if (event.request.url.indexOf("firestore.googleapis.com" < 0)) {
     event.respondWith(
       caches
